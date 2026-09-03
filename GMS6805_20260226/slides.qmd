@@ -1,15 +1,22 @@
 ---
 header: "GMS 6805 Presentation"
-title: "<span style='font-size: 0.5em;'>Learning the natural history of human disease with generative transformers</span>"
+title: "Learning the Natural History of Human Disease with Generative Transformers"
 author: "Piyush Chaudhari"
-format: 
+date: "2026-02-26"
+description: "GMS 6805 seminar presentation."
+categories: ["GMS 6805"]
+brand: false
+format:
     revealjs:
         slide-number: true
-        chalkboard: 
+        chalkboard:
             buttons: false
         preview-links: auto
         logo: images/favicon.ico
         #css: styles.css
+        include-in-header:
+          text: |
+            <style>#title-slide .title { font-size: 1.6em; }</style>
 footer: "[Learning the natural history of human disease with generative transformers. 
  Nature 647, 248–256 (2025).](https://doi.org/10.1038/s41586-025-09529-3)"
 theme: "default"

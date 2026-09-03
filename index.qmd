@@ -3,11 +3,21 @@ title: "Presentations"
 subtitle: "Talks, journal clubs, and pitches"
 listing:
   - id: talks
-    contents: ["talks.yml"]
-    type: default
+    # Each deck is a self-contained reveal.js project rendered by the root
+    # `quarto render` (see the `render:` list in _quarto.yml). Metadata for the
+    # card below comes from each deck's own front matter (title / date /
+    # description / categories). Add a talk by dropping its folder in, giving its
+    # .qmd those fields, and adding it here and to `render:` in _quarto.yml.
+    contents:
+      - "GMS6804_20260217/slides.qmd"
+      - "GMS6805_20260226/slides.qmd"
+      - "GMS6805_FCT_CDM/presentation_20260416.qmd"
+      - "HOBISharkTank_2026/pitch_2026.qmd"
+      - "F26_GMS7858/ibi-hypertension.qmd"
+      - "2026-03-23-RAG/RAG.qmd"
     sort: "date desc"
     categories: true
-    fields: [title, description, date, categories]
+    template: "html/presentations/listing.ejs"
     date-format: "MMMM D, YYYY"
 page-layout: full
 include-back-link: false
@@ -16,9 +26,11 @@ brand: brand/_brand.yml
 format:
   html:
     theme:
-      light: ["html/dfb.scss", "brand"]
-      dark: ["html/dfb_dark.scss", "brand"]
+      light: ["html/dfb.scss", "html/presentations/listing.scss", "brand"]
+      dark: ["html/dfb_dark.scss", "html/presentations/listing.scss", "brand"]
 ---
+
+## Presentations
 
 ::: {#talks}
 :::

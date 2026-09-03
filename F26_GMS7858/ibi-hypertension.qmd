@@ -3,7 +3,10 @@ title: "An Individualized Bayesian Method for Estimating Genomic Variants of Hyp
 subtitle: "Rahman MA, Cai C, Bo N, et al. BMC Genomics"
 author: "Piyush Chaudhari"
 institute: "GMS 7858: Causal AI for Health Research"
-date: today
+date: "2026-08-31"
+description: "Journal club — Rahman MA, Cai C, Bo N, et al. BMC Genomics."
+categories: ["Journal Club", "GMS 7858"]
+brand: false
 format:
   revealjs:
     theme: [default, ../html/uf.scss]
@@ -47,7 +50,7 @@ format:
 ## Hypertension
 
 - Hypertension is the leading **modifiable** risk factor for cardiovascular disease
-- **~7.8 million deaths worldwide in 2015** were attributable to high blood pressure
+- **\~7.8 million deaths worldwide in 2015** were attributable to high blood pressure
 - Hypertension is a **polygenic** disease that is driven by many genomic variants, not one
 - Genomic risk is only one factor, along with lifestyle, environment, and other comorbidities, but this paper focuses primarily on the **genomic components**
 
@@ -60,6 +63,7 @@ format:
 - GWAS identify variant-trait associations at a **population level**, testing each [**SNP**]{title="A single nucleotide polymorphism (abbreviated SNP, pronounced snip) is a genomic variant at a single base position in the DNA. Scientists study if and how SNPs in a genome influence health, disease, drug response and other traits"} via [**Logistic regression**]{title="Logistic regression is a type of linear model that examines the relationship between predictor variables (independent variables) and an output variable (the response, target or dependent variable). The key difference is that linear regression is used when the output is a continuous value. Logistic regression is used when the outcome is categorical. In logistic regression, the model predicts the probability that a specific outcome occurs. The output of the model is a value between 0 and 1. Based on a threshold—often 0.5—we classify the outcome as either 'positive' or 'negative'. Instead of drawing a straight line through the data as we would in linear regression, logistic regression fits an S-shaped curve to map input values to a probability"} or [**Fisher's exact test**]{title="Fisher’s exact test is a statistical hypothesis test used to assess the association between two binary variables in a contingency table and is particularly useful when working with small sized samples. It is a non-parametric test, meaning it assumes no distribution in the data and it is analogous to the Chi-squared test for independence"} with genome-wide signficance at [p]{title="A p-value is a statistical measurement used to validate a hypothesis against observed data. A p-value measures the probability of obtaining the observed results, assuming that the null hypothesis is true"} $< 5 x 10^{-8}$
 
 - GWAS takes a large population, split into cases vs. controls
+
 - Visualization is commonly done with a [**Manhattan plot**]{title="A Manhattan plot is defined as a type of figure that visualizes GWAS results by plotting SNP positions along the genome on the x-axis and the −log10(p-value) of each SNP on the y-axis, with each SNP represented as a dot, where peaks indicate putative QTLs"}
 
 ------------------------------------------------------------------------
@@ -75,7 +79,6 @@ format:
 A given hypertensive patient may carry **none** of the population's significant risk alleles
 :::
 
-
 # Individualized Bayesian Inference (IBI) {background-color="#3d1f47"}
 
 ## The Core Idea
@@ -86,42 +89,40 @@ A given hypertensive patient may carry **none** of the population's significant 
 - Builds on **TCI** (tumor-specific causal inference), originally developed for individual cancer genomes
 - IBI aims to identify **personalized, potentially causal** genomic drivers of a trait, beyond just population-average associations
 
----
+------------------------------------------------------------------------
 
 ## Building Block: Bayesian Networks {.smaller}
 
 ::::: columns
 ::: {.column width="50%"}
 - IBI uses a bipartite Bayesian Network (BN) with two node sets-
+
   - **Set 1**: Variants $V$ (e.g., SNPs)
   - **Set 2**: Traits $T$ (e.g., hypertension)
 
 - Directed edges $V -> T$ represent probabilistic dependency with only one assumed influencing variant being evaluated at a time indicated by solid arc
-  
+
 - Network structures are scored using the **Bayesian Dirichlet equivalent uniform (BDeu)** score that tells you how well a proposed structure is supported by the data
 :::
 
 ::: {.column width="50%"}
-![Fig 1. Variants ($V$) -> Traits ($T$): a bipartite Bayesian network](https://media.springernature.com/lw685/springer-static/image/art%3A10.1186%2Fs12864-023-09757-9/MediaObjects/12864_2023_9757_Fig1_HTML.png){.lightbox
-.r-stretch group="my-gallery"width="100%"}
+![Fig 1. Variants ($V$) -\> Traits ($T$): a bipartite Bayesian network](https://media.springernature.com/lw685/springer-static/image/art%3A10.1186%2Fs12864-023-09757-9/MediaObjects/12864_2023_9757_Fig1_HTML.png){.lightbox .r-stretch group="my-gallery" width="100%"}
 :::
 :::::
+
 ------------------------------------------------------------------------
 
 ## Population-level Bayesian Scoring using GWAS {auto-animate="true"}
 
 ::::: columns
 ::: {.column width="50%"}
+- For variant $V_s$ and trait $T_i$ over the full population $D$, the marginal likelihood $P(D \mid V_s \to T_i)$ (log form: $M_s$) is computed
 
-- For variant **$V_s$** and trait **$T_i$** over the full population **$D$**, the marginal likelihood **$P(D \mid V_s \to T_i)$ (log form: $M_s$)** is computed
-
-- Under an uniform prior, ranking by **$M_s$** is proportional to ranking by global posterior probability, and is directly comparable to GWAS's **p-value** ranking
-
+- Under an uniform prior, ranking by $M_s$ is proportional to ranking by global posterior probability, and is directly comparable to GWAS's **p-value** ranking
 :::
 
 ::: {.column width="50%"}
-![Fig 1. Variants ($V$) -> Traits ($T$): a bipartite Bayesian network](https://media.springernature.com/lw685/springer-static/image/art%3A10.1186%2Fs12864-023-09757-9/MediaObjects/12864_2023_9757_Fig1_HTML.png){.lightbox
-.r-stretch group="my-gallery"width="100%"}
+![Fig 1. Variants ($V$) -\> Traits ($T$): a bipartite Bayesian network](https://media.springernature.com/lw685/springer-static/image/art%3A10.1186%2Fs12864-023-09757-9/MediaObjects/12864_2023_9757_Fig1_HTML.png){.lightbox .r-stretch group="my-gallery" width="100%"}
 :::
 :::::
 
@@ -129,67 +130,57 @@ A given hypertensive patient may carry **none** of the population's significant 
 
 ## The Individualizing Step {auto-animate="true"}
 
-::::: columns
-::: {.column width="50%"}
+:::::: columns
+:::: {.column width="50%"}
 ::: {style="font-size: 65%;"}
+For a given patient $h$ who carries the minor allele of
 
+$V_s$ ($V_s = 1$)
 
-For a given patient **$h$** who carries the minor allele of 
-
-**$V_s$ ($V_s = 1$)**
- 
-1. Partition the population into **$D^{V_s=1}$** ("patients-like-me," carrying the variant) and **$D^{V_s=0}$** (everyone else)
-2. Score **$V_s$**'s ability to explain Hypertension within **$D^{V_s=1}$ -> $M_s^1$**
-3. Find the variant **$V_r$** that best explains the remaining group **$D^{V_s=0}$ -> $M_r^0$**
-4. Combine: **$M_{s,r} = M_s^1 + M_r^0$**
-This overall score, **$M_{s,r}$**, is higher than the single-population estimator's score (**$M_s$** using one global variant **$V_g$**) for many SNPs, because two distinct, subgroup-specific explanations together can fit the data better than one global explanation
-
-
+1.  Partition the population into $D^{V_s=1}$ ("patients-like-me," carrying the variant) and $D^{V_s=0}$ (everyone else)
+2.  Score $V_s$'s ability to explain Hypertension within $D^{V_s=1}$ -\> $M_s^1$
+3.  Find the variant $V_r$ that best explains the remaining group $D^{V_s=0}$ -\> $M_r^0$
+4.  Combine: $M_{s,r} = M_s^1 + M_r^0$ This overall score, $M_{s,r}$, is higher than the single-population estimator's score ($M_s$ using one global variant $V_g$) for many SNPs, because two distinct, subgroup-specific explanations together can fit the data better than one global explanation
 :::
-
-:::
+::::
 
 ::: {.column width="50%"}
-![Fig 1. Variants ($V$) -> Traits ($T$): a bipartite Bayesian network](https://media.springernature.com/lw685/springer-static/image/art%3A10.1186%2Fs12864-023-09757-9/MediaObjects/12864_2023_9757_Fig1_HTML.png){.lightbox
-.r-stretch group="my-gallery"width="100%"}
+![Fig 1. Variants ($V$) -\> Traits ($T$): a bipartite Bayesian network](https://media.springernature.com/lw685/springer-static/image/art%3A10.1186%2Fs12864-023-09757-9/MediaObjects/12864_2023_9757_Fig1_HTML.png){.lightbox .r-stretch group="my-gallery" width="100%"}
 :::
-:::::
+::::::
 
-
-::: fragment
+:::: fragment
 ::: {style="font-size: 75%;"}
-
 **One variant explains "people like this patient." A second explains everyone else.** Together they almost always beat the single best population-wide variant
 :::
-:::
-
+::::
 
 ------------------------------------------------------------------------
 
 ## Personalized posterior probability
 
-::::: columns
-::: {.column width="50%"}
+:::::: columns
+:::: {.column width="50%"}
 ::: {style="font-size: 70%;"}
-
-- For each patient, **$M_{s,r}$** is normalized across only the minor-allele SNPs **present in that individual's genome**, yielding an individualized posterior probability **$P(V_s^h \to T_i^h \mid D)$**
+- For each patient, $M_{s,r}$ is normalized across only the minor-allele SNPs **present in that individual's genome**, yielding an individualized posterior probability $P(V_s^h \to T_i^h \mid D)$
 
 - The same SNP can therefore rank differently across patients depending on their distinct genomic backgrounds
 
 - The highest-ranked variant for a patient is IBI's proposed individualized explanation of their HTN status
 
+```{=html}
 <!--  
 - IBI is implemented in Python (vectorized/matrix operations) for scalability to whole-genome data. -->
-
+```
 :::
-:::
+::::
 
 ::: {.column width="50%"}
-![Fig 1. Variants ($V$) -> Traits ($T$): a bipartite Bayesian network](https://media.springernature.com/lw685/springer-static/image/art%3A10.1186%2Fs12864-023-09757-9/MediaObjects/12864_2023_9757_Fig1_HTML.png){.lightbox
-.r-stretch group="my-gallery"width="100%"}
+![Fig 1. Variants ($V$) -\> Traits ($T$): a bipartite Bayesian network](https://media.springernature.com/lw685/springer-static/image/art%3A10.1186%2Fs12864-023-09757-9/MediaObjects/12864_2023_9757_Fig1_HTML.png){.lightbox .r-stretch group="my-gallery" width="100%"}
 :::
-:::::
+::::::
 
+```{=html}
 <!-- ------------------------------------------------------------------------
 
 ## 🗣️ Think–Pair–Share (2 minutes) {background-color="#264d3d"}
@@ -203,6 +194,7 @@ This overall score, **$M_{s,r}$**, is higher than the single-population estimato
 ::: notes
 INTERACTION POINT 2 (\~2–3 min). This is the conceptual crux — if people can articulate "small subgroup → the signal isn't diluted by the majority who don't have the variant," they've understood IBI. Listen for that language when pairs report back; if it doesn't come up, supply it yourself before moving on.
 ::: -->
+```
 
 # Applying IBI to Real Data {background-color="#3d1f47"}
 
@@ -210,11 +202,10 @@ INTERACTION POINT 2 (\~2–3 min). This is the conceptual crux — if people can
 
 - **Cohort:** Framingham Heart Study (FHS), Affymetrix HuGeneFocused50K genotyping array (`dbGaP phs000007.v30.p11`)
 - **QC:** `--mind 0.03 --geno 0.03 --maf 0.01 --hwe 10e-6 --me 0.05 0.1 --sexCheck` gives 38,342 SNPs
-  - After removing minor-allele risk ratio < 1, final count= **19,276 SNPs**
+  - After removing minor-allele risk ratio \< 1, final count= **19,276 SNPs**
 - [**Linkage Disequilibrium (LD) pruning:**]{title="Linkage disequilibrium (LD) pruning is a data filtering method used in genomics to remove correlated single-nucleotide polymorphisms (SNPs). By setting a correlation threshold (r²), it scans sliding windows across the genome and discards redundant markers. This creates a nearly independent subset of variants, which is critical for accurate population structure analysis, principal component analysis (PCA), and reducing computational load in genome-wide association studies (GWAS)"} d′ threshold 0.2 (SNPRelate) reduces it to **19,006 SNPs** (98.5% independent)
 - Final analytic sample: **6,613 patients**
 - Split: **80% discovery** (5,290) / **20% held-out test** (1,323)
-
 
 ------------------------------------------------------------------------
 
@@ -228,17 +219,17 @@ A patient is coded **HTN = 1** if:
 
 # Results {background-color="#3d1f47"}
 
-## Comparison 
+## Comparison
 
-![Fig 2. A Bayesian method for GWAS analysis](https://cdn.ncbi.nlm.nih.gov/pmc/blobs/e65e/10631115/a308a1a99ba4/12864_2023_9757_Fig2_HTML.jpg){.lightbox .r-stretch group="my-gallery6"width="80%"}
+![Fig 2. A Bayesian method for GWAS analysis](https://cdn.ncbi.nlm.nih.gov/pmc/blobs/e65e/10631115/a308a1a99ba4/12864_2023_9757_Fig2_HTML.jpg){.lightbox .r-stretch group="my-gallery6" width="80%"}
 
 - Population-level $M_s$ and GWAS p-values are highly concordant
+
 - Spearman ρ = **−0.90**; **164/189** top independent SNPs and **18/20** top-5-ranked SNPs overlap between rankings
 
 - This establishes that the Bayesian framework reproduces GWAS when used non-individually, before the individualizing extension is applied
 
-
-
+```{=html}
 <!-- ------------------------------------------------------------------------
 
 ## The Manhattan Plot
@@ -247,30 +238,28 @@ A patient is coded **HTN = 1** if:
 <!-- 
 ::: notes
 Point out: after Bonferroni correction, only 5 SNPs reach GWAS significance. 189 SNPs cross IBI's analogous threshold. Don't over-read this as "IBI just finds more hits" — flag that the two methods use different scoring philosophies, which is exactly why they're complementary (next slide).
-::: --> 
+::: -->
+```
 
 ------------------------------------------------------------------------
 
 ## IBI vs. GWAS: variant discovery (discovery set, n=5,290)
 
-::::: columns
-::: {.column width="50%"}
+:::::: columns
+:::: {.column width="50%"}
 ::: {style="font-size: 70%;"}
-
 - GWAS (Bonferroni α = 0.05/19,276 = 2.59×10⁻⁶): **5 SNPs** reach significance
 - IBI: **189 SNPs** exceed the population-level best-estimator's $M_s$ (i.e., a two-subgroup explanation beats the single best global explanation)
 - **Overlap:** 40 of the top-189 SNPs shared between IBI and GWAS (agreement); 148 unique to one or the other (complementarity)
 - **MAF distribution:** IBI-only SNPs have markedly **lower MAF** than GWAS-only SNPs. IBI's individualized partitioning better surfaces rare-variant signal
-- **Information gain (IG):** IG for IBI's top-189 SNPs > GWAS's top-189 SNPs > 189 random SNPs (all comparisons directionally consistent with expectation)
-
+- **Information gain (IG):** IG for IBI's top-189 SNPs \> GWAS's top-189 SNPs \> 189 random SNPs (all comparisons directionally consistent with expectation)
 :::
-:::
+::::
 
 ::: {.column width="50%"}
 ![Fig 3. Manhattan plots: IBI's normalized $M_{s,r}$ (A) vs. GWAS p-values (B)](https://media.springernature.com/lw685/springer-static/image/art%3A10.1186%2Fs12864-023-09757-9/MediaObjects/12864_2023_9757_Fig3_HTML.png){.lightbox .r-stretch group="my-gallery-2" width="65%" fig-align="center"}
 :::
-:::::
-
+::::::
 
 ------------------------------------------------------------------------
 
@@ -286,7 +275,6 @@ Point out: after Bonferroni correction, only 5 SNPs reach GWAS significance. 189
 :::
 
 ::: {.column width="50%"}
-
 **IBI**
 
 - **25 unique SNPs** serve as top-1 explanatory variants (more diverse coverage)
@@ -296,14 +284,12 @@ Point out: after Bonferroni correction, only 5 SNPs reach GWAS significance. 189
 :::::
 
 - Average patient carries 7,767 minor-allele SNPs (of 19,276)
-- Under a naive uniform prior this implies ~1.3×10⁻⁴ per-SNP prior probability
+- Under a naive uniform prior this implies \~1.3×10⁻⁴ per-SNP prior probability
 - IBI's assigned posterior probabilities (0.08–0.99 range for top SNP) are far above this baseline
 
 ::: fragment
 - **That's the clinical gap this paper is trying to close** — most hypertensive patients simply don't carry a "significant" population-level variant
-
 :::
-
 
 ------------------------------------------------------------------------
 
@@ -326,37 +312,37 @@ Point out: after Bonferroni correction, only 5 SNPs reach GWAS significance. 189
 | rs723580 (*EPO*-linked) | Red blood cell traits ↔ hypertension | high | low |
 | *BCHE*, *GRIK4*, *MALRD1* loci | Prior BP associations in literature | high | low |
 
+```{=html}
 <!-- ::: notes
 Don't read the whole table verbatim — highlight 1–2 rows and note that all of these already had independent biological plausibility in the literature (not just a statistical artifact).
 ::: -->
+```
 
 ------------------------------------------------------------------------
 
 ## Predictive performance (held-out test set, n=1,323)
 
-::::: columns
+:::::: columns
 ::: {.column width="50%"}
-
-![Fig 4. ROC curves: random SNPs (AUROC 0.50), GWAS top SNPs (0.55), IBI top SNPs (0.59–0.60)](https://media.springernature.com/lw685/springer-static/image/art%3A10.1186%2Fs12864-023-09757-9/MediaObjects/12864_2023_9757_Fig5_HTML.png){ .lightbox .r-stretch group="my-gallery-3" width="80%" fig-align="center"}
-
+![Fig 4. ROC curves: random SNPs (AUROC 0.50), GWAS top SNPs (0.55), IBI top SNPs (0.59–0.60)](https://media.springernature.com/lw685/springer-static/image/art%3A10.1186%2Fs12864-023-09757-9/MediaObjects/12864_2023_9757_Fig5_HTML.png){.lightbox .r-stretch group="my-gallery-3" width="80%" fig-align="center"}
 :::
 
-::: {.column width="50%"}
+:::: {.column width="50%"}
 ::: {style="font-size: 70%;"}
-
 Genetic risk scores (GRS) built from top-1 and top-3 SNPs (weighted by odds ratio for GWAS, by $M_{s,r}$ for IBI), evaluated via AUROC:
- 
+
 | SNP source | Top-1 AUROC | Top-3 AUROC |
-|---|---|---|
-| Random | 0.50 | 0.50 |
-| GWAS | 0.55 | 0.55 |
-| IBI | 0.59 | 0.60 |
- 
+|------------|-------------|-------------|
+| Random     | 0.50        | 0.50        |
+| GWAS       | 0.55        | 0.55        |
+| IBI        | 0.59        | 0.60        |
+
 Improvement of IBI over GWAS is statistically significant (pROC package): **p = 0.05** (top-1), **p = 0.01** (top-3)
 :::
-:::
 ::::
+::::::
 
+```{=html}
 <!-- ------------------------------------------------------------------------
 
 ## 🗣️ Case Discussion (4–5 minutes) {background-color="#264d3d"}
@@ -372,8 +358,9 @@ Improvement of IBI over GWAS is statistically significant (pROC package): **p = 
 ::: notes
 INTERACTION POINT 3 (optional — use if running toward 30 min; skip or shorten if running toward 20 min). This is the most clinically substantive discussion of the talk — good candidate to spend real time on if the audience is MD/clinically oriented. Circulate and listen for: causality vs. association, need for functional validation, risk of overinterpreting a single-patient signal, communication/informed-consent angle.
 ::: -->
+```
 
----
+------------------------------------------------------------------------
 
 ## Strengths of the Study
 
@@ -406,8 +393,7 @@ INTERACTION POINT 3 (optional — use if running toward 30 min; skip or shorten 
 - Search for **combinations of variants** acting jointly, not just one at a time
 - Fine-mapping / functional validation / Mendelian randomization to move from association toward causation
 
-
----
+------------------------------------------------------------------------
 
 ## Key Messages
 
@@ -416,35 +402,37 @@ INTERACTION POINT 3 (optional — use if running toward 30 min; skip or shorten 
 2.  IBI reframes variant discovery around the *individual's* genomic background, by scoring a "patients-like-me" subgroup separately from everyone else
 3.  In the Framingham cohort, IBI explained **far more hypertensive patients** (99% vs. 16%), surfaced **biologically plausible rare variants GWAS missed**, and gave a **modest but significant boost** in predictive accuracy
 :::
+
+```{=html}
 <!-- 
 ::: notes
 Read these slowly, one at a time (incremental reveal is on). This is your last chance to make sure the core message lands.
 ::: -->
+```
 
 ------------------------------------------------------------------------
 
 ## Open Discussion {background-color="#1b2a4a"}
 
 - Applicability to my research - **Identifying Digital Twin Similar Patients for future trajectory prediction**
-- **Questions?** 
-<!-- 
-::: notes
-Closing discussion prompt — leave this up while fielding Q&A so people have something to anchor questions to if the room is quiet.
-::: -->
-
+- **Questions?** <!-- 
+  ::: notes
+  Closing discussion prompt — leave this up while fielding Q&A so people have something to anchor questions to if the room is quiet.
+  ::: -->
 
 # Glossary of Concepts {background-color="#3d1f47"}
 
----
+------------------------------------------------------------------------
 
 ## Bayesian Networks & Bayesian Inference {.smaller}
 
-:::::  {.columns}
+::::: columns
 ::: {.column width="50%"}
 **Bayesian network:** a directed acyclic graph (DAG) where nodes are random variables and edges encode probabilistic (and candidate causal) dependencies. The joint distribution factorizes along the graph
 
 **Bayesian inference:** updating a *prior* belief about a hypothesis with observed *data* (via the *likelihood*) to get a *posterior* belief using Bayes' rule
 :::
+
 ::: {.column width="50%"}
 ```{mermaid}
 %%| fig-width: 5
@@ -469,29 +457,29 @@ digraph BN {
 :::
 :::::
 
+```{=html}
 <!-- ::: {.notes}
 Left column is the vocabulary; right column is two tiny diagrams — Bayes' rule as a flow, and the bipartite BN structure IBI actually uses (this mirrors the earlier Fig. 1A slide, so it's a deliberate callback).
 ::: -->
+```
 
----
+------------------------------------------------------------------------
 
 ## Marginal Likelihood & Bayesian Scoring
 
 - **Marginal likelihood** $P(D \mid \text{model})$: the probability of the observed data, *integrating out* uncertainty in the model's parameters. This is used to compare candidate network structures without overfitting to one parameter setting
 - **BDeu score** (Bayesian Dirichlet equivalent uniform): a closed-form marginal likelihood for **discrete** variables with a uniform structural prior. In this study, IBI uses BDeu for binary HTN status
-- **BIC** (Bayesian information criterion): a large-sample approximation to marginal likelihood, applicable to **continuous** variables. Under future work, the authors' proposed swap-in for continuous traits like lipid levels would need to use BIC
-<!-- 
-::: {.notes}
-Keep this brief and definitional — the goal is just to make sure "BDeu" and "BIC" aren't jargon by the time people leave. No diagram needed here; it's a vocabulary slide.
-::: -->
+- **BIC** (Bayesian information criterion): a large-sample approximation to marginal likelihood, applicable to **continuous** variables. Under future work, the authors' proposed swap-in for continuous traits like lipid levels would need to use BIC <!-- 
+  ::: {.notes}
+  Keep this brief and definitional — the goal is just to make sure "BDeu" and "BIC" aren't jargon by the time people leave. No diagram needed here; it's a vocabulary slide.
+  ::: -->
 
----
+------------------------------------------------------------------------
 
 ## Individualized Causal Inference {.smaller}
 
-:::::  {.columns}
+::::: columns
 ::: {.column width="50%"}
-
 > A family of methods that estimate a model **specific to one instance** (a patient, a tumor) rather than a single model averaged over the whole population — by partitioning the population into an instance-relevant subgroup and its complement, then combining subgroup-specific explanations.
 :::
 
@@ -508,26 +496,26 @@ flowchart TD
     C --> Post["Normalized → personalized<br/>posterior probability"]
 ```
 :::
-::::
+:::::
 
----
+------------------------------------------------------------------------
 
 ## DAGs & the Causal Markov Condition {.smaller}
 
-:::::  {.columns}
+::::: columns
 ::: {.column width="50%"}
-
 **Directed acyclic graph (DAG):**
 
-  - nodes = variables
-  - directed edges = direct dependence, no directed cycles
+- nodes = variables
+- directed edges = direct dependence, no directed cycles
 
-**Causal Markov condition:** 
+**Causal Markov condition:**
 
-  - Each node is independent of its non-descendants, given its direct parents. This lets the joint distribution **factorize** into local pieces 
+- Each node is independent of its non-descendants, given its direct parents. This lets the joint distribution **factorize** into local pieces
 
 **IBI's own graph is deliberately minimal** and it is designed as bipartite, and only **one** edge $V_s \to T_i$ evaluated at a time. It never learns a structure with multiple parents pointing into $T$
 :::
+
 ::: {.column width="50%"}
 ```{dot}
 //| fig-width: 5
@@ -545,32 +533,29 @@ digraph MC {
 :::
 :::::
 
----
+------------------------------------------------------------------------
 
 ## Faithfulness — and IBI's Consistency Claim
 
 > **Faithfulness:** every conditional independence present in the data-generating distribution is a consequence of the graph's structure (via d-separation) and is not a coincidental cancellation of two or more paths' effects
 
-- Faithfulness is what makes learning causal structure **from observational data alone** possible at all 
+- Faithfulness is what makes learning causal structure **from observational data alone** possible at all
 - **Not explicitly tested in this paper:** Genomic data is a plausible place for near-violations: strong **linkage disequilibrium** can produce highly correlated or near-cancelling signals between nearby SNPs, where faithfulness condition may not hold
 
----
+------------------------------------------------------------------------
 
 ## Confounding: LD & Population Structure {.smaller}
 
-:::::  {.columns}
+::::: columns
 ::: {.column width="40%"}
-
 **Confounding:** a third variable that influences both the "exposure" (a SNP) and the "outcome" (HTN), creating a spurious or inflated association
 
 **Linkage disequilibrium (LD):** nearby SNPs are correlated, so a flagged SNP may just be "riding along" with the true causal variant
 
 **Population structure:** ancestry differences can independently affect both allele frequencies and disease prevalence, inflating spurious associations — this is exactly why the authors flag it as unmodeled in the current IBI implementation
-
 :::
 
 ::: {.column width="60%"}
-
 ```{dot}
 //| fig-width: 6
 digraph Confound {
@@ -584,32 +569,27 @@ digraph Confound {
   S -> H [label="  association\n  (possibly confounded)", fontsize=10];
 }
 ```
-
 :::
-::::
+:::::
 
+```{=html}
 <!-- ::: {.notes}
 Directly ties back to the "Open Questions & Limitations" slide from earlier — this is the mechanism *behind* that limitation, spelled out visually.
 ::: -->
+```
 
----
-
+------------------------------------------------------------------------
 
 ## Hypertension causal structure is more complex than IBI's Arc {.smaller}
 
-
-
 IBI evaluates a single arc $V_s \to T_i$. The **true** system generating hypertension almost certainly has more structure behind it, including
 
-:::::  {.columns}
-
-::: {.column width="55%"}
-
+::::::: columns
+:::: {.column width="55%"}
 ::: {style="font-size: 70%;"}
-
 **LD / haplotype fork:** SNPs that operate close together are generally inherited together on the same ancestral chromosome segment
 
-- A latent haplotype block $H$ can be a common cause of two correlated SNPs 
+- A latent haplotype block $H$ can be a common cause of two correlated SNPs
 - One or more SNPs may just "ride along" with the true causal variant
 
 ```{dot}
@@ -625,36 +605,34 @@ digraph LDfork {
 }
 ```
 :::
-:::
-::: {.column width="45%"}
-::: {style="font-size: 70%;"}
+::::
 
-**Collider risk in case-control conditioning:** 
+:::: {.column width="45%"}
+::: {style="font-size: 70%;"}
+**Collider risk in case-control conditioning:**
 
 - Patient-Coverage results analyze only within the Hypertension patients hence bringing means implicitly conditioning on the trait
 
 - If two variants each independently influence HTN, that would be a collider, and conditioning on HTN status can induce a spurious association between them that wouldn't exist population-wide
 :::
-:::
-:::::
+::::
+:::::::
 
----
+------------------------------------------------------------------------
 
 ## Information Gain
 
 **Information gain (IG):** the reduction in uncertainty (entropy) about the outcome (HTN status) once you know a variant's genotype
 
-$$IG(T; V) = H(T) - H(T \mid V)$$
-- $H(T)$: entropy of HTN status before knowing anything about the variant.
-- $H(T \mid V)$: remaining entropy after conditioning on the variant's genotype
+$$IG(T; V) = H(T) - H(T \mid V)$$ - $H(T)$: entropy of HTN status before knowing anything about the variant. - $H(T \mid V)$: remaining entropy after conditioning on the variant's genotype
 
 - A variant that perfectly separates cases from controls has **high** IG; a variant unrelated to HTN has IG ≈ 0
-- Used in the paper as an independent check that IBI-selected SNPs are more informative about HTN than GWAS-selected or random SNPs
-<!-- 
-::: {.notes}
-Quick, self-contained definition slide — good to pair verbally with the earlier "IBI-Only Variants Skew Rarer" results slide, since that's where IG was actually used as evidence.
-::: -->
+- Used in the paper as an independent check that IBI-selected SNPs are more informative about HTN than GWAS-selected or random SNPs <!-- 
+  ::: {.notes}
+  Quick, self-contained definition slide — good to pair verbally with the earlier "IBI-Only Variants Skew Rarer" results slide, since that's where IG was actually used as evidence.
+  ::: -->
 
+````{=html}
 <!-- ---
 
 ## The Paper in One Diagram {.smaller}
@@ -683,13 +661,12 @@ flowchart TD
 ::: {.notes}
 This is a graphical abstract of the entire talk — use it to orient the room before diving in ("here's the whole paper, we'll walk through every box"), and consider flashing back to it briefly before the Results section as a "you are here" reminder. Keep it visible for ~30–45 sec; don't read every box aloud, just narrate the main branch (GWAS vs. IBI → converge on complementary discovery).
 ::: -->
+````
 
----
-
+------------------------------------------------------------------------
 
 ## Thank You {.smaller}
 
 - Paper : Rahman MA, Cai C, Bo N, McNamara DM, Ding Y, Cooper GF, Lu X, Liu J. **An individualized Bayesian method for estimating genomic variants of hypertension.** *BMC Genomics* 23(Suppl 5):863 (2022). [doi.org/10.1186/s12864-023-09757-9](https://doi.org/10.1186/s12864-023-09757-9)
 
 - Code & summary data: [**github.com/asadcfc/IBI**](https://github.com/asadcfc/IBI)
-

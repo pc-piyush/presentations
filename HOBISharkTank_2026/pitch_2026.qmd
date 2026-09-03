@@ -1,9 +1,13 @@
 ---
-header: Journal Club - March 23, 2026
+header: HOBI Shark Tank - March 25, 2026
 title: "Zero Knowledge Medicine"
 subtitle: "Privacy Preserving Fixed Coordinate Temporal Architecture"
 author: "Piyush Chaudhari"
-format: 
+date: "2026-03-25"
+description: "Privacy-preserving Fixed Coordinate Temporal Architecture — HOBI Shark Tank pitch."
+categories: ["Pitch", "HOBI Shark Tank"]
+brand: false
+format:
     revealjs:
         axe:
            output: console

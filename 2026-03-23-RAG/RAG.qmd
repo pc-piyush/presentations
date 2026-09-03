@@ -1,8 +1,12 @@
 ---
 header: Journal Club - March 23, 2026
-title: "Retrival-Augmented Generation for Knowledge-Intensive NLP Tasks"
+title: "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks"
 author: "Piyush Chaudhari"
-format: 
+date: "2026-03-23"
+description: "Journal club — Lewis et al. (2020)."
+categories: ["Journal Club"]
+brand: false
+format:
     revealjs:
 #        axe:
 #            output: document

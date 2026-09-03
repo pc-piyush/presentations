@@ -2,7 +2,11 @@
 title: "Fixed Coordinate Temporal Architecture"
 subtitle: "Fixed Coordinate Tensor Data Model for EHR Representation"
 author: "Hailey Andrews | Piyush Chaudhari"
-format: 
+date: "2026-04-16"
+description: "Fixed Coordinate Tensor Data Model for EHR representation."
+categories: ["GMS 6805"]
+brand: false
+format:
     revealjs:
         axe:
            output: console

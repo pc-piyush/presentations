@@ -2,7 +2,11 @@
 header: "GMS 6804 Presentation"
 title: "Machine Learning-Based Penetrance of Genetic Variants"
 author: "Piyush Chaudhari"
-format: 
+date: "2026-02-17"
+description: "GMS 6804 presentation — Forrest IS, Vy HMT, Rocheleau G, et al. Science (2025)."
+categories: ["GMS 6804"]
+brand: false
+format:
     revealjs:
         slide-number: true
         chalkboard: 
