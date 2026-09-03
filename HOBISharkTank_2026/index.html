@@ -7,12 +7,18 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/quarto-axe/axe-check.js" type="module"></script>
+<script id="quarto-axe-checker-options" type="text/plain">eyJvdXRwdXQiOiJjb25zb2xlIn0=</script>
+<link href="../site_libs/reveal-theme/reveal-theme-fbdf5483e0ddfe31285d6b14cbe1ea0e.min.css" rel="stylesheet" append-hash="true" data-mode="light">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.9.37">
 
   <meta name="author" content="Piyush Chaudhari">
-  <meta name="dcterms.date" content="2026-02-17">
-  <title>Piyush Chaudhari – Machine Learning-Based Penetrance of Genetic Variants</title>
+  <meta name="dcterms.date" content="2026-03-25">
+  <title>Piyush Chaudhari – Zero Knowledge Medicine</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -34,7 +40,7 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-2740581606dc327e82f18f789b69d8a0.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-fdc93494f2580a7e050003a96af38920.css">
   <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -128,17 +134,18 @@
       margin-right: 0; 
     }
   </style>
-<meta name="twitter:title" content="Machine Learning-Based Penetrance of Genetic Variants – Piyush Chaudhari">
-<meta name="twitter:description" content="GMS 6804 presentation — Forrest IS, Vy HMT, Rocheleau G, et al.&nbsp;Science (2025).">
+<meta name="twitter:title" content="Zero Knowledge Medicine – Piyush Chaudhari">
+<meta name="twitter:description" content="Privacy-preserving Fixed Coordinate Temporal Architecture — HOBI Shark Tank pitch">
 <meta name="twitter:creator" content="@iampiyushvc">
 <meta name="twitter:card" content="summary">
 </head>
-<body class="quarto-light">
+<body class="quarto-dark">
   <div class="reveal">
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Machine Learning-Based Penetrance of Genetic Variants</h1>
+  <h1 class="title">Zero Knowledge Medicine</h1>
+  <p class="subtitle">Privacy Preserving Fixed Coordinate Temporal Architecture</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -148,432 +155,361 @@ Piyush Chaudhari
 </div>
 </div>
 
-  <p class="date">2026-02-17</p>
+  <p class="date">2026-03-25</p>
 </section>
-<section id="limitations-in-current-methods-of-variant-interpretation" class="slide level2" style="font-size: 75%;">
-<h2>Limitations in current methods of variant interpretation</h2>
-<ul>
-<li><p>Traditional <span title="Penetrance is the probability that a person with a specific variant will develop the disease">penetrance</span> estimates rely on small, disease-enriched cohorts → <a href="https://catalogofbias.org/biases/ascertainment-bias" title="A distortion in data, as presented or analysed, that have been collected in such a way that some members of the target population are more or less likely to be included in the final results than others, creating a difference between the study population and the target population"><strong>ascertainment bias</strong></a></p></li>
-<li><p>Patients are classified in a <strong>binary</strong> manner - case/control, sick/healthy, etc. while ignoring the fact that diseases exist on a spectrum</p></li>
-<li><p>Studies with smaller scope cannot assess <strong>rare variants</strong> with significant accuracy</p></li>
-<li><p>Difficult to interpret if <a href="https://www.genome.gov/genetics-glossary/Variant-of-Uncertain-Significance-VUS" title="When analysis of a patient’s genome identifies a variant, but it is unclear whether that variant is actually connected to a health condition, the finding is called a variant of uncertain significance. In many cases, these variants are so rare in the population that little information is available about them"><strong>Variants of Uncertain Signifance (VUS)</strong></a> are associated with disease pathogenecity or are harmful</p></li>
-</ul>
-</section>
-<section id="research-question" class="slide level2 center">
-<h2>Research Question</h2>
-<div style="font-size: 75%;">
-<div class="center">
-<p>Given a genetic variant exists in a patient, can machine learning and statistical methods predict what is its penetrance?</p>
-</div>
-</div>
-</section>
-<section id="methodology" class="slide level2">
-<h2>Methodology</h2>
-<div style="font-size: 75%;">
-<div class="center">
-<ul>
-<li><p>Development, testing, and application of disease-predictive ML models to generate <strong>disease scores</strong></p></li>
-<li><p>Identification of individuals carrying rare P variants in genes corresponding to 10 dominant genetic conditions</p></li>
-</ul>
-<div class="columns">
-<div class="center">
-<div class="column" style="width:50%;">
+<section class="slide level2">
+
+<h3 id="rich-data-poor-data">Rich Data Poor Data</h3>
 <div style="font-size: 80%;">
-<ol type="1">
-<li>Arrhythmogenic Right Ventricular Cardiomyopathy (ARVC)</li>
-<li>Familial Breast Cancer (FBC)</li>
-<li>Familial Hypercholesterolemia (FH)</li>
-<li>Hypertrophic Cardiomyopathy (HCM)</li>
-<li>Adult Hypophosphatasia (HPP)</li>
-</ol>
-</div>
-</div><div class="column" style="width:50%;">
-<div style="font-size: 80%;">
-<ol start="6" type="1">
-<li>Long QT Syndrome (LQTS)</li>
-<li>Lynch Syndrome (LS)</li>
-<li>Monogenic Diabetes (MD)</li>
-<li>Polycystic Kidney Disease (PKD)</li>
-<li>von Willebrand Disease (VWD)</li>
-</ol>
-</div>
-</div></div>
-</div>
 <ul>
-<li>Computation and characterization of ML penetrance</li>
-</ul>
-</div>
-</div>
-</section>
-<section id="methodology-1" class="slide level2">
-<h2>Methodology</h2>
-<div style="font-size: 75%;">
-<div class="columns">
-<div class="column" style="width:35%;">
-<p>The disease scores can be used as a continuous measure of measuring odds of disease.</p>
-<p>Instead of</p>
-<div class="fragment highlight-red">
-<div class="fragment strike">
-<p><strong>“you have the variant, you might get sick”</strong></p>
-</div>
-</div>
-<p>the model will allow us to predict</p>
-<div class="fragment highlight-green">
-<p><strong>“you have this variant, based on the data, you risk for disease is x%”</strong></p>
-</div>
-</div></div>
-<div class="column" style="width:35%;">
-<p><img data-src="images/Penetrance.png" class="absolute fragment" style="bottom: 10px; right: 10px; width: 650px; "></p>
-</div></div>
-</section>
-<section id="data" class="slide level2">
-<h2>Data</h2>
-<div style="font-size: 75%;">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Cohort</th>
-<th>N Participants</th>
-<th>Purpose</th>
-<th>Median Age</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><a href="https://researchroadmap.mssm.edu/reference/systems/msdw/" title="Mount Sinai Data Warehouse"><strong>MSDW</strong></a></td>
-<td>1,325,257</td>
-<td>Model training &amp; validation</td>
-<td>55 years</td>
-</tr>
-<tr class="even">
-<td><a href="https://icahn.mssm.edu/research/ipm/programs/biome-biobank/pioneering" title="BioMe is an electronic medical record-linked biobank that enables researchers to quickly and efficiently conduct genetic, epidemiologic, molecular, and genomic studies on large collections of research specimens linked with medical information"><strong>BioMe ML</strong></a></td>
-<td>22,041</td>
-<td>Model testing (holdout)</td>
-<td>56 years</td>
-</tr>
-<tr class="odd">
-<td><a href="https://icahn.mssm.edu/research/ipm/programs/biome-biobank/pioneering" title="BioMe is an electronic medical record-linked biobank that enables researchers to quickly and efficiently conduct genetic, epidemiologic, molecular, and genomic studies on large collections of research specimens linked with medical information"><strong>BioMe Exome</strong></a></td>
-<td>28,953</td>
-<td>Penetrance assessment</td>
-<td>65 years</td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="workflow" class="slide level2">
-<h2>Workflow</h2>
-<p><img data-src="images/StudyDesign.png" class="absolute" style="width: 150%; "></p>
-</section>
-<section id="prediction-model-features" class="slide level2">
-<h2>Prediction Model Features</h2>
-<div style="font-size: 75%;">
-<p><strong>Input Features</strong> (47 lab tests + 9 vital signs)</p>
+<li><p><strong>Healthcare data</strong> is touted as the <em>new currency</em> <!--- Current healthcare data systems have the capability of creating a human health map that can propel *precision medicine* --></p></li>
+<li><p>It is easy to <em>deposit</em> in a bank, but there is <strong>little</strong> to <strong>no</strong> yield on it</p></li>
+<li><p>Clinical Informatics Decision Making is currently built on averages and trained on dataset with <strong>limited</strong> scope</p></li>
+<li><p>Reasons</p>
 <ul>
-<li><p>Routine laboratory measurements (median values)</p></li>
-<li><p>Complete blood count, metabolic panel</p></li>
-<li><p>Lipid profiles, liver/kidney function</p></li>
-<li><p>Vital signs (BP, heart rate, BMI)</p></li>
-<li><p>Demographics (age, sex, ancestry)</p></li>
-</ul>
-</div>
-</section>
-<section id="predictive-performance-of-ml-models" class="slide level2">
-<h2>Predictive Performance of ML Models</h2>
-<div style="font-size: 75%;">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Metric</th>
-<th>MSDW (Internal)</th>
-<th>BioMe (Holdout)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Mean AUROC</strong></td>
-<td>0.85 (0.77-0.95)</td>
-<td>0.84 (0.79-0.95)</td>
-</tr>
-<tr class="even">
-<td><strong>Sensitivity</strong></td>
-<td>0.77 (0.70-0.87)</td>
-<td>0.78 (0.74-0.88)</td>
-</tr>
-<tr class="odd">
-<td><strong>Specificity</strong></td>
-<td>0.78 (0.68-0.91)</td>
-<td>0.78 (0.67-0.92)</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Example</strong>:</p>
-<ul>
-<li><p>FH model identified LDL-C, total cholesterol, age, and HDL-C as most important features</p></li>
-<li><p>Glucose, age, body mass index (BMI), and glomerular filtration rate (GFR) were the most important features for the MD models</p></li>
-</ul>
-</div>
-</section>
-<section id="ml-penetrance-evaluation" class="slide level2">
-<h2>ML Penetrance Evaluation</h2>
-<div style="font-size: 75%;">
-<ul>
-<li>Apply ML models to generate <strong>continuous disease probability scores</strong> (0-1)</li>
-<li>Use <strong>Generalized Linear Mixed-Effects Model (GLMM)</strong> to compute penetrance</li>
-<li>Accounts for variability between carriers and across ML iterations
-<ul>
-<li><p>logit-transformed disease scores from all 50 ML iterations in all carriers, which accounted for variability in scores between different carriers (random effects term) and variability in scores between different ML iterations within the same individual (residual random effects term)</p></li>
-<li><p>The model’s inverse logit coefficients and error terms were then used to provide a point estimate of ML penetrance, 95% confidence interval (95% CI), and <em>p-value</em></p></li>
+<li>HIPAA and Privacy Data Sharing Restrictions</li>
+<li>Even when shared, data is <em>paranormally distributed</em></li>
+<li>Common Data Models have <em>common</em> representations but <em>variable</em> transformation workflows</li>
+<li><em>Intensive</em>, but <em>not interoperable</em> resource investment</li>
 </ul></li>
 </ul>
 </div>
 </section>
-<section id="ml-penetrance-results" class="slide level2">
-<h2>ML Penetrance Results</h2>
-<div style="font-size: 60%;">
-<table class="caption-top">
-<colgroup>
-<col style="width: 30%">
-<col style="width: 23%">
-<col style="width: 45%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Finding Category</th>
-<th>Key Results</th>
-<th>Statistical Significance</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Pathogenic vs.&nbsp;Benign Variants</strong></td>
-<td>Pathogenic variants: median ML penetrance = 0.52 (IQR 0.38)<br>Benign variants: median ML penetrance = 0.28 (IQR 0.22)</td>
-<td><em>p-value</em> = 6.1 × 10⁻⁸</td>
-</tr>
-<tr class="even">
-<td><strong>Rare vs.&nbsp;Common Variants</strong></td>
-<td>Rare variants (AF &lt;0.001): median penetrance = 0.46<br>Common variants (AF ≥0.001): median penetrance = 0.28</td>
-<td><em>p-value</em> = 8.9 × 10⁻⁴⁸</td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="ml-penetrance-results-1" class="slide level2">
-<h2>ML Penetrance Results</h2>
-<div style="font-size: 60%;">
-<table class="caption-top">
-<colgroup>
-<col style="width: 30%">
-<col style="width: 23%">
-<col style="width: 45%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Finding Category</th>
-<th>Key Results</th>
-<th>Statistical Significance</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Clinical Outcome Correlation - PKD</strong></td>
-<td>Per 0.1 increase in ML penetrance:<br>• Chronic kidney disease: OR = 1.11<br>• End-stage renal disease: OR = 1.09<br>• Secondary hypertension: OR = 1.05</td>
-<td><br><br><em>p-value</em> = 2.9×10⁻¹³<br><br><em>p-value</em> = 4.7×10⁻¹³<br><br><em>p-value</em> = 1.3×10⁻⁸</td>
-</tr>
-<tr class="even">
-<td><strong>Clinical Outcome Correlation - FH</strong></td>
-<td>Myocardial infarction: OR = 1.02 per 0.1 ML penetrance increase</td>
-<td><br><em>p-value</em> = 2.4×10⁻³</td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="ml-penetrance-results-2" class="slide level2">
-<h2>ML Penetrance Results</h2>
-<div style="font-size: 60%;">
-<table class="caption-top">
-<colgroup>
-<col style="width: 30%">
-<col style="width: 23%">
-<col style="width: 45%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Finding Category</th>
-<th>Key Results</th>
-<th>Statistical Significance</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Functional Validation - BRCA1</strong></td>
-<td>0.01 increase in ML penetrance → 0.027 decrease in DNA repair function score</td>
-<td><em>p-value</em> = 2.9×10⁻³</td>
-</tr>
-<tr class="even">
-<td><strong>Functional Validation - LDLR</strong></td>
-<td>Higher ML penetrance correlated with reduced LDL uptake</td>
-<td>r = -0.76, <em>p-value</em> = 0.021</td>
-</tr>
-<tr class="odd">
-<td><strong>Functional Validation - KCNQ1</strong></td>
-<td>Higher ML penetrance → 303-ms increase in deactivation time</td>
-<td><em>p-value</em> = 9.1×10⁻³</td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="ml-penetrance-results-3" class="slide level2">
-<h2>ML Penetrance Results</h2>
-<div style="font-size: 60%;">
-<table class="caption-top">
-<colgroup>
-<col style="width: 30%">
-<col style="width: 23%">
-<col style="width: 45%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Finding Category</th>
-<th>Key Results</th>
-<th>Statistical Significance</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Model Performance</strong></td>
-<td>Mean AUROC: 0.85 (MSDW) and 0.84 (BioMe ML)<br>Mean sensitivity: 0.77-0.78<br>Mean specificity: 0.78</td>
-<td>Range: 0.77-0.95</td>
-</tr>
-<tr class="even">
-<td><strong>VUS Characterization</strong></td>
-<td>VUS median ML penetrance = 0.46 (IQR 0.31)<br>Higher than benign, lower than pathogenic</td>
-<td><em>p-value</em> = 4.9×10⁻⁸ vs.&nbsp;B<br><em>p-value</em> = 0.011 vs.&nbsp;P</td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="ml-penetrance-results-4" class="slide level2">
-<h2>ML Penetrance Results</h2>
-<div style="font-size: 60%;">
-<table class="caption-top">
-<colgroup>
-<col style="width: 30%">
-<col style="width: 23%">
-<col style="width: 45%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Finding Category</th>
-<th>Key Results</th>
-<th>Statistical Significance</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>LoF Variants</strong></td>
-<td>Median ML penetrance = 0.48 (IQR 0.36)<br>Higher than benign variants<br>21% had high penetrance ≥0.75, 18% had low penetrance ≤0.25</td>
-<td><em>p-value</em> = 5.7×10⁻⁸</td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="ml-penetrance-results-5" class="slide level2">
-<h2>ML Penetrance Results</h2>
-<div style="font-size: 60%;">
-<table class="caption-top">
-<colgroup>
-<col style="width: 30%">
-<col style="width: 23%">
-<col style="width: 45%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Finding Category</th>
-<th>Key Results</th>
-<th>Statistical Significance</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>UK Biobank Validation</strong></td>
-<td>ML penetrance values significantly correlated across BioMe and UK Biobank<br>Strongest correlations: ARVC (R=0.96), MD (R=0.58)</td>
-<td><em>p-value</em> = 1.8×10⁻³ overall</td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="clinical-applications" class="slide level2">
-<h2>Clinical Applications</h2>
-<div style="font-size: 75%;">
-<ol type="1">
-<li><p><strong>Improved Variant Classification</strong>: Quantitative risk estimates beyond P/LP/VUS categories</p></li>
-<li><p><strong>Enhanced Risk Stratification</strong>: Individualized screening protocols based on ML penetrance</p></li>
-<li><p><strong>Genetic Counseling</strong>: More precise risk communication to patients</p></li>
-<li><p><strong>Clinical Trial Recruitment</strong>: Identify high-penetrance variant carriers</p></li>
-<li><p><strong>Resource Allocation</strong>: Prioritize monitoring for high-risk individuals</p></li>
-</ol>
-</div>
-</section>
-<section id="study-strengths" class="slide level2">
-<h2>Study Strengths</h2>
-<div style="font-size: 75%;">
-<ul>
-<li><p><strong>Large-scale</strong>: &gt;1.3 million participants with deep phenotyping</p></li>
-<li><p><strong>Unselected population</strong>: Reduced ascertainment bias vs.&nbsp;family studies</p></li>
-<li><p><strong>Quantitative</strong>: Continuous penetrance estimates, not binary</p></li>
-<li><p><strong>Clinically grounded</strong>: Uses routine lab data already in EHR</p></li>
-<li><p><strong>Validated</strong>: Functional data, clinical outcomes, external cohorts</p></li>
-<li><p><strong>High-throughput</strong>: Scalable to other health systems and diseases</p></li>
-</ul>
-</div>
-</section>
-<section id="limitations-future-directions" class="slide level2">
-<h2>Limitations &amp; Future Directions</h2>
-<div style="font-size: 75%;">
-<p><strong>Limitations</strong>:</p>
-<ul>
-<li><p>Dependent on EHR data quality and completeness</p></li>
-<li><p>Focused on autosomal dominant conditions</p></li>
-<li><p>Limited diversity in training cohorts</p></li>
-<li><p>Does not address genetic modifiers or environmental factors</p></li>
-</ul>
-<p><strong>Future Work</strong>:</p>
-<ul>
-<li><p>Extend to other inheritance patterns and rare diseases</p></li>
-<li><p>Develop ancestry-specific models</p></li>
-<li><p>Prospective studies following variant carriers longitudinally</p></li>
-<li><p>Integration with functional assays and polygenic risk scores</p></li>
-</ul>
-</div>
-</section>
-<section id="key-takeaways" class="slide level2">
-<h2>Key Takeaways</h2>
-<div style="font-size: 75%;">
-<ol type="1">
-<li><p>ML-based penetrance provides <strong>refined, quantitative disease risk estimates</strong> for genetic variants</p></li>
-<li><p>ML penetrance <strong>correlates with clinical outcomes and functional data</strong>, validating biological relevance</p></li>
-<li><p>Enables <strong>interpretation of VUS and LoF variants</strong> through clinical trajectory analysis</p></li>
-<li><p>Represents a <strong>scalable blueprint</strong> for precision medicine using routine EHR data</p></li>
-</ol>
-</div>
-<!-- ## **Backup Slide: Technical Details**
+<section class="slide level2">
 
-**ML Algorithm**: Extreme gradient boosted trees (XGBoost)
-- 50 iterations per disease with 10-fold cross-validation
-- Hyperparameter optimization via caret package
-- SHAP values for model interpretability
+<!--
+### The Fix - Fixed Coordinate Temporal Data Model 
 
-**Penetrance Model**: GLMM with random effects
-- Formula: logit(pᵢⱼ) = β₀ + uᵢ
-- Adjusts for age, sex, BMI, ancestry
-- Accounts for inter-carrier and intra-carrier variability -->
+<!-- ::: {style="font-size: 80%;"} 
+
+- Genomic data is already structured as a fixed coordinate index on genomes
+- For e.g. Mutation at chromosome *a*, postion *b* means the same for **everyone** which helps direct comparision across individuals and ML at scale
+
+<!--
+- Mathematically, each genome is represented as a vector in shared space
+
+<center>
+
+$g \in$ {$A,C,G,T$}$^n$
+</center>
+
+- Genomic data, however, doesn't support trajectories, since it is mostly static
+
+
+
+---
+-->
+
+### The Fix - Fixed Coordinate Temporal Data
+
+::: {style="font-size: 70%;"}
+
+- We will look at genomic data structure for **inspiration**, not **instruction**
+- Each patient will be represented as a point in a shared coordinate space similar to a genome
+<center>
+$Health Coordinate = z(t) \in R^d$
+
+where **$z$** are the physiological coordinates, **$t$** is time since birth and **$R^d$** represents d-Dimension real space
+
+</center>
+
+- The health history of each patients becomes a **sequence** from birth -&gt; present -&gt; future
+
+- **Deterministic Coordinates** similar to genomic data (Mutation at chromosome *a*, postion *b* means the same for **everyone** which helps direct comparision across individuals and ML at scale)
+
+:::
+
+
+---
+
+::: {style="font-size: 70%;"}
+
+### The Fixed Coordinate Temporal Data Model
+
+
+<center>
+
+![A comprehensive represention of Fixed Coordinate Temporal Data Model - Click the image for details](images/Picture4.png){.lightbox .r-stretch width="70%" fig-align="bottom" group="my-gallery2" fig-alt="A comprehensive represention of Fixed Coordinate Temporal Data Model"}
+
+</center>
+
+:::
+
+:::: {.fragment style="display:none"}
+::: {style="font-size: 85%;"}
+
+![Fixed Coordinate Temporal Data Model - Base Layer](images/Picture1.png){.lightbox group="my-gallery2" fig-alt="Fixed Coordinate Temporal Data Model - Base Layer"}
+
+![Fixed Coordinate Temporal Data Model - Example Phenotype Layer](images/Picture2.png){.lightbox group="my-gallery2" fig-alt="Fixed Coordinate Temporal Data Model - Example Phenotype Layer"}
+
+![Fixed Coordinate Temporal Data Model - Example Subphenotype Layer](images/Picture3.png){.lightbox group="my-gallery2" fig-alt="ixed Coordinate Temporal Data Model - Example Subphenotype Layer"}
+
+![Fixed Coordinate Temporal Data Model - Splicing Example](images/Picture5.png){.lightbox group="my-gallery2" fig-alt="Fixed Coordinate Temporal Data Model - Splicing Example"}
+
+![Fixed Coordinate Temporal Data Model - Applications](images/Picture6.png){.lightbox group="my-gallery2" fig-alt="Fixed Coordinate Temporal Data Model - Applications"}
+
+:::
+::::
+---
+
+<!--
+#### Applications - Similar Patients {visibility="hidden"}
+
+:::: columns
+::: {.center}
+::: {.column width="50%"}
+::: {style="font-size: 85%;"}
+- To identify patients with similar physiology in this shared coordinate space, mathematically, we can calculate distance $d$ and specify threshold $\epsilon$
+
+<center>
+
+$d = ||z$~$1$~$(t) - z$~$2$~$(t)|| < \epsilon$
+
+</center>
+
+- Imagine if clinicians can readily review - **what happened to the patients most like my patient?**
+
+:::
+:::
+::: {.column width="50%"}
+::: {style="font-size: 80%;"}
+![](images/IMG_2580.WEBP){.r-stretch width="80%" fig-alt="3 Spiderman from Marvel Movies, representing Similar Patients Matching"}
+:::
+:::
+:::
+::::
+
+---
+
+#### Applications - Digital Twin {visibility="hidden"}
+
+:::: columns
+::: {.center}
+
+
+::: {.column width="45%"}
+::: {style="font-size: 80%;"}
+![](images/DT.jpg){.r-stretch width="100%" fig-alt="A chid looking into their device to see a mirror image of them, representing Digital Twin"}
+:::
+:::
+
+::: {.column width="47%"}
+::: {style="font-size: 85%;"}
+- As patients move through the shared coordiante space over time, it can mathematically represented as
+
+<center>
+
+$z(t) = z(t + \Delta t)$
+
+</center>
+
+- This can help simulate the odds of
+    - Progression of disease
+    - Response to treatments and adverse events
+    - Risk of complications
+
+:::
+:::
+
+:::
+::::
+
+---
+-->
+### What about Privacy?  
+
+- Data is touted as the *new currency*, but the most important universal currency is **trust**
+
+- The proposed model while making *representation* and *analysis* easier, makes **deidentification** exponentially tougher
+
+- As the length of the sequence increases, the odds of another sequence with ~100% similarity decreases
+
+- HIPAA and Privacy laws doesn't allow hospitals to share patient data in raw or even transformed format
+
+<!--
+---
+
+
+::: {style="font-size: 100%;"}
+
+### Zero-Knowledge Proofs (ZKP)
+
+<center>
+
+![Where is Wally?](images/Wally_Image.jpeg){.lightbox .r-stretch width="70%" fig-align="bottom" group="my-gallery2" fig-alt="Where is Wally?"}
+
+</center>
+
+:::
+
+:::: {.fragment style="display:none"}
+::: {style="font-size: 85%;"}
+
+
+![Here is Wally](images/Wally_ZKP.jpg){.lightbox group="my-gallery2" fig-alt="Here is Wally"}
+
+:::
+::::
+
+---
+
+
+
+### ZKP with Fixed Coordinate Temporal Data
+
+- Our proposed fixed coordinate sequence can easily be *identified* because as the length of the sequence increases, the odds of another sequence with ~100% similarity decreases
+
+
+<!--
+
+---
+
+### Proposed Workflow
+
+- Hospital A has deployed an AKI prediction model that Hospital B wants to use with their patients
+
+- Traditional Requirements
+    - Hospital A publishes their model and Hospital B runs it on their patients, OR
+    - Hospital B sends deidentifed dataset to Hospital A
+    - Requires intensive review from HIPAA, and will most probably not be allowed
+-->
+</section>
+<section class="slide level2">
+
+<section id="zero-knowledge-proofs" style="font-size: 90%;">
+<h3>Zero Knowledge Proofs</h3>
+<center>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<div class="quarto-figure quarto-figure-bottom">
+<figure>
+<p><a href="images/ZKP.png" class="lightbox" data-gallery="my-gallery" title="General ZKP workflow - Click on the image for details"><img data-src="images/ZKP.png" class="r-stretch quarto-figure quarto-figure-bottom" style="width:100.0%" alt="General ZKP workflow"></a></p>
+</figure>
+</div>
+<figcaption>General ZKP workflow - Click on the image for details</figcaption>
+</figure>
+</div>
+</center>
+<p>Zero Knowledge Proofs (<strong>ZKP</strong>s) can prove - for a given <em>input</em> and <em>model</em>, an <em>output</em> is produced, without revealing any of the above</p>
+</section>
+<div class="fragment" style="display:none">
+<div style="font-size: 85%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="images/Step1.PNG" class="lightbox" data-gallery="my-gallery" title="Step 1 - Hospital A publishes one commitment K — a cryptographic fingerprint of its model"><img data-src="images/Step1.PNG" alt="Step 1 - Hospital A publishes one commitment K — a cryptographic fingerprint of its model"></a></p>
+<figcaption>Step 1 - Hospital A publishes one commitment K — a cryptographic fingerprint of its model</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="images/Step2.PNG" class="lightbox" data-gallery="my-gallery" title="Step 2 - Hospital B can run that commitment against any of its own patients, any number of times, without Hospital A ever being involved again"><img data-src="images/Step2.PNG" alt="Hospital B can run that commitment against any of its own patients, any number of times, without Hospital A ever being involved again"></a></p>
+<figcaption>Step 2 - Hospital B can run that commitment against any of its own patients, any number of times, without Hospital A ever being involved again</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="images/Pat1.PNG" class="lightbox" data-gallery="my-gallery" title="Example: For Patient 1, the arithmetic circuit finds the feature vector satisfies the AKI decision boundary → proof is TRUE, and the onset window is disclosed. Image generated using Claude"><img data-src="images/Pat1.PNG" alt="Example: For Patient 1, the arithmetic circuit finds the feature vector satisfies the AKI decision boundary, hence proof is TRUE, and the onset window is disclosed"></a></p>
+<figcaption>Example: For Patient 1, the arithmetic circuit finds the feature vector satisfies the AKI decision boundary → proof is TRUE, and the onset window is disclosed. Image generated using Claude</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="images/Pat2.PNG" class="lightbox" data-gallery="my-gallery" title="Example: For Patient 2, the same circuit finds the vector falls outside the boundary → proof is FALSE, and nothing further is revealed — not even how far below the threshold the patient is. Image generated using Claude"><img data-src="images/Pat2.PNG" alt="Example: For Patient 2, the same circuit finds the vector falls outside the boundary, hence proof is FALSE, and nothing further is revealed — not even how far below the threshold the patient is"></a></p>
+<figcaption>Example: For Patient 2, the same circuit finds the vector falls outside the boundary → proof is FALSE, and nothing further is revealed — not even how far below the threshold the patient is. Image generated using Claude</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="moving-forward">Moving Forward</h3>
+<div style="font-size: 85%;">
+<ul>
+<li><strong>Phase 1</strong> - Transformation architecture PoC for fixed coordinate temporal data model to and from common CDMs like <a href="https://www.i2b2.org">i2b2</a>, <a href="https://ohdsi.github.io/CommonDataModel/index.html">OMOP</a>, Epic Caboodle
+<ul>
+<li>The source code for open-source data models will be made available as an open-source resource</li>
+</ul></li>
+<li><strong>Phase 2</strong> - Test Phase A on sample AKI patients at UF Health and validate it over larger datasets, like <a href="https://cosmos.epic.com">Epic COSMOS</a></li>
+<li>Generate prototype ZK <a href="https://aszepieniec.github.io/stark-anatomy/">STARK</a> infrastructure using temporal data model for AKI risk prediction, similar patient matching and digital twin trajectory on a small sample of patients</li>
+</ul>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="current-limiting-factors">Current Limiting Factors</h3>
+<div style="font-size: 85%;">
+<ul>
+<li>Fixed Coordinate Temporal Data Model
+<ul>
+<li>Requires <em>clean</em> source datasets</li>
+<li><em>Variability</em> in methods is lower but not <span class="math inline">\(0\)</span></li>
+</ul></li>
+<li>Zero Knowledge Proofs
+<ul>
+<li><em>Expensive</em> and <em>slow</em> for complex models (e.g.&nbsp;Neural Networks), may need quantization</li>
+<li><em>Latency</em>, especially if needed real-time</li>
+<li>ZKPs are based on Math Intelligence, so not black boxes, but <em>interpretation is more difficult</em> than standard workflows</li>
+<li><em>Model Drift</em> as data changes</li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section class="slide level2">
+
+<h3 id="why-now">Why Now?</h3>
+<div style="font-size: 85%;">
+<ul>
+<li><em>Verification resources</em> can be federated (similar to cryptocurrency blockchains) since no sensitive data is required in this step</li>
+<li>Medicine is finally <em>digital</em> and <em>massive</em> with multi-omics domains</li>
+<li>ZKP will enable ML models to be trained with <em>larger, more diverse</em> data points</li>
+<li>ZKP, along with fixed coordinate data model can achieve “actual” <em>Clinical Decision Support System</em></li>
+</ul>
+<center>
+Instead of <strong>can we afford to do it</strong>, the question should be <strong>can we afford not to do it</strong>?
+</center>
+</div>
+<!--
+
+---
+
+### Why Now?  {.center}
+
+
+::: {.fragment .fade-in-then-semi-out}
+
+- In [Victor Hugo](https://www.britannica.com/biography/Victor-Hugo)'s words
+
+<center>
+Nothing is as powerful as 
+an idea whose time has come
+</center>
+
+:::
+
+::: {.fragment .fade-in}
+
+
+- Also, in Academy Award Winning Artist [Ejae](https://open.spotify.com/artist/0RMJOzHDhAKY1o2j0W0vxY)'s words
+
+<center>
+ I'm done hidin', now I'm shinin' like I'm born to be
+We dreamin' hard, we came so far, now I believe
+We're goin' up, up, up, it's our moment
+
+You know together we're glowin'
+
+Gonna be, gonna be golden
+</center>
+
+:::
+-->
+</section>
+<section id="thank-you" class="slide level2 center">
+<h2>Thank You!</h2>
+<div style="font-size: 65%;">
+<p>This presentation was made using Quarto. Quarto enables you to weave together content and executable code into a finished document. <a href="https://quarto.org">Click here</a> learn more about Quarto.</p>
+</div>
 
 
 </section>
@@ -581,7 +517,7 @@ Piyush Chaudhari
   <div class="quarto-auto-generated-content" style="display: none;">
 <p><img src="images/favicon.ico" class="slide-logo"></p>
 <div class="footer footer-default">
-<p><a href="https://doi.org/10.1126/science.adm7066">Forrest IS, Vy HMT, Rocheleau G, et al. Machine learning–based penetrance of genetic variants. Science. 2025;389(6763)</a></p>
+<p>HOBI Education Day - March 25, 2026</p>
 </div>
 </div></div>
 
@@ -615,7 +551,7 @@ Piyush Chaudhari
 'autoAnimateUnmatched': true,
 'jumpToSlide': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
-'chalkboard': {"buttons":true},
+'chalkboard': {"buttons":false},
 'smaller': false,
  
         // Display controls in the bottom right corner
@@ -963,6 +899,38 @@ Piyush Chaudhari
         }
       });
       </script>
+    <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+    (function() {
+      let previousOnload = window.onload;
+      window.onload = () => {
+        if (previousOnload) {
+          previousOnload();
+        }
+        lightboxQuarto.on('slide_before_load', (data) => {
+          const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+          const href = trigger.getAttribute('href');
+          if (href !== null) {
+            const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+            if (imgEl !== null) {
+              const srcAttr = imgEl.getAttribute("src");
+              if (srcAttr && srcAttr.startsWith("data:")) {
+                slideConfig.href = srcAttr;
+              }
+            }
+          } 
+        });
+      
+        lightboxQuarto.on('slide_after_load', (data) => {
+          const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(slideNode);
+          }
+        });
+      
+      };
+      
+    })();
+              </script>
     
 
 </body></html>

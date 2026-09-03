@@ -1,660 +1,653 @@
 [
   {
-    "objectID": "2026-03-23-RAG/RAG.html#limitations-in-current-methods",
-    "href": "2026-03-23-RAG/RAG.html#limitations-in-current-methods",
+    "objectID": "JC-RAG/index.html#limitations-in-current-methods",
+    "href": "JC-RAG/index.html#limitations-in-current-methods",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "Limitations in current methods",
     "text": "Limitations in current methods\n\n\nStandard models (For e.g. BART) store their knowledge as model weights during training\nLimitations -\n\nDifficult to update without retraining\nHallucinations- model interpolate from compressed parametric memory\nThere is no way to tell what part was looked at to produce output\n\nThis paper treats retrieval as a learnable, differentiable element that can be plugged into a generative model\nA jointly trained system where\n\nModel knows what to query\nGenerator knows how to use what is queried"
   },
   {
-    "objectID": "2026-03-23-RAG/RAG.html#types-of-memory",
-    "href": "2026-03-23-RAG/RAG.html#types-of-memory",
+    "objectID": "JC-RAG/index.html#types-of-memory",
+    "href": "JC-RAG/index.html#types-of-memory",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "Types of Memory",
     "text": "Types of Memory\n\n\n\nParametric Memory\n\n\nKnowledge is frozen into model weights\nCan’t update it without retraining\nFast to infer insights but limited and brittle\n\n\nNon-parametric Memory\n\n\nIndexed text, external to the model, which the model looks up at runtime\nThe index can be swapped, updated or replaced independent of model weights\n\nRAG combines both types of memories - retriever fetches relevant documents from non-parametric memory, and generators (that stores parametric knowledge) synthesizes a response using both\nPrior work on the hybrid approach was done only on extractive tasks (REALM,ORQA) but RAG extends it to generative seq2seq tasks"
   },
   {
-    "objectID": "2026-03-23-RAG/RAG.html#approach",
-    "href": "2026-03-23-RAG/RAG.html#approach",
+    "objectID": "JC-RAG/index.html#approach",
+    "href": "JC-RAG/index.html#approach",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "Approach",
     "text": "Approach\n\n\n\n\n\nThe paper combines a pre-trained retriever (Query Encoder + Document Index) with a pre-trained seq2seq model (Generator) and fine-tune end-to-end. For query \\(x\\), we use Maximum Inner Product Search (MIPS) to find the top-K documents \\(z\\)\\(i\\). For final prediction \\(y\\), we treat \\(z\\) as a latent variable and marginalize over seq2seq predictions given different documents"
   },
   {
-    "objectID": "2026-03-23-RAG/RAG.html#methods",
-    "href": "2026-03-23-RAG/RAG.html#methods",
+    "objectID": "JC-RAG/index.html#methods",
+    "href": "JC-RAG/index.html#methods",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "Methods",
     "text": "Methods\n\n\nThe paper explores RAG models, that uses input sequence \\(x\\) to retrieve text documents \\(z\\) to use them as additional context when generating the target sequence \\(y\\)\nThe model leverages two components\n\nRetriever \\(p\\)\\(\\eta\\)\\((z | x)\\) with parameters \\(\\eta\\) that returns top-K truncated distributions over the text given a query \\(x\\)\nGenerator \\(p\\)\\(\\theta\\)(\\(y\\)i | \\(x,z,y\\)1:i-1) parametrized by \\(\\theta\\) that generates a current token based on the context of the previous \\(i-1\\) tokens \\(y\\)1:i-1 , the original input \\(x\\) and a retrieved text \\(z\\)\n\nThe retrieved documents are treated as latent variable - the model never directly supervises which document is correct\nThe paper proposes two models - RAG-Sequence that uses the same document to predict each target token and RAG-Token which can predict each target token based on a different document"
   },
   {
-    "objectID": "2026-03-23-RAG/RAG.html#models",
-    "href": "2026-03-23-RAG/RAG.html#models",
+    "objectID": "JC-RAG/index.html#models",
+    "href": "JC-RAG/index.html#models",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "Models",
     "text": "Models\n\n\nRAG-Sequence Model\n\n\nuses the same retrived document to generate complete sequence\ntreats retrieved document as a single latent variable marginalized to get seq2seq probability \\(p(y|x)\\) via a top-K approximation\ntop K documents are retrived using the retriver and generator produces output sequence probability of each document, then marginalized\n\n\n\n\\(p\\)RAG-Sequence\\((y|x)\\) \\(\\approx\\) \\(\\sum_{z\\in top-k(p(.|x))}\\) \\(p\\)\\(\\eta\\)\\((z|x)p\\)\\(\\theta\\)\\((y|x,z)\\) \\(=\\) \\(\\sum_{z\\in top-k(p(.|x))}\\) \\(p\\)\\(\\eta\\)\\((z|x)\\prod p\\)\\(\\theta\\)\\((y\\)i\\(|x,z,y\\)1:i-1 \\()\\)\n\n\n\n\n\\(\\prod p\\)\\(\\theta\\)\\((y\\)i\\(|x,z,y\\)1:i-1 \\()\\) is the standard autoregressive generator\n\\(\\sum_{z\\in top-k(p(.|x))}\\) \\(p\\)\\(\\eta\\)\\((z|x)\\) does it for top-K documents"
   },
   {
-    "objectID": "2026-03-23-RAG/RAG.html#models-1",
-    "href": "2026-03-23-RAG/RAG.html#models-1",
+    "objectID": "JC-RAG/index.html#models-1",
+    "href": "JC-RAG/index.html#models-1",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "Models",
     "text": "Models\n\n\nRAG-Token Model\n\n\nDraw different latent document for each target token\nAllows the generator to choose content from different documents when generating a response\nOnce top K documents are retrieved, the generator produces a distribution for the next output token for each document, before marginalizing\nThe process is repeated for following output token\n\n\n\n\n\\(p\\)RAG-Token\\((y|x)\\) \\(\\approx\\) \\(\\prod_{i}^{N}\\) \\(\\sum_{z\\in top-k(p(.|x))}\\) \\(p\\)\\(\\eta\\)\\((z|x) p\\)\\(\\theta\\)\\((y\\)i\\(|x,z,y\\)1:i-1 \\()\\)"
   },
   {
-    "objectID": "2026-03-23-RAG/RAG.html#models-2",
-    "href": "2026-03-23-RAG/RAG.html#models-2",
+    "objectID": "JC-RAG/index.html#models-2",
+    "href": "JC-RAG/index.html#models-2",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "Models",
     "text": "Models\n\n\nRAG-Token Model\n\n\n\n\n\\(p\\)RAG-Token\\((y|x)\\) \\(\\approx\\) \\(\\prod_{i}^{N}\\) \\(\\sum_{z\\in top-k(p(.|x))}\\) \\(p\\)\\(\\eta\\)\\((z|x) p\\)\\(\\theta\\)\\((y\\)i\\(|x,z,y\\)1:i-1 \\()\\)\n\n\n\n\nThe product is outside while the sum is inside, compared to RAG Sequence. At each token position \\(i\\), the model considers all K documents simultaneously, weights each document’s contribution to this specific token by the retrieval probability, and sums.\nThen moves to position \\(i+1\\) and does it again — potentially with a different document dominating.\nRAG can be used for sequence classification tasks by considering target class as a target sequence of length one, where RAG-Sequence and RAG-Token are equivalent"
   },
   {
-    "objectID": "2026-03-23-RAG/RAG.html#retriever",
-    "href": "2026-03-23-RAG/RAG.html#retriever",
+    "objectID": "JC-RAG/index.html#retriever",
+    "href": "JC-RAG/index.html#retriever",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "Retriever",
     "text": "Retriever\n\n\nThe retriever \\(p\\)\\(\\eta\\)\\((z|x)\\) is based on Dense Passage Retrival (DPR) that follows a bi-encoder structure\n\n\n\n\n\\(d(z)\\) = BERT\\(d\\)\\((z)\\) document encoder\n\\(q(x)\\) = BERT\\(q\\)\\((x)\\) query encoder\n\n\n\nwith a retrival probability of\n\n\n\n\\(p\\)\\(\\eta\\)\\((z|x)\\) \\(\\propto\\) exp \\((d(z)^T.q(x))\\)\n\n\n\n\nHigher dot product equals higher probability of retrival\nFinding top-K is a Maximum Inner Product Search problem\nSolved approximately using FAISS + HNSW graphs - sub-linear time over 21 million documents"
   },
   {
-    "objectID": "2026-03-23-RAG/RAG.html#retriever-1",
-    "href": "2026-03-23-RAG/RAG.html#retriever-1",
+    "objectID": "JC-RAG/index.html#retriever-1",
+    "href": "JC-RAG/index.html#retriever-1",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "Retriever",
     "text": "Retriever\n\n\nOne performace tradeoff is that the Document Encoder \\(d(z)\\) is frozen during fine-tuning\n\nRe-embedding 21 million documents every training step is expensive\nThe initialization DPR retriever was pre-trained specifically to retrieve passages relevant to Natural Questions and TriviaQA. This means the document embeddings it produces are already semantically well-organized\nSo \\(d(z)\\) already has a meaningful embedding space before fine-tuning begins\nDoesn’t hurt the performance significantly\nPrevents catastrophic indexing - Updating the encoded during training changes the embedding, clashing with FAISS which was build over old embeddings"
   },
   {
-    "objectID": "2026-03-23-RAG/RAG.html#generator",
-    "href": "2026-03-23-RAG/RAG.html#generator",
+    "objectID": "JC-RAG/index.html#generator",
+    "href": "JC-RAG/index.html#generator",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "Generator",
     "text": "Generator\n\n\n400M parameter seq2seq transformer, pre-trained with a denoising objective\nInput is simply the concatenation of query and retrieved document: [\\(x\\) ; \\(z\\)]\nGenerates answer autoregressively, one token at a time:\n\n\n\n\n\\(p\\)\\(\\theta\\)\\((y\\)i\\(|x,z,y\\)1:i-1 \\()\\)\n\n\n\n\nAt each step: conditioned on the full query, the retrieved document, and all prior output tokens\nBART over T5:\n\nBART outperforms comparably-sized T5 on generation tasks\nBidirectional encoder + left-to-right decoder is well-suited for this hybrid input structure"
   },
   {
-    "objectID": "2026-03-23-RAG/RAG.html#marginalizing-over-documents",
-    "href": "2026-03-23-RAG/RAG.html#marginalizing-over-documents",
+    "objectID": "JC-RAG/index.html#marginalizing-over-documents",
+    "href": "JC-RAG/index.html#marginalizing-over-documents",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "Marginalizing Over Documents",
     "text": "Marginalizing Over Documents\n\n\nSince the “correct” document is unknown, both RAG variants sum (marginalize) over top-K documents, weighted by retrieval probability\n\n\n\n\nRAG-Sequence has the same document for the whole output\n\nGenerates a complete answer for each document, then weight by how likely it was to be retrieved\n\n\n\n\\(p(y|x)=\\) \\(\\sum_{z\\in top-k(p(.|x))}\\) \\(p\\)\\(\\eta\\)\\((z|x)\\prod p\\)\\(\\theta\\)\\((y\\)i\\(|x,z,y\\)1:i-1 \\()\\)\n\n\nRAG-Token potentially has different document per output token\n\nAt each token step, the model can draw from a different document\n\n\n\n\\(p(y|x)\\) \\(\\approx\\) \\(\\prod_{i}^{N}\\) \\(\\sum_{z\\in top-k(p(.|x))}\\) \\(p\\)\\(\\eta\\)\\((z|x) . p\\)\\(\\theta\\)\\((y\\)i\\(|x,z,y\\)1:i-1 \\()\\)"
   },
   {
-    "objectID": "2026-03-23-RAG/RAG.html#rag-sequence-vs-rag-token",
-    "href": "2026-03-23-RAG/RAG.html#rag-sequence-vs-rag-token",
+    "objectID": "JC-RAG/index.html#rag-sequence-vs-rag-token",
+    "href": "JC-RAG/index.html#rag-sequence-vs-rag-token",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "RAG-Sequence vs RAG-Token",
     "text": "RAG-Sequence vs RAG-Token\n\n\n\n\n\n\n\n\n\nCohort\nRAG-Sequence\nRAG-Token\n\n\n\n\nDocument Usage\nOne Document for full answer\nDifferent document per token\n\n\nFlexibility\nLower\nHigher\n\n\nApplications\nCoherent, Single-Source Outputs\nOutputs synthesizing multiple sources\n\n\nDecoding\nBeam Search per document + re-scoring\nStandard Beam Decoder"
   },
   {
-    "objectID": "2026-03-23-RAG/RAG.html#training",
-    "href": "2026-03-23-RAG/RAG.html#training",
+    "objectID": "JC-RAG/index.html#training",
+    "href": "JC-RAG/index.html#training",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "Training",
     "text": "Training\n\n\nTrained end-to-end on input/output pairs (\\(x\\)\\(j\\),\\(y\\)\\(j\\) ) only — no supervision on which document to retrieve\nLoss function: negative marginal log-likelihood of the target output\n\n\\(Loss\\) = - \\(\\sum\\)\\(j\\) \\(log\\) \\(p(y\\)\\(j\\)|\\(x\\)\\(j\\) \\()\\)\n\nGradient flows through BART (generator) and the query encoder\nThe system learns to retrieve by learning what helps it generate correct answers\nOnly the query encoder and BART are updated; document encoder + index are frozen\nOptimizer: Adam with stochastic gradient descent"
   },
   {
-    "objectID": "2026-03-23-RAG/RAG.html#decoding",
-    "href": "2026-03-23-RAG/RAG.html#decoding",
+    "objectID": "JC-RAG/index.html#decoding",
+    "href": "JC-RAG/index.html#decoding",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "Decoding",
     "text": "Decoding\n\n\nRAG-Token\n\nPer-token probability factors are plugged directly into standard beam decoder\nTransition probability\n\n\n\\(p'\\)\\(\\theta\\)\\((y\\)i\\(|x,y\\)1:i-1 \\()\\) \\(=\\) \\(\\sum_{z\\in top-k(p(.|x))}\\) \\(p\\)\\(\\eta\\)\\((z\\)\\(i\\)\\(|x)p\\)\\(\\theta\\)\\((y\\)i\\(|x,z\\)\\(i\\)\\(,y\\)1:i-1 \\()\\)\n\n\nTo decode, \\(p'\\)\\(\\theta\\)\\((y\\)i\\(|x,y\\)1:i-1 \\()\\) can be plugged into a standard beam decoder"
   },
   {
-    "objectID": "2026-03-23-RAG/RAG.html#decoding-1",
-    "href": "2026-03-23-RAG/RAG.html#decoding-1",
+    "objectID": "JC-RAG/index.html#decoding-1",
+    "href": "JC-RAG/index.html#decoding-1",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "Decoding",
     "text": "Decoding\n\n\nRAG-Sequence\n\nFull sequence probability \\(p(y|x)\\) doesn’t factor per-token, hence can’t do a single beam search\nThorough Decoding:\n\nGet \\(K\\) sets of candidate sequences by running beam search independently for each of the \\(K\\) retrieved documents\n\nTake the union of all candidates across all K beams which is the hypothesis set \\(Y\\)\nFor any candidate \\(y\\) that didn’t appear in a particular document’s beam, run an additional forward pass through BART to score it against that document anyway\nFinal probability\n\n\\(p(y|x)=\\) \\(\\sum_{z}\\) \\(p\\)\\(\\eta\\)\\((z|x) . p\\)\\(\\theta\\)\\((y|x,z)\\) summed across all \\(K\\) documents\n\nPick the highest scoring \\(y\\)"
   },
   {
-    "objectID": "2026-03-23-RAG/RAG.html#decoding-2",
-    "href": "2026-03-23-RAG/RAG.html#decoding-2",
+    "objectID": "JC-RAG/index.html#decoding-2",
+    "href": "JC-RAG/index.html#decoding-2",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "Decoding",
     "text": "Decoding\n\n\nRAG-Sequence\n\nFast Decoding\n\nSimilar to Thorough, but skips Step 3\nIf a candidate was generated from document 1’s beam but not document 2’s, Thorough Decoding still need to score it against document 2. With K=10 and a large hypothesis set, this is computinally expensive\nIn Fast Decoding, if \\(y\\) didn’t appear in document \\(z\\)’s beam, \\(p\\)\\(\\theta\\)\\((y|x,z)\\) is assumed as 0"
   },
   {
-    "objectID": "2026-03-23-RAG/RAG.html#experiments",
-    "href": "2026-03-23-RAG/RAG.html#experiments",
+    "objectID": "JC-RAG/index.html#experiments",
+    "href": "JC-RAG/index.html#experiments",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "Experiments",
     "text": "Experiments\n\nRAG was tested across five distinct task types to prove generality:\n\nOpen-Domain QA (Natural Questions, TriviaQA, WebQuestions, CuratedTrec) — exact match\nAbstractive QA (MS-MARCO) — free-form answer generation, BLEU + Rouge-L\nJeopardy Question Generation — given an entity, generate the Jeopardy clue — Q-BLEU-1 + human evaluation\nFact Verification (FEVER) — classify claims as supported / refuted / not enough information"
   },
   {
-    "objectID": "2026-03-23-RAG/RAG.html#results",
-    "href": "2026-03-23-RAG/RAG.html#results",
+    "objectID": "JC-RAG/index.html#results",
+    "href": "JC-RAG/index.html#results",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "Results",
     "text": "Results\nOpen-Domain Q&A\n\n\n\n\n\n\n\n\n\n\n\nModel\nNatural Questions\nTriviaQA\nWebQ\nCuratedTrec\n\n\n\n\nT5-11B (closed book)\n34.5\n—/50.1\n37.4\n—\n\n\nT5-11B+SSM (closed book)\n36.6\n—/60.5\n44.7\n—\n\n\nREALM (open book)\n40.4\n—\n40.7\n46.8\n\n\nDPR (open book)\n41.5\n57.9\n41.1\n50.6\n\n\nRAG-Token\n44.1\n55.2/66.1\n45.5\n50.0\n\n\nRAG-Sequence\n44.5\n56.8/68.0\n45.2\n52.2\n\n\n\n\nRAG beats T5-11B (27x larger, expensive pre-training) on NQ and WebQ\nRAG beats DPR’s extractive pipeline — without a re-ranker or cross-encoder\nRAG scores 11.8% accuracy even when the correct answer is absent from all retrieved documents — extractive systems score 0% in this case"
   },
   {
-    "objectID": "2026-03-23-RAG/RAG.html#results-1",
-    "href": "2026-03-23-RAG/RAG.html#results-1",
+    "objectID": "JC-RAG/index.html#results-1",
+    "href": "JC-RAG/index.html#results-1",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "Results",
     "text": "Results\nGeneration Tasks\n\n\n\n\n\n\n\n\n\n\nModel\nJeopardy Q-BLEU-1\nMS-MARCO Rouge-L\nFEVER-3 Accuracy\n\n\n\n\nBART baseline\n19.7\n38.2\n64.0\n\n\nRAG-Token\n22.2\n40.1\n72.5\n\n\nRAG-Sequence\n21.4\n40.8\n—\n\n\nState of the art*\n—\n49.8*\n76.8\n\n\n\n*SotA uses gold context/evidence passages; RAG retrieves its own"
   },
   {
-    "objectID": "2026-03-23-RAG/RAG.html#results-2",
-    "href": "2026-03-23-RAG/RAG.html#results-2",
+    "objectID": "JC-RAG/index.html#results-2",
+    "href": "JC-RAG/index.html#results-2",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "Results",
     "text": "Results\nJeopardy\n\nHuman evaluation on Jeopardy (452 pairs):\n\nRAG more factual than BART: 42.7% of cases\nBART more factual than RAG: 7.1% of cases\nRAG more specific: 37.4% vs. 16.8%\n\nOn FEVER, RAG comes within 4.3% of complex pipeline systems that use domain-specific architectures and supervised retrieval labels — while using none of that."
   },
   {
-    "objectID": "2026-03-23-RAG/RAG.html#results-3",
-    "href": "2026-03-23-RAG/RAG.html#results-3",
+    "objectID": "JC-RAG/index.html#results-3",
+    "href": "JC-RAG/index.html#results-3",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "Results",
     "text": "Results\nGeneration Diversity\n\nMeasured as ratio of distinct tri-grams to total tri-grams:\n\n\n\nModel\nMS-MARCO\nJeopardy\n\n\n\n\nGold (human)\n89.6%\n90.0%\n\n\nBART\n70.7%\n32.4%\n\n\nRAG-Token\n77.8%\n46.8%\n\n\nRAG-Sequence\n83.5%\n53.8%\n\n\n\n\nRAG generates significantly more diverse outputs than BART — without any diversity-promoting decoding tricks\nThe retrieval of varied evidence naturally pushes the generator toward more specific, varied language\nBART on Jeopardy at 32.4% - a pure parametric model tends to repeat generic patterns\nRAG is anchored to specific retrieved facts"
   },
   {
-    "objectID": "2026-03-23-RAG/RAG.html#ablations",
-    "href": "2026-03-23-RAG/RAG.html#ablations",
+    "objectID": "JC-RAG/index.html#ablations",
+    "href": "JC-RAG/index.html#ablations",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "Ablations",
     "text": "Ablations\n\n\nFrozen vs. learned retrieval:\n\nRAG-Token with frozen retriever: 37.8 on NQ and 43.5 with learned\nLearning to retrieve is worth ~6 EM points on NQ alone\n\nDense retrieval (DPR) vs. sparse retrieval (BM25):\n\nBM25 replacement tanks QA performance significantly (29.7 vs. 43.5 on NQ for RAG-Token)\nException: FEVER — BM25 performs comparably or better, because fact-checking claims are entity-heavy and keyword overlap is a reliable signal\nFor generation tasks: dense retrieval is crucial\n\nNumber of retrieved documents:\n\nRAG-Sequence: more docs monotonically helps QA\nRAG-Token: performance peaks at K=10, then levels off\nFlexibility to adjust K at inference time without retraining is a practical advantage"
   },
   {
-    "objectID": "2026-03-23-RAG/RAG.html#index-hot-swapping",
-    "href": "2026-03-23-RAG/RAG.html#index-hot-swapping",
+    "objectID": "JC-RAG/index.html#index-hot-swapping",
+    "href": "JC-RAG/index.html#index-hot-swapping",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "Index Hot-Swapping",
-    "text": "Index Hot-Swapping\n\n\nSame trained RAG model, two different Wikipedia indexes (Dec 2016 vs. Dec 2018)\n82 world leaders who changed roles between those dates\n\n\n\n\nIndex\n2016 leaders query\n2018 leaders query\n\n\n\n\n2016 index\n70% correct\n4% correct\n\n\n2018 index\n12% correct\n68% correct\n\n\n\n\nMismatched index has a near-zero accuracy\nMatched index has about 70% accuracy with same model weights, but different index\nRAG’s world knowledge lives in the index, not the weights, and hence a deplyed RAG system can be updated on factual knowledge by replacing its document store\n\nwithout retraining\nwithout fine-tuning"
+    "text": "Index Hot-Swapping\n\n\nSame trained RAG model, two different Wikipedia indexes (Dec 2016 vs. Dec 2018)\n82 world leaders who changed roles between those dates\n\n\n\n\nIndex\n2016 leaders query\n2018 leaders query\n\n\n\n\n2016 index\n70% correct\n4% correct\n\n\n2018 index\n12% correct\n68% correct\n\n\n\n\nMismatched index has a near-zero accuracy\nMatched index has about 70% accuracy with same model weights, but different index\nRAG’s world knowledge lives in the index, not the weights, and hence a deplyed RAG system can be updated on factual knowledge by replacing its document store\n\nwithout retraining\nwithout fine-tuning"
   },
   {
-    "objectID": "2026-03-23-RAG/RAG.html#generation-vs-extraction",
-    "href": "2026-03-23-RAG/RAG.html#generation-vs-extraction",
+    "objectID": "JC-RAG/index.html#generation-vs-extraction",
+    "href": "JC-RAG/index.html#generation-vs-extraction",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "Generation vs Extraction",
     "text": "Generation vs Extraction\n\n\nAll four QA benchmarks in the paper are classified as extractive tasks — the answer exists verbatim in some document.\nStill, RAG’s generative approach beats purpose-built extractive systems.\n\nDocuments that contain clues but not the verbatim answer can still guide generation — extraction can’t use them at all\nMarginalization over \\(K\\) documents lets multiple partial-evidence documents contribute to a single correct answer\nGeneration can synthesize across documents while extraction is limited to one span in one document\nRAG can produce correct answers even when no retrieved document contains the answer"
   },
   {
-    "objectID": "2026-03-23-RAG/RAG.html#parametric-vs-non-parametric-memory",
-    "href": "2026-03-23-RAG/RAG.html#parametric-vs-non-parametric-memory",
+    "objectID": "JC-RAG/index.html#parametric-vs-non-parametric-memory",
+    "href": "JC-RAG/index.html#parametric-vs-non-parametric-memory",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "Parametric vs Non-Parametric Memory",
-    "text": "Parametric vs Non-Parametric Memory\n\n\n\n\nProperty\nParametric (BART weights)\nNon-Parametric (FAISS index)\n\n\n\n\nUpdate mechanism\nRetraining\nIndex replacement\n\n\nInterpretability\nOpaque\nHuman-readable raw text\n\n\nWritability\nNo\nYes — edit documents directly\n\n\nAccess speed\nInstant (forward pass)\nFast (MIPS, sub-linear)\n\n\nKnowledge source\nTraining corpus\nAny document collection\n\n\nHallucination risk\nHigh\nLower (grounded in text)\n\n\n\n\nThe non-parametric memory being raw text (not embeddings) is a design choice\nKeeps the memory human-readable and human-writable\nGives you authority to correct - a factual error can be corrected by editing a document in the index, the same thing cannot be done with weights"
+    "text": "Parametric vs Non-Parametric Memory\n\n\n\n\n\n\n\n\n\nProperty\nParametric (BART weights)\nNon-Parametric (FAISS index)\n\n\n\n\nUpdate mechanism\nRetraining\nIndex replacement\n\n\nInterpretability\nOpaque\nHuman-readable raw text\n\n\nWritability\nNo\nYes — edit documents directly\n\n\nAccess speed\nInstant (forward pass)\nFast (MIPS, sub-linear)\n\n\nKnowledge source\nTraining corpus\nAny document collection\n\n\nHallucination risk\nHigh\nLower (grounded in text)\n\n\n\n\nThe non-parametric memory being raw text (not embeddings) is a design choice\nKeeps the memory human-readable and human-writable\nGives you authority to correct - a factual error can be corrected by editing a document in the index, the same thing cannot be done with weights"
   },
   {
-    "objectID": "2026-03-23-RAG/RAG.html#limitations",
-    "href": "2026-03-23-RAG/RAG.html#limitations",
+    "objectID": "JC-RAG/index.html#limitations",
+    "href": "JC-RAG/index.html#limitations",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "Limitations",
     "text": "Limitations\n\n\nSingle knowledge source (Wikipedia was the one source tested)\nJoint pre-training wasn’t explored, only fine-tuning. was performed\nRAG-Sequencing Decoding doesn’t scale optimally\nKnowledge spanning multiple documents can’t be multi-hopped while reasoning natively\nNo inference regarding when to retrieve vs. when to rely purely on parametric memory"
   },
   {
-    "objectID": "2026-03-23-RAG/RAG.html#legacy-of-the-paper",
-    "href": "2026-03-23-RAG/RAG.html#legacy-of-the-paper",
+    "objectID": "JC-RAG/index.html#legacy-of-the-paper",
+    "href": "JC-RAG/index.html#legacy-of-the-paper",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "Legacy of the Paper",
     "text": "Legacy of the Paper\n\nWhile some of the specific components have been replaced by stronger alternatives, the core ideas from this paper propel the field even today\n\nTreat retrieval as a learnable, differentiable function\nMarginalize over uncertainty in which document is relevant\nSeparate updatable knowledge (index) from reasoning capability (weights)\nTrain end-to-end on (input, output) pairs without document-level supervision\nHot-Swapping has saved retraining costs across the industry- The observation that a 400M parameter model with a good index beats an 11B parameter model without one reshaped how to think about the scaling-vs-retrieval tradeoff"
   },
   {
-    "objectID": "2026-03-23-RAG/RAG.html#current-advances",
-    "href": "2026-03-23-RAG/RAG.html#current-advances",
+    "objectID": "JC-RAG/index.html#current-advances",
+    "href": "JC-RAG/index.html#current-advances",
     "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
     "section": "Current Advances",
     "text": "Current Advances\n\n\nRetrievers\n\nSparse + Dense Hybrid Retrievals outperform and have replaced DPR\nBoth encoders can be fine-tuned using. contrastive learning, solving the frozen document-encoder compromise\n\nGenerators\n\nBART has been replaced by stronger LLMs like LLaMA, Mistral, GPT-4\nCapability to synthesize retrieved context has improved\n\nMulti-Hop RAG\n\nModern systems reads retrieved docs, generates a sub-question, retrieves again, and chains reasoning across multiple retrieval steps\n\nProduction RAG\n\nThe index hot-swap insight became the architectural backbone of virtually every enterprise AI system — LlamaIndex, LangChain, and similar frameworks are essentially RAG pipelines with better chunking, re-ranking, and hybrid retrieval layered on top"
   },
   {
-    "objectID": "HOBISharkTank_2026/pitch_2026.html#section",
-    "href": "HOBISharkTank_2026/pitch_2026.html#section",
-    "title": "Zero Knowledge Medicine",
-    "section": "",
-    "text": "Zero Knowledge Proofs\n\n\n\n\n\n\n\n\nGeneral ZKP workflow - Click on the image for details\n\n\n\nZero Knowledge Proofs (ZKPs) can prove - for a given input and model, an output is produced, without revealing any of the above\n\n\n\n\n\n\nStep 1 - Hospital A publishes one commitment K — a cryptographic fingerprint of its model\n\n\n\n\n\nStep 2 - Hospital B can run that commitment against any of its own patients, any number of times, without Hospital A ever being involved again\n\n\n\n\n\nExample: For Patient 1, the arithmetic circuit finds the feature vector satisfies the AKI decision boundary → proof is TRUE, and the onset window is disclosed. Image generated using Claude\n\n\n\n\n\nExample: For Patient 2, the same circuit finds the vector falls outside the boundary → proof is FALSE, and nothing further is revealed — not even how far below the threshold the patient is. Image generated using Claude"
-  },
-  {
-    "objectID": "HOBISharkTank_2026/pitch_2026.html#thank-you",
-    "href": "HOBISharkTank_2026/pitch_2026.html#thank-you",
-    "title": "Zero Knowledge Medicine",
-    "section": "Thank You!",
-    "text": "Thank You!\n\nThis presentation was made using Quarto. Quarto enables you to weave together content and executable code into a finished document. Click here learn more about Quarto."
-  },
-  {
-    "objectID": "GMS6805_20260226/slides.html#limitations-in-current-methods",
-    "href": "GMS6805_20260226/slides.html#limitations-in-current-methods",
-    "title": "Learning the Natural History of Human Disease with Generative Transformers",
-    "section": "Limitations in current methods",
-    "text": "Limitations in current methods\n\n\nDiseases and conditions don’t happen in  isolation  - they cluster and affect each other’s progression\nCurrent risk prediction methods operate in silos, concentrating on  one condition  at a time\nIn most patients with intensive health burden, for e.g. aging populations, better models are required to represent the complexity of multiple diseases and their progression"
-  },
-  {
-    "objectID": "GMS6805_20260226/slides.html#mapping-human-history-as-a-large-language-model-llm",
-    "href": "GMS6805_20260226/slides.html#mapping-human-history-as-a-large-language-model-llm",
-    "title": "Learning the Natural History of Human Disease with Generative Transformers",
-    "section": "Mapping human history as a large language model (LLM)",
-    "text": "Mapping human history as a large language model (LLM)\n\n\nLLMs, like ChatGPT and Claude, use statistical models to predict the next word in a sentence based on the previous words\nThe paper hypothesizes that a similar approach can be applied to disease progression, where past diagnoses can be used to predict future ones\nDiseases are “words,” a patient’s health history is a “sentence”"
-  },
-  {
-    "objectID": "GMS6805_20260226/slides.html#gpt-2-vs-delphi-2m",
-    "href": "GMS6805_20260226/slides.html#gpt-2-vs-delphi-2m",
-    "title": "Learning the Natural History of Human Disease with Generative Transformers",
-    "section": "GPT-2 vs Delphi-2M",
-    "text": "GPT-2 vs Delphi-2M\n\n\n\n\n\n\n\n\nGPT-2 (Original)\nDelphi-2M (Modified)\n\n\n\n\nDiscrete positional encoding\nContinuous age encoding (sine/cosine)\n\n\nPredicts next token only\nAlso predicts time to next event (exponential model)\n\n\nStandard causal masking\nMasks same-time tokens (no circular causality)\n\n\n\n\nModel size: 2.2 million parameters (12 layers, 12 heads, 120-dim embedding)\nFollows empirical scaling laws — performance improves with more data"
-  },
-  {
-    "objectID": "GMS6805_20260226/slides.html#results-and-discussion",
-    "href": "GMS6805_20260226/slides.html#results-and-discussion",
-    "title": "Learning the Natural History of Human Disease with Generative Transformers",
-    "section": "Results and Discussion",
-    "text": "Results and Discussion\n\n\nPerformed significantly well across ~1,000 diseases\nAverage AUC ~0.76 across all diseases in internal validation\n97% of diagnoses had AUC &gt; 0.5 (better than random)\nPredicting death: AUC = 0.97\nPerformance holds up to 10 years into the future (AUC ~0.70)\n\nCompared to current standards:\n\nMatches or beats cardiovascular risk scores (Framingham, QRisk3)\nMatches dementia risk scores (UKBDRS)\nOutperforms death prediction tools (Charlson, Elixhauser)"
-  },
-  {
-    "objectID": "GMS6805_20260226/slides.html#results-and-discussion-1",
-    "href": "GMS6805_20260226/slides.html#results-and-discussion-1",
-    "title": "Learning the Natural History of Human Disease with Generative Transformers",
-    "section": "Results and Discussion",
-    "text": "Results and Discussion\n\n\nFor a patient with digestive tract diseases → pancreatic cancer risk elevated 19×\nPancreatic cancer diagnosis → mortality rate elevated ~93,000×\nChickenpox peaks in childhood; heart attacks rise exponentially with age\nDelphi updates each person’s risk every time a new diagnosis is recorded"
-  },
-  {
-    "objectID": "GMS6805_20260226/slides.html#clinical-and-biological-revalence",
-    "href": "GMS6805_20260226/slides.html#clinical-and-biological-revalence",
-    "title": "Learning the Natural History of Human Disease with Generative Transformers",
-    "section": "Clinical and Biological Revalence",
-    "text": "Clinical and Biological Revalence\n\n\nUnlike conventional models, Delphi can sample entire future health trajectories\nInput: everything known about a patient up to age 60\nOutput: simulated health events for the next 20 years\nApplications:\n\nEstimating future disease burden at population scale\nPlanning healthcare resources for specific communities\nIdentifying who needs screening before conventional age thresholds"
-  },
-  {
-    "objectID": "GMS6805_20260226/slides.html#clinical-and-biological-revalence-2",
-    "href": "GMS6805_20260226/slides.html#clinical-and-biological-revalence-2",
-    "title": "Learning the Natural History of Human Disease with Generative Transformers",
-    "section": "Clinical and Biological Revalence",
-    "text": "Clinical and Biological Revalence\n\n\nEarly Cancer or any disease screenings\nClinical Decision Support by including multi-disease risk\nPredicting community-level disease burden for healthcare planning\nDigital Twin technology and Similar Patient identification for personalized medicine"
-  },
-  {
-    "objectID": "GMS6805_20260226/slides.html#limitations",
-    "href": "GMS6805_20260226/slides.html#limitations",
-    "title": "Learning the Natural History of Human Disease with Generative Transformers",
-    "section": "Limitations",
-    "text": "Limitations\n\n\nOnly predicts correlations, not causations\nLimited performance for ages 80+ (insufficient training data)\nDiabetes prediction still outperformed by a single blood biomarker (HbA1c)\nUK Biobank population is skewed towards white, affluent, educated — the healthy volunteer bias\nRecruitment ages are between 40-70 years old and hence underestimates early mortality (immortality bias)\nData source missingness (hospital vs. GP records) influences predictions"
-  },
-  {
-    "objectID": "GMS6805_20260226/slides.html#future-directions",
-    "href": "GMS6805_20260226/slides.html#future-directions",
-    "title": "Learning the Natural History of Human Disease with Generative Transformers",
-    "section": "Future Directions",
-    "text": "Future Directions\n\n\nAdd genomic data, imaging, wearables, prescription records\nConnect Delphi to LLMs as a risk module\nIntegration of free-text clinical notes\n\nIf interested, you can also read Dr. Yonghui Wu’s thoughts on the paper in Nature"
-  },
-  {
-    "objectID": "GMS6805_20260226/slides.html#information-modelling-context",
-    "href": "GMS6805_20260226/slides.html#information-modelling-context",
-    "title": "Learning the Natural History of Human Disease with Generative Transformers",
-    "section": "Information Modelling Context",
-    "text": "Information Modelling Context\n\n\nBased on the study, results and limitations presented by the researchers, they use the phrase AI very carefully (less than 10 times in the paper text)\nA rational understanding of Delphi will validate the same - there is nothing artificially intelligent about it\nIt is a statistical model that learns patterns in data and makes predictions based on those patterns\nThe part that seperates it from other similar studies is their implmentation of disease history modelling as the input for their model, representing events in a time-series, generalizable to any patient in any common data model (For e.g. i2b2, OMOP, PCORNET, etc.)\nFixed coordinate systems are not a new concept- principles of genetic data analysis are build on genomic coordinates that are uniform across all patients, and hence it is easier to identify mutations and changes and make inferences about their effects on disease risk and progression\nSimilarly, the use of age as a coordinate system for disease history allows for a more standardized and interpretable representation of health trajectories, which can be applied across different patient populations and healthcare settings"
-  },
-  {
-    "objectID": "GMS6805_20260226/slides.html#questions",
-    "href": "GMS6805_20260226/slides.html#questions",
-    "title": "Learning the Natural History of Human Disease with Generative Transformers",
+    "objectID": "GMS6805_FCT_CDM/index.html#questions",
+    "href": "GMS6805_FCT_CDM/index.html#questions",
+    "title": "Fixed Coordinate Temporal Architecture",
     "section": "Questions?",
     "text": "Questions?"
+  },
+  {
+    "objectID": "GMS6805_FCT_CDM/index.html#thank-you",
+    "href": "GMS6805_FCT_CDM/index.html#thank-you",
+    "title": "Fixed Coordinate Temporal Architecture",
+    "section": "Thank you",
+    "text": "Thank you\n\nThis presentation was made using Quarto. Quarto enables you to weave together content and executable code into a finished document. Click here learn more about Quarto."
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#limitations-in-current-methods-of-variant-interpretation",
+    "href": "GMS6804_20260217/index.html#limitations-in-current-methods-of-variant-interpretation",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "Limitations in current methods of variant interpretation",
+    "text": "Limitations in current methods of variant interpretation\n\nTraditional penetrance estimates rely on small, disease-enriched cohorts → ascertainment bias\nPatients are classified in a binary manner - case/control, sick/healthy, etc. while ignoring the fact that diseases exist on a spectrum\nStudies with smaller scope cannot assess rare variants with significant accuracy\nDifficult to interpret if Variants of Uncertain Signifance (VUS) are associated with disease pathogenecity or are harmful"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#research-question",
+    "href": "GMS6804_20260217/index.html#research-question",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "Research Question",
+    "text": "Research Question\n\n\nGiven a genetic variant exists in a patient, can machine learning and statistical methods predict what is its penetrance?"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#methodology",
+    "href": "GMS6804_20260217/index.html#methodology",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "Methodology",
+    "text": "Methodology\n\n\n\nDevelopment, testing, and application of disease-predictive ML models to generate disease scores\nIdentification of individuals carrying rare P variants in genes corresponding to 10 dominant genetic conditions\n\n\n\n\n\n\nArrhythmogenic Right Ventricular Cardiomyopathy (ARVC)\nFamilial Breast Cancer (FBC)\nFamilial Hypercholesterolemia (FH)\nHypertrophic Cardiomyopathy (HCM)\nAdult Hypophosphatasia (HPP)\n\n\n\n\n\nLong QT Syndrome (LQTS)\nLynch Syndrome (LS)\nMonogenic Diabetes (MD)\nPolycystic Kidney Disease (PKD)\nvon Willebrand Disease (VWD)\n\n\n\n\n\nComputation and characterization of ML penetrance"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#methodology-1",
+    "href": "GMS6804_20260217/index.html#methodology-1",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "Methodology",
+    "text": "Methodology\n\n\n\nThe disease scores can be used as a continuous measure of measuring odds of disease.\nInstead of\n\n\n“you have the variant, you might get sick”\n\n\nthe model will allow us to predict\n\n“you have this variant, based on the data, you risk for disease is x%”"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#data",
+    "href": "GMS6804_20260217/index.html#data",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "Data",
+    "text": "Data\n\n\n\n\nCohort\nN Participants\nPurpose\nMedian Age\n\n\n\n\nMSDW\n1,325,257\nModel training & validation\n55 years\n\n\nBioMe ML\n22,041\nModel testing (holdout)\n56 years\n\n\nBioMe Exome\n28,953\nPenetrance assessment\n65 years"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#workflow",
+    "href": "GMS6804_20260217/index.html#workflow",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "Workflow",
+    "text": "Workflow"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#prediction-model-features",
+    "href": "GMS6804_20260217/index.html#prediction-model-features",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "Prediction Model Features",
+    "text": "Prediction Model Features\n\nInput Features (47 lab tests + 9 vital signs)\n\nRoutine laboratory measurements (median values)\nComplete blood count, metabolic panel\nLipid profiles, liver/kidney function\nVital signs (BP, heart rate, BMI)\nDemographics (age, sex, ancestry)"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#predictive-performance-of-ml-models",
+    "href": "GMS6804_20260217/index.html#predictive-performance-of-ml-models",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "Predictive Performance of ML Models",
+    "text": "Predictive Performance of ML Models\n\n\n\n\nMetric\nMSDW (Internal)\nBioMe (Holdout)\n\n\n\n\nMean AUROC\n0.85 (0.77-0.95)\n0.84 (0.79-0.95)\n\n\nSensitivity\n0.77 (0.70-0.87)\n0.78 (0.74-0.88)\n\n\nSpecificity\n0.78 (0.68-0.91)\n0.78 (0.67-0.92)\n\n\n\nExample:\n\nFH model identified LDL-C, total cholesterol, age, and HDL-C as most important features\nGlucose, age, body mass index (BMI), and glomerular filtration rate (GFR) were the most important features for the MD models"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#ml-penetrance-evaluation",
+    "href": "GMS6804_20260217/index.html#ml-penetrance-evaluation",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "ML Penetrance Evaluation",
+    "text": "ML Penetrance Evaluation\n\n\nApply ML models to generate continuous disease probability scores (0-1)\nUse Generalized Linear Mixed-Effects Model (GLMM) to compute penetrance\nAccounts for variability between carriers and across ML iterations\n\nlogit-transformed disease scores from all 50 ML iterations in all carriers, which accounted for variability in scores between different carriers (random effects term) and variability in scores between different ML iterations within the same individual (residual random effects term)\nThe model’s inverse logit coefficients and error terms were then used to provide a point estimate of ML penetrance, 95% confidence interval (95% CI), and p-value"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#ml-penetrance-results",
+    "href": "GMS6804_20260217/index.html#ml-penetrance-results",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "ML Penetrance Results",
+    "text": "ML Penetrance Results\n\n\n\n\n\n\n\n\n\nFinding Category\nKey Results\nStatistical Significance\n\n\n\n\nPathogenic vs. Benign Variants\nPathogenic variants: median ML penetrance = 0.52 (IQR 0.38)Benign variants: median ML penetrance = 0.28 (IQR 0.22)\np-value = 6.1 × 10⁻⁸\n\n\nRare vs. Common Variants\nRare variants (AF &lt;0.001): median penetrance = 0.46Common variants (AF ≥0.001): median penetrance = 0.28\np-value = 8.9 × 10⁻⁴⁸"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#ml-penetrance-results-1",
+    "href": "GMS6804_20260217/index.html#ml-penetrance-results-1",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "ML Penetrance Results",
+    "text": "ML Penetrance Results\n\n\n\n\n\n\n\n\n\nFinding Category\nKey Results\nStatistical Significance\n\n\n\n\nClinical Outcome Correlation - PKD\nPer 0.1 increase in ML penetrance:• Chronic kidney disease: OR = 1.11• End-stage renal disease: OR = 1.09• Secondary hypertension: OR = 1.05\np-value = 2.9×10⁻¹³p-value = 4.7×10⁻¹³p-value = 1.3×10⁻⁸\n\n\nClinical Outcome Correlation - FH\nMyocardial infarction: OR = 1.02 per 0.1 ML penetrance increase\np-value = 2.4×10⁻³"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#ml-penetrance-results-2",
+    "href": "GMS6804_20260217/index.html#ml-penetrance-results-2",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "ML Penetrance Results",
+    "text": "ML Penetrance Results\n\n\n\n\n\n\n\n\n\nFinding Category\nKey Results\nStatistical Significance\n\n\n\n\nFunctional Validation - BRCA1\n0.01 increase in ML penetrance → 0.027 decrease in DNA repair function score\np-value = 2.9×10⁻³\n\n\nFunctional Validation - LDLR\nHigher ML penetrance correlated with reduced LDL uptake\nr = -0.76, p-value = 0.021\n\n\nFunctional Validation - KCNQ1\nHigher ML penetrance → 303-ms increase in deactivation time\np-value = 9.1×10⁻³"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#ml-penetrance-results-3",
+    "href": "GMS6804_20260217/index.html#ml-penetrance-results-3",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "ML Penetrance Results",
+    "text": "ML Penetrance Results\n\n\n\n\n\n\n\n\n\nFinding Category\nKey Results\nStatistical Significance\n\n\n\n\nModel Performance\nMean AUROC: 0.85 (MSDW) and 0.84 (BioMe ML)Mean sensitivity: 0.77-0.78Mean specificity: 0.78\nRange: 0.77-0.95\n\n\nVUS Characterization\nVUS median ML penetrance = 0.46 (IQR 0.31)Higher than benign, lower than pathogenic\np-value = 4.9×10⁻⁸ vs. Bp-value = 0.011 vs. P"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#ml-penetrance-results-4",
+    "href": "GMS6804_20260217/index.html#ml-penetrance-results-4",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "ML Penetrance Results",
+    "text": "ML Penetrance Results\n\n\n\n\n\n\n\n\n\nFinding Category\nKey Results\nStatistical Significance\n\n\n\n\nLoF Variants\nMedian ML penetrance = 0.48 (IQR 0.36)Higher than benign variants21% had high penetrance ≥0.75, 18% had low penetrance ≤0.25\np-value = 5.7×10⁻⁸"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#ml-penetrance-results-5",
+    "href": "GMS6804_20260217/index.html#ml-penetrance-results-5",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "ML Penetrance Results",
+    "text": "ML Penetrance Results\n\n\n\n\n\n\n\n\n\nFinding Category\nKey Results\nStatistical Significance\n\n\n\n\nUK Biobank Validation\nML penetrance values significantly correlated across BioMe and UK BiobankStrongest correlations: ARVC (R=0.96), MD (R=0.58)\np-value = 1.8×10⁻³ overall"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#clinical-applications",
+    "href": "GMS6804_20260217/index.html#clinical-applications",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "Clinical Applications",
+    "text": "Clinical Applications\n\n\nImproved Variant Classification: Quantitative risk estimates beyond P/LP/VUS categories\nEnhanced Risk Stratification: Individualized screening protocols based on ML penetrance\nGenetic Counseling: More precise risk communication to patients\nClinical Trial Recruitment: Identify high-penetrance variant carriers\nResource Allocation: Prioritize monitoring for high-risk individuals"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#study-strengths",
+    "href": "GMS6804_20260217/index.html#study-strengths",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "Study Strengths",
+    "text": "Study Strengths\n\n\nLarge-scale: &gt;1.3 million participants with deep phenotyping\nUnselected population: Reduced ascertainment bias vs. family studies\nQuantitative: Continuous penetrance estimates, not binary\nClinically grounded: Uses routine lab data already in EHR\nValidated: Functional data, clinical outcomes, external cohorts\nHigh-throughput: Scalable to other health systems and diseases"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#limitations-future-directions",
+    "href": "GMS6804_20260217/index.html#limitations-future-directions",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "Limitations & Future Directions",
+    "text": "Limitations & Future Directions\n\nLimitations:\n\nDependent on EHR data quality and completeness\nFocused on autosomal dominant conditions\nLimited diversity in training cohorts\nDoes not address genetic modifiers or environmental factors\n\nFuture Work:\n\nExtend to other inheritance patterns and rare diseases\nDevelop ancestry-specific models\nProspective studies following variant carriers longitudinally\nIntegration with functional assays and polygenic risk scores"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#key-takeaways",
+    "href": "GMS6804_20260217/index.html#key-takeaways",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "Key Takeaways",
+    "text": "Key Takeaways\n\n\nML-based penetrance provides refined, quantitative disease risk estimates for genetic variants\nML penetrance correlates with clinical outcomes and functional data, validating biological relevance\nEnables interpretation of VUS and LoF variants through clinical trajectory analysis\nRepresents a scalable blueprint for precision medicine using routine EHR data"
   },
   {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Presentations",
     "section": "",
-    "text": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension\n                    \n                \n                \n                    Rahman MA, Cai C, Bo N, et al. BMC Genomics\n                \n                \n                    August 31, 2026\n                \n                \n                    Journal club — Rahman MA, Cai C, Bo N, et al. BMC Genomics.\n                \n            \n\n            \n            \n                \n                    \n                            Journal Club\n                        \n                    \n                    \n                            GMS 7858\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Fixed Coordinate Temporal Architecture\n                    \n                \n                \n                    Fixed Coordinate Tensor Data Model for EHR Representation\n                \n                \n                    April 16, 2026\n                \n                \n                    Fixed Coordinate Tensor Data Model for EHR representation.\n                \n            \n\n            \n            \n                \n                    \n                            GMS 6805\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Zero Knowledge Medicine\n                    \n                \n                \n                    Privacy Preserving Fixed Coordinate Temporal Architecture\n                \n                \n                    March 25, 2026\n                \n                \n                    Privacy-preserving Fixed Coordinate Temporal Architecture — HOBI Shark Tank pitch.\n                \n            \n\n            \n            \n                \n                    \n                            Pitch\n                        \n                    \n                    \n                            HOBI Shark Tank\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks\n                    \n                \n                \n                \n                    March 23, 2026\n                \n                \n                    Journal club — Lewis et al. (2020).\n                \n            \n\n            \n            \n                \n                    \n                            Journal Club\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Learning the Natural History of Human Disease with Generative Transformers\n                    \n                \n                \n                \n                    February 26, 2026\n                \n                \n                    GMS 6805 seminar presentation.\n                \n            \n\n            \n            \n                \n                    \n                            GMS 6805\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Machine Learning-Based Penetrance of Genetic Variants\n                    \n                \n                \n                \n                    February 17, 2026\n                \n                \n                    GMS 6804 presentation — Forrest IS, Vy HMT, Rocheleau G, et al. Science (2025).\n                \n            \n\n            \n            \n                \n                    \n                            GMS 6804\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n\n\nNo matching items"
+    "text": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension\n                    \n                \n                \n                    Rahman MA, Cai C, Bo N, et al. BMC Genomics\n                \n                \n                    August 31, 2026\n                \n                \n                    An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension — Rahman MA, Cai C, Bo N, et al. BMC Genomics.\n                \n            \n\n            \n            \n                \n                    \n                            GMS 7858\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Fixed Coordinate Temporal Architecture\n                    \n                \n                \n                    Fixed Coordinate Tensor Data Model for EHR Representation\n                \n                \n                    April 16, 2026\n                \n                \n                    GMS 6805 - Fixed Coordinate Tensor Data Model for EHR representation\n                \n            \n\n            \n            \n                \n                    \n                            GMS 6805\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Zero Knowledge Medicine\n                    \n                \n                \n                    Privacy Preserving Fixed Coordinate Temporal Architecture\n                \n                \n                    March 25, 2026\n                \n                \n                    Privacy-preserving Fixed Coordinate Temporal Architecture — HOBI Shark Tank pitch\n                \n            \n\n            \n            \n                \n                    \n                            Pitch\n                        \n                    \n                    \n                            HOBI Shark Tank\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks\n                    \n                \n                \n                \n                    March 23, 2026\n                \n                \n                    Journal Club — Lewis et al. (2020).\n                \n            \n\n            \n            \n                \n                    \n                            Journal Club\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Learning the Natural History of Human Disease with Generative Transformers\n                    \n                \n                \n                \n                    February 26, 2026\n                \n                \n                    GMS 6805 Presentation — Nature 647, 248–256 (2025).\n                \n            \n\n            \n            \n                \n                    \n                            GMS 6805\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Machine Learning-Based Penetrance of Genetic Variants\n                    \n                \n                \n                    Forrest IS, Vy HMT, Rocheleau G, et al. Science\n                \n                \n                    February 17, 2026\n                \n                \n                    GMS 6804 Presentation — Forrest IS, Vy HMT, Rocheleau G, et al. Science (2025).\n                \n            \n\n            \n            \n                \n                    \n                            GMS 6804\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n\n\nNo matching items"
   },
   {
     "objectID": "index.html#presentations",
     "href": "index.html#presentations",
     "title": "Presentations",
     "section": "",
-    "text": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension\n                    \n                \n                \n                    Rahman MA, Cai C, Bo N, et al. BMC Genomics\n                \n                \n                    August 31, 2026\n                \n                \n                    Journal club — Rahman MA, Cai C, Bo N, et al. BMC Genomics.\n                \n            \n\n            \n            \n                \n                    \n                            Journal Club\n                        \n                    \n                    \n                            GMS 7858\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Fixed Coordinate Temporal Architecture\n                    \n                \n                \n                    Fixed Coordinate Tensor Data Model for EHR Representation\n                \n                \n                    April 16, 2026\n                \n                \n                    Fixed Coordinate Tensor Data Model for EHR representation.\n                \n            \n\n            \n            \n                \n                    \n                            GMS 6805\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Zero Knowledge Medicine\n                    \n                \n                \n                    Privacy Preserving Fixed Coordinate Temporal Architecture\n                \n                \n                    March 25, 2026\n                \n                \n                    Privacy-preserving Fixed Coordinate Temporal Architecture — HOBI Shark Tank pitch.\n                \n            \n\n            \n            \n                \n                    \n                            Pitch\n                        \n                    \n                    \n                            HOBI Shark Tank\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks\n                    \n                \n                \n                \n                    March 23, 2026\n                \n                \n                    Journal club — Lewis et al. (2020).\n                \n            \n\n            \n            \n                \n                    \n                            Journal Club\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Learning the Natural History of Human Disease with Generative Transformers\n                    \n                \n                \n                \n                    February 26, 2026\n                \n                \n                    GMS 6805 seminar presentation.\n                \n            \n\n            \n            \n                \n                    \n                            GMS 6805\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Machine Learning-Based Penetrance of Genetic Variants\n                    \n                \n                \n                \n                    February 17, 2026\n                \n                \n                    GMS 6804 presentation — Forrest IS, Vy HMT, Rocheleau G, et al. Science (2025).\n                \n            \n\n            \n            \n                \n                    \n                            GMS 6804\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n\n\nNo matching items"
+    "text": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension\n                    \n                \n                \n                    Rahman MA, Cai C, Bo N, et al. BMC Genomics\n                \n                \n                    August 31, 2026\n                \n                \n                    An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension — Rahman MA, Cai C, Bo N, et al. BMC Genomics.\n                \n            \n\n            \n            \n                \n                    \n                            GMS 7858\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Fixed Coordinate Temporal Architecture\n                    \n                \n                \n                    Fixed Coordinate Tensor Data Model for EHR Representation\n                \n                \n                    April 16, 2026\n                \n                \n                    GMS 6805 - Fixed Coordinate Tensor Data Model for EHR representation\n                \n            \n\n            \n            \n                \n                    \n                            GMS 6805\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Zero Knowledge Medicine\n                    \n                \n                \n                    Privacy Preserving Fixed Coordinate Temporal Architecture\n                \n                \n                    March 25, 2026\n                \n                \n                    Privacy-preserving Fixed Coordinate Temporal Architecture — HOBI Shark Tank pitch\n                \n            \n\n            \n            \n                \n                    \n                            Pitch\n                        \n                    \n                    \n                            HOBI Shark Tank\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks\n                    \n                \n                \n                \n                    March 23, 2026\n                \n                \n                    Journal Club — Lewis et al. (2020).\n                \n            \n\n            \n            \n                \n                    \n                            Journal Club\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Learning the Natural History of Human Disease with Generative Transformers\n                    \n                \n                \n                \n                    February 26, 2026\n                \n                \n                    GMS 6805 Presentation — Nature 647, 248–256 (2025).\n                \n            \n\n            \n            \n                \n                    \n                            GMS 6805\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Machine Learning-Based Penetrance of Genetic Variants\n                    \n                \n                \n                    Forrest IS, Vy HMT, Rocheleau G, et al. Science\n                \n                \n                    February 17, 2026\n                \n                \n                    GMS 6804 Presentation — Forrest IS, Vy HMT, Rocheleau G, et al. Science (2025).\n                \n            \n\n            \n            \n                \n                    \n                            GMS 6804\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n\n\nNo matching items"
   },
   {
-    "objectID": "GMS6804_20260217/slides.html#limitations-in-current-methods-of-variant-interpretation",
-    "href": "GMS6804_20260217/slides.html#limitations-in-current-methods-of-variant-interpretation",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "Limitations in current methods of variant interpretation",
-    "text": "Limitations in current methods of variant interpretation\n\nTraditional penetrance estimates rely on small, disease-enriched cohorts → ascertainment bias\nPatients are classified in a binary manner - case/control, sick/healthy, etc. while ignoring the fact that diseases exist on a spectrum\nStudies with smaller scope cannot assess rare variants with significant accuracy\nDifficult to interpret if Variants of Uncertain Signifance (VUS) are associated with disease pathogenecity or are harmful"
-  },
-  {
-    "objectID": "GMS6804_20260217/slides.html#research-question",
-    "href": "GMS6804_20260217/slides.html#research-question",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "Research Question",
-    "text": "Research Question\n\n\nGiven a genetic variant exists in a patient, can machine learning and statistical methods predict what is its penetrance?"
-  },
-  {
-    "objectID": "GMS6804_20260217/slides.html#methodology",
-    "href": "GMS6804_20260217/slides.html#methodology",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "Methodology",
-    "text": "Methodology\n\n\n\nDevelopment, testing, and application of disease-predictive ML models to generate disease scores\nIdentification of individuals carrying rare P variants in genes corresponding to 10 dominant genetic conditions\n\n\n\n\n\n\nArrhythmogenic Right Ventricular Cardiomyopathy (ARVC)\nFamilial Breast Cancer (FBC)\nFamilial Hypercholesterolemia (FH)\nHypertrophic Cardiomyopathy (HCM)\nAdult Hypophosphatasia (HPP)\n\n\n\n\n\nLong QT Syndrome (LQTS)\nLynch Syndrome (LS)\nMonogenic Diabetes (MD)\nPolycystic Kidney Disease (PKD)\nvon Willebrand Disease (VWD)\n\n\n\n\n\nComputation and characterization of ML penetrance"
-  },
-  {
-    "objectID": "GMS6804_20260217/slides.html#methodology-1",
-    "href": "GMS6804_20260217/slides.html#methodology-1",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "Methodology",
-    "text": "Methodology\n\n\n\nThe disease scores can be used as a continuous measure of measuring odds of disease.\nInstead of\n\n\n“you have the variant, you might get sick”\n\n\nthe model will allow us to predict\n\n“you have this variant, based on the data, you risk for disease is x%”"
-  },
-  {
-    "objectID": "GMS6804_20260217/slides.html#data",
-    "href": "GMS6804_20260217/slides.html#data",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "Data",
-    "text": "Data\n\n\n\n\nCohort\nN Participants\nPurpose\nMedian Age\n\n\n\n\nMSDW\n1,325,257\nModel training & validation\n55 years\n\n\nBioMe ML\n22,041\nModel testing (holdout)\n56 years\n\n\nBioMe Exome\n28,953\nPenetrance assessment\n65 years"
-  },
-  {
-    "objectID": "GMS6804_20260217/slides.html#workflow",
-    "href": "GMS6804_20260217/slides.html#workflow",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "Workflow",
-    "text": "Workflow"
-  },
-  {
-    "objectID": "GMS6804_20260217/slides.html#prediction-model-features",
-    "href": "GMS6804_20260217/slides.html#prediction-model-features",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "Prediction Model Features",
-    "text": "Prediction Model Features\n\nInput Features (47 lab tests + 9 vital signs)\n\nRoutine laboratory measurements (median values)\nComplete blood count, metabolic panel\nLipid profiles, liver/kidney function\nVital signs (BP, heart rate, BMI)\nDemographics (age, sex, ancestry)"
-  },
-  {
-    "objectID": "GMS6804_20260217/slides.html#predictive-performance-of-ml-models",
-    "href": "GMS6804_20260217/slides.html#predictive-performance-of-ml-models",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "Predictive Performance of ML Models",
-    "text": "Predictive Performance of ML Models\n\n\n\n\nMetric\nMSDW (Internal)\nBioMe (Holdout)\n\n\n\n\nMean AUROC\n0.85 (0.77-0.95)\n0.84 (0.79-0.95)\n\n\nSensitivity\n0.77 (0.70-0.87)\n0.78 (0.74-0.88)\n\n\nSpecificity\n0.78 (0.68-0.91)\n0.78 (0.67-0.92)\n\n\n\nExample:\n\nFH model identified LDL-C, total cholesterol, age, and HDL-C as most important features\nGlucose, age, body mass index (BMI), and glomerular filtration rate (GFR) were the most important features for the MD models"
-  },
-  {
-    "objectID": "GMS6804_20260217/slides.html#ml-penetrance-evaluation",
-    "href": "GMS6804_20260217/slides.html#ml-penetrance-evaluation",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "ML Penetrance Evaluation",
-    "text": "ML Penetrance Evaluation\n\n\nApply ML models to generate continuous disease probability scores (0-1)\nUse Generalized Linear Mixed-Effects Model (GLMM) to compute penetrance\nAccounts for variability between carriers and across ML iterations\n\nlogit-transformed disease scores from all 50 ML iterations in all carriers, which accounted for variability in scores between different carriers (random effects term) and variability in scores between different ML iterations within the same individual (residual random effects term)\nThe model’s inverse logit coefficients and error terms were then used to provide a point estimate of ML penetrance, 95% confidence interval (95% CI), and p-value"
-  },
-  {
-    "objectID": "GMS6804_20260217/slides.html#ml-penetrance-results",
-    "href": "GMS6804_20260217/slides.html#ml-penetrance-results",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "ML Penetrance Results",
-    "text": "ML Penetrance Results\n\n\n\n\n\n\n\n\n\nFinding Category\nKey Results\nStatistical Significance\n\n\n\n\nPathogenic vs. Benign Variants\nPathogenic variants: median ML penetrance = 0.52 (IQR 0.38)Benign variants: median ML penetrance = 0.28 (IQR 0.22)\np-value = 6.1 × 10⁻⁸\n\n\nRare vs. Common Variants\nRare variants (AF &lt;0.001): median penetrance = 0.46Common variants (AF ≥0.001): median penetrance = 0.28\np-value = 8.9 × 10⁻⁴⁸"
-  },
-  {
-    "objectID": "GMS6804_20260217/slides.html#ml-penetrance-results-1",
-    "href": "GMS6804_20260217/slides.html#ml-penetrance-results-1",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "ML Penetrance Results",
-    "text": "ML Penetrance Results\n\n\n\n\n\n\n\n\n\nFinding Category\nKey Results\nStatistical Significance\n\n\n\n\nClinical Outcome Correlation - PKD\nPer 0.1 increase in ML penetrance:• Chronic kidney disease: OR = 1.11• End-stage renal disease: OR = 1.09• Secondary hypertension: OR = 1.05\np-value = 2.9×10⁻¹³p-value = 4.7×10⁻¹³p-value = 1.3×10⁻⁸\n\n\nClinical Outcome Correlation - FH\nMyocardial infarction: OR = 1.02 per 0.1 ML penetrance increase\np-value = 2.4×10⁻³"
-  },
-  {
-    "objectID": "GMS6804_20260217/slides.html#ml-penetrance-results-2",
-    "href": "GMS6804_20260217/slides.html#ml-penetrance-results-2",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "ML Penetrance Results",
-    "text": "ML Penetrance Results\n\n\n\n\n\n\n\n\n\nFinding Category\nKey Results\nStatistical Significance\n\n\n\n\nFunctional Validation - BRCA1\n0.01 increase in ML penetrance → 0.027 decrease in DNA repair function score\np-value = 2.9×10⁻³\n\n\nFunctional Validation - LDLR\nHigher ML penetrance correlated with reduced LDL uptake\nr = -0.76, p-value = 0.021\n\n\nFunctional Validation - KCNQ1\nHigher ML penetrance → 303-ms increase in deactivation time\np-value = 9.1×10⁻³"
-  },
-  {
-    "objectID": "GMS6804_20260217/slides.html#ml-penetrance-results-3",
-    "href": "GMS6804_20260217/slides.html#ml-penetrance-results-3",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "ML Penetrance Results",
-    "text": "ML Penetrance Results\n\n\n\n\n\n\n\n\n\nFinding Category\nKey Results\nStatistical Significance\n\n\n\n\nModel Performance\nMean AUROC: 0.85 (MSDW) and 0.84 (BioMe ML)Mean sensitivity: 0.77-0.78Mean specificity: 0.78\nRange: 0.77-0.95\n\n\nVUS Characterization\nVUS median ML penetrance = 0.46 (IQR 0.31)Higher than benign, lower than pathogenic\np-value = 4.9×10⁻⁸ vs. Bp-value = 0.011 vs. P"
-  },
-  {
-    "objectID": "GMS6804_20260217/slides.html#ml-penetrance-results-4",
-    "href": "GMS6804_20260217/slides.html#ml-penetrance-results-4",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "ML Penetrance Results",
-    "text": "ML Penetrance Results\n\n\n\n\n\n\n\n\n\nFinding Category\nKey Results\nStatistical Significance\n\n\n\n\nLoF Variants\nMedian ML penetrance = 0.48 (IQR 0.36)Higher than benign variants21% had high penetrance ≥0.75, 18% had low penetrance ≤0.25\np-value = 5.7×10⁻⁸"
-  },
-  {
-    "objectID": "GMS6804_20260217/slides.html#ml-penetrance-results-5",
-    "href": "GMS6804_20260217/slides.html#ml-penetrance-results-5",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "ML Penetrance Results",
-    "text": "ML Penetrance Results\n\n\n\n\n\n\n\n\n\nFinding Category\nKey Results\nStatistical Significance\n\n\n\n\nUK Biobank Validation\nML penetrance values significantly correlated across BioMe and UK BiobankStrongest correlations: ARVC (R=0.96), MD (R=0.58)\np-value = 1.8×10⁻³ overall"
-  },
-  {
-    "objectID": "GMS6804_20260217/slides.html#clinical-applications",
-    "href": "GMS6804_20260217/slides.html#clinical-applications",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "Clinical Applications",
-    "text": "Clinical Applications\n\n\nImproved Variant Classification: Quantitative risk estimates beyond P/LP/VUS categories\nEnhanced Risk Stratification: Individualized screening protocols based on ML penetrance\nGenetic Counseling: More precise risk communication to patients\nClinical Trial Recruitment: Identify high-penetrance variant carriers\nResource Allocation: Prioritize monitoring for high-risk individuals"
-  },
-  {
-    "objectID": "GMS6804_20260217/slides.html#study-strengths",
-    "href": "GMS6804_20260217/slides.html#study-strengths",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "Study Strengths",
-    "text": "Study Strengths\n\n\nLarge-scale: &gt;1.3 million participants with deep phenotyping\nUnselected population: Reduced ascertainment bias vs. family studies\nQuantitative: Continuous penetrance estimates, not binary\nClinically grounded: Uses routine lab data already in EHR\nValidated: Functional data, clinical outcomes, external cohorts\nHigh-throughput: Scalable to other health systems and diseases"
-  },
-  {
-    "objectID": "GMS6804_20260217/slides.html#limitations-future-directions",
-    "href": "GMS6804_20260217/slides.html#limitations-future-directions",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "Limitations & Future Directions",
-    "text": "Limitations & Future Directions\n\nLimitations:\n\nDependent on EHR data quality and completeness\nFocused on autosomal dominant conditions\nLimited diversity in training cohorts\nDoes not address genetic modifiers or environmental factors\n\nFuture Work:\n\nExtend to other inheritance patterns and rare diseases\nDevelop ancestry-specific models\nProspective studies following variant carriers longitudinally\nIntegration with functional assays and polygenic risk scores"
-  },
-  {
-    "objectID": "GMS6804_20260217/slides.html#key-takeaways",
-    "href": "GMS6804_20260217/slides.html#key-takeaways",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "Key Takeaways",
-    "text": "Key Takeaways\n\n\nML-based penetrance provides refined, quantitative disease risk estimates for genetic variants\nML penetrance correlates with clinical outcomes and functional data, validating biological relevance\nEnables interpretation of VUS and LoF variants through clinical trajectory analysis\nRepresents a scalable blueprint for precision medicine using routine EHR data"
-  },
-  {
-    "objectID": "GMS6805_FCT_CDM/presentation_20260416.html#questions",
-    "href": "GMS6805_FCT_CDM/presentation_20260416.html#questions",
-    "title": "Fixed Coordinate Temporal Architecture",
-    "section": "Questions?",
-    "text": "Questions?"
-  },
-  {
-    "objectID": "GMS6805_FCT_CDM/presentation_20260416.html#thank-you",
-    "href": "GMS6805_FCT_CDM/presentation_20260416.html#thank-you",
-    "title": "Fixed Coordinate Temporal Architecture",
-    "section": "Thank you",
-    "text": "Thank you\n\nThis presentation was made using Quarto. Quarto enables you to weave together content and executable code into a finished document. Click here learn more about Quarto."
-  },
-  {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#hypertension",
-    "href": "F26_GMS7858/ibi-hypertension.html#hypertension",
+    "objectID": "F26_GMS7858/index.html#hypertension",
+    "href": "F26_GMS7858/index.html#hypertension",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "Hypertension",
     "text": "Hypertension\n\nHypertension is the leading modifiable risk factor for cardiovascular disease\n~7.8 million deaths worldwide in 2015 were attributable to high blood pressure\nHypertension is a polygenic disease that is driven by many genomic variants, not one\nGenomic risk is only one factor, along with lifestyle, environment, and other comorbidities, but this paper focuses primarily on the genomic components"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#approaches-used-to-find-genomic-risk-variants",
-    "href": "F26_GMS7858/ibi-hypertension.html#approaches-used-to-find-genomic-risk-variants",
+    "objectID": "F26_GMS7858/index.html#approaches-used-to-find-genomic-risk-variants",
+    "href": "F26_GMS7858/index.html#approaches-used-to-find-genomic-risk-variants",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "Approaches used to find genomic risk variants",
     "text": "Approaches used to find genomic risk variants\n\nThe state of the art method of identifying genomic risk variants is Genome-Wide Association Studies (GWAS)\nGWAS identify variant-trait associations at a population level, testing each SNP via Logistic regression or Fisher’s exact test with genome-wide signficance at p \\(&lt; 5 x 10^{-8}\\)\nGWAS takes a large population, split into cases vs. controls\nVisualization is commonly done with a Manhattan plot"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#limitations-of-gwas",
-    "href": "F26_GMS7858/ibi-hypertension.html#limitations-of-gwas",
+    "objectID": "F26_GMS7858/index.html#limitations-of-gwas",
+    "href": "F26_GMS7858/index.html#limitations-of-gwas",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "Limitations of GWAS",
     "text": "Limitations of GWAS\n\nNeeds huge sample sizes (~1 million people) to detect low-frequency variants especially those with low minor allele frequency (MAF)\nThe ~1,000 known BP loci explain only ~5.7% of the genetic variance in blood pressure\nMost detected SNPs are common, small-effect variants\nGWAS can answer questions like what is the population-level risk of a particular variant? but it cannot answer questions like what is the risk of a particular variant for a specific patient?\n\n\n\n\n\n\n\nImportant\n\n\nA given hypertensive patient may carry none of the population’s significant risk alleles"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#the-core-idea",
-    "href": "F26_GMS7858/ibi-hypertension.html#the-core-idea",
+    "objectID": "F26_GMS7858/index.html#the-core-idea",
+    "href": "F26_GMS7858/index.html#the-core-idea",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "The Core Idea",
     "text": "The Core Idea\n\nInstead of researching “what matters for the average patient?”, the goal is to observe “what matters for patients who share this specific variant with me?”\n\n\nIBI models each variant’s effect in the subpopulation that actually carries it\nBuilds on TCI (tumor-specific causal inference), originally developed for individual cancer genomes\nIBI aims to identify personalized, potentially causal genomic drivers of a trait, beyond just population-average associations"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#building-block-bayesian-networks",
-    "href": "F26_GMS7858/ibi-hypertension.html#building-block-bayesian-networks",
+    "objectID": "F26_GMS7858/index.html#building-block-bayesian-networks",
+    "href": "F26_GMS7858/index.html#building-block-bayesian-networks",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "Building Block: Bayesian Networks",
     "text": "Building Block: Bayesian Networks\n\n\n\nIBI uses a bipartite Bayesian Network (BN) with two node sets-\n\nSet 1: Variants \\(V\\) (e.g., SNPs)\nSet 2: Traits \\(T\\) (e.g., hypertension)\n\nDirected edges \\(V -&gt; T\\) represent probabilistic dependency with only one assumed influencing variant being evaluated at a time indicated by solid arc\nNetwork structures are scored using the Bayesian Dirichlet equivalent uniform (BDeu) score that tells you how well a proposed structure is supported by the data\n\n\n\n\n\nFig 1. Variants (\\(V\\)) -&gt; Traits (\\(T\\)): a bipartite Bayesian network"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#population-level-bayesian-scoring-using-gwas",
-    "href": "F26_GMS7858/ibi-hypertension.html#population-level-bayesian-scoring-using-gwas",
+    "objectID": "F26_GMS7858/index.html#population-level-bayesian-scoring-using-gwas",
+    "href": "F26_GMS7858/index.html#population-level-bayesian-scoring-using-gwas",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "Population-level Bayesian Scoring using GWAS",
     "text": "Population-level Bayesian Scoring using GWAS\n\n\n\nFor variant \\(V_s\\) and trait \\(T_i\\) over the full population \\(D\\), the marginal likelihood \\(P(D \\mid V_s \\to T_i)\\) (log form: \\(M_s\\)) is computed\nUnder an uniform prior, ranking by \\(M_s\\) is proportional to ranking by global posterior probability, and is directly comparable to GWAS’s p-value ranking\n\n\n\n\n\nFig 1. Variants (\\(V\\)) -&gt; Traits (\\(T\\)): a bipartite Bayesian network"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#the-individualizing-step",
-    "href": "F26_GMS7858/ibi-hypertension.html#the-individualizing-step",
+    "objectID": "F26_GMS7858/index.html#the-individualizing-step",
+    "href": "F26_GMS7858/index.html#the-individualizing-step",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "The Individualizing Step",
     "text": "The Individualizing Step\n\n\n\nFor a given patient \\(h\\) who carries the minor allele of\n\\(V_s\\) (\\(V_s = 1\\))\n\nPartition the population into \\(D^{V_s=1}\\) (“patients-like-me,” carrying the variant) and \\(D^{V_s=0}\\) (everyone else)\nScore \\(V_s\\)’s ability to explain Hypertension within \\(D^{V_s=1}\\) -&gt; \\(M_s^1\\)\nFind the variant \\(V_r\\) that best explains the remaining group \\(D^{V_s=0}\\) -&gt; \\(M_r^0\\)\nCombine: \\(M_{s,r} = M_s^1 + M_r^0\\) This overall score, \\(M_{s,r}\\), is higher than the single-population estimator’s score (\\(M_s\\) using one global variant \\(V_g\\)) for many SNPs, because two distinct, subgroup-specific explanations together can fit the data better than one global explanation\n\n\n\n\n\n\nFig 1. Variants (\\(V\\)) -&gt; Traits (\\(T\\)): a bipartite Bayesian network\n\n\n\n\n\nOne variant explains “people like this patient.” A second explains everyone else. Together they almost always beat the single best population-wide variant"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#personalized-posterior-probability",
-    "href": "F26_GMS7858/ibi-hypertension.html#personalized-posterior-probability",
+    "objectID": "F26_GMS7858/index.html#personalized-posterior-probability",
+    "href": "F26_GMS7858/index.html#personalized-posterior-probability",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "Personalized posterior probability",
     "text": "Personalized posterior probability\n\n\n\n\nFor each patient, \\(M_{s,r}\\) is normalized across only the minor-allele SNPs present in that individual’s genome, yielding an individualized posterior probability \\(P(V_s^h \\to T_i^h \\mid D)\\)\nThe same SNP can therefore rank differently across patients depending on their distinct genomic backgrounds\nThe highest-ranked variant for a patient is IBI’s proposed individualized explanation of their HTN status\n\n\n\n\n\n\n\nFig 1. Variants (\\(V\\)) -&gt; Traits (\\(T\\)): a bipartite Bayesian network"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#the-cohort-framingham-heart-study",
-    "href": "F26_GMS7858/ibi-hypertension.html#the-cohort-framingham-heart-study",
+    "objectID": "F26_GMS7858/index.html#the-cohort-framingham-heart-study",
+    "href": "F26_GMS7858/index.html#the-cohort-framingham-heart-study",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "The Cohort: Framingham Heart Study",
     "text": "The Cohort: Framingham Heart Study\n\nCohort: Framingham Heart Study (FHS), Affymetrix HuGeneFocused50K genotyping array (dbGaP phs000007.v30.p11)\nQC: --mind 0.03 --geno 0.03 --maf 0.01 --hwe 10e-6 --me 0.05 0.1 --sexCheck gives 38,342 SNPs\n\nAfter removing minor-allele risk ratio &lt; 1, final count= 19,276 SNPs\n\nLinkage Disequilibrium (LD) pruning: d′ threshold 0.2 (SNPRelate) reduces it to 19,006 SNPs (98.5% independent)\nFinal analytic sample: 6,613 patients\nSplit: 80% discovery (5,290) / 20% held-out test (1,323)"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#defining-hypertension",
-    "href": "F26_GMS7858/ibi-hypertension.html#defining-hypertension",
+    "objectID": "F26_GMS7858/index.html#defining-hypertension",
+    "href": "F26_GMS7858/index.html#defining-hypertension",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "Defining “Hypertension”",
     "text": "Defining “Hypertension”\nA patient is coded HTN = 1 if:\n\nSystolic BP ≥ 140 mmHg, or\nDiastolic BP ≥ 90 mmHg, or\nCurrently on antihypertensive medication (+10 mmHg SBP / +5 mmHg DBP correction applied if on treatment, per TOPMed harmonization)"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#comparison",
-    "href": "F26_GMS7858/ibi-hypertension.html#comparison",
+    "objectID": "F26_GMS7858/index.html#comparison",
+    "href": "F26_GMS7858/index.html#comparison",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "Comparison",
     "text": "Comparison\n\nFig 2. A Bayesian method for GWAS analysis\nPopulation-level \\(M_s\\) and GWAS p-values are highly concordant\nSpearman ρ = −0.90; 164/189 top independent SNPs and 18/20 top-5-ranked SNPs overlap between rankings\nThis establishes that the Bayesian framework reproduces GWAS when used non-individually, before the individualizing extension is applied"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#ibi-vs.-gwas-variant-discovery-discovery-set-n5290",
-    "href": "F26_GMS7858/ibi-hypertension.html#ibi-vs.-gwas-variant-discovery-discovery-set-n5290",
+    "objectID": "F26_GMS7858/index.html#ibi-vs.-gwas-variant-discovery-discovery-set-n5290",
+    "href": "F26_GMS7858/index.html#ibi-vs.-gwas-variant-discovery-discovery-set-n5290",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "IBI vs. GWAS: variant discovery (discovery set, n=5,290)",
     "text": "IBI vs. GWAS: variant discovery (discovery set, n=5,290)\n\n\n\n\nGWAS (Bonferroni α = 0.05/19,276 = 2.59×10⁻⁶): 5 SNPs reach significance\nIBI: 189 SNPs exceed the population-level best-estimator’s \\(M_s\\) (i.e., a two-subgroup explanation beats the single best global explanation)\nOverlap: 40 of the top-189 SNPs shared between IBI and GWAS (agreement); 148 unique to one or the other (complementarity)\nMAF distribution: IBI-only SNPs have markedly lower MAF than GWAS-only SNPs. IBI’s individualized partitioning better surfaces rare-variant signal\nInformation gain (IG): IG for IBI’s top-189 SNPs &gt; GWAS’s top-189 SNPs &gt; 189 random SNPs (all comparisons directionally consistent with expectation)\n\n\n\n\n\n\n\n\n\n\nFig 3. Manhattan plots: IBI’s normalized \\(M_{s,r}\\) (A) vs. GWAS p-values (B)"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#patient-level-explanation",
-    "href": "F26_GMS7858/ibi-hypertension.html#patient-level-explanation",
+    "objectID": "F26_GMS7858/index.html#patient-level-explanation",
+    "href": "F26_GMS7858/index.html#patient-level-explanation",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "Patient-Level Explanation",
     "text": "Patient-Level Explanation\n\n\nGWAS, using population-significant SNPs\n\nOnly 16 unique SNPs ever serve as a patient’s top explanatory variant\nOnly 12.9% of HTN patients carry a Bonferroni-significant SNP\nEven with relaxed threshold, only 15.7% covered\n\n\nIBI\n\n25 unique SNPs serve as top-1 explanatory variants (more diverse coverage)\n99.1% of HTN patients get a top SNP with posterior probability ≥ 0.10\n79.7% still covered at a stricter threshold of 0.20\n\n\n\nAverage patient carries 7,767 minor-allele SNPs (of 19,276)\nUnder a naive uniform prior this implies ~1.3×10⁻⁴ per-SNP prior probability\nIBI’s assigned posterior probabilities (0.08–0.99 range for top SNP) are far above this baseline\n\n\n\nThat’s the clinical gap this paper is trying to close — most hypertensive patients simply don’t carry a “significant” population-level variant"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#spotlight-one-snp-425-patients",
-    "href": "F26_GMS7858/ibi-hypertension.html#spotlight-one-snp-425-patients",
+    "objectID": "F26_GMS7858/index.html#spotlight-one-snp-425-patients",
+    "href": "F26_GMS7858/index.html#spotlight-one-snp-425-patients",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "Spotlight: One SNP, 425 Patients",
     "text": "Spotlight: One SNP, 425 Patients\n\nIntronic SNP rs13265032 in the CSMD1 locus\nAssigned as the top explanatory variant for 46% (425/930) of HTN patients by IBI\nRanked 12th by IBI’s own scoring which implies a real signal, not noise\nRanked 5,361st by GWAS — essentially invisible to standard analysis\nCSMD1 variants have been independently linked to BP and hydrochlorothiazide response in prior literature"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#additional-findings-missed-by-gwas",
-    "href": "F26_GMS7858/ibi-hypertension.html#additional-findings-missed-by-gwas",
+    "objectID": "F26_GMS7858/index.html#additional-findings-missed-by-gwas",
+    "href": "F26_GMS7858/index.html#additional-findings-missed-by-gwas",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "Additional Findings missed by GWAS",
     "text": "Additional Findings missed by GWAS\n\n\n\n\n\n\n\n\n\nVariant / Gene\nBiological relevance\nIBI rank\nGWAS rank\n\n\n\n\nrs37369 (AGXT2)\nCardiorenal traits, renal function\nhigh\nlow\n\n\nrs11575542 (DDC)\nRenal dopamine / BP regulation\nhigh\nlow\n\n\nrs723580 (EPO-linked)\nRed blood cell traits ↔︎ hypertension\nhigh\nlow\n\n\nBCHE, GRIK4, MALRD1 loci\nPrior BP associations in literature\nhigh\nlow"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#predictive-performance-held-out-test-set-n1323",
-    "href": "F26_GMS7858/ibi-hypertension.html#predictive-performance-held-out-test-set-n1323",
+    "objectID": "F26_GMS7858/index.html#predictive-performance-held-out-test-set-n1323",
+    "href": "F26_GMS7858/index.html#predictive-performance-held-out-test-set-n1323",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "Predictive performance (held-out test set, n=1,323)",
     "text": "Predictive performance (held-out test set, n=1,323)\n\n\n\n\n\n\n\n\n\nFig 4. ROC curves: random SNPs (AUROC 0.50), GWAS top SNPs (0.55), IBI top SNPs (0.59–0.60)\n\n\n\n\nGenetic risk scores (GRS) built from top-1 and top-3 SNPs (weighted by odds ratio for GWAS, by \\(M_{s,r}\\) for IBI), evaluated via AUROC:\n\n\n\nSNP source\nTop-1 AUROC\nTop-3 AUROC\n\n\n\n\nRandom\n0.50\n0.50\n\n\nGWAS\n0.55\n0.55\n\n\nIBI\n0.59\n0.60\n\n\n\nImprovement of IBI over GWAS is statistically significant (pROC package): p = 0.05 (top-1), p = 0.01 (top-3)"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#strengths-of-the-study",
-    "href": "F26_GMS7858/ibi-hypertension.html#strengths-of-the-study",
+    "objectID": "F26_GMS7858/index.html#strengths-of-the-study",
+    "href": "F26_GMS7858/index.html#strengths-of-the-study",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "Strengths of the Study",
     "text": "Strengths of the Study\n\nDirect, apples-to-apples comparison against GWAS in the same cohort\nMultiple independent lines of evidence: overlap analysis, information gain, MAF distribution, literature cross-checks, held-out prediction\nFully reproducible: code and summary data are public on GitHub\nGrounded in a well-characterized, real longitudinal cohort (Framingham)\n\n\n~30–45 sec."
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#questions-limitations",
-    "href": "F26_GMS7858/ibi-hypertension.html#questions-limitations",
+    "objectID": "F26_GMS7858/index.html#questions-limitations",
+    "href": "F26_GMS7858/index.html#questions-limitations",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "Questions & Limitations",
     "text": "Questions & Limitations\n\nDoes not yet adjust for age, sex, population structure, or family relatedness (planned: linear mixed models)\nAssociations are not necessarily causal, they are confounded by LD and population structure\nAUROC improvement (0.55 → 0.59–0.60) is real but modest\nSingle cohort (FHS), genotyping array rather than whole-genome sequencing\n“Patients-like-me” subgroup size can be very small for rare variants and stability of these estimates is worth scrutinizing"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#next-steps",
-    "href": "F26_GMS7858/ibi-hypertension.html#next-steps",
+    "objectID": "F26_GMS7858/index.html#next-steps",
+    "href": "F26_GMS7858/index.html#next-steps",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "Next steps",
     "text": "Next steps\n\nExtend to whole-genome sequencing data (rare variants are IBI’s sweet spot)\nGeneralize beyond discrete traits to continuous traits (swap BDeu → BIC score) — e.g., lipid levels, continuous BP\nIncorporate linear mixed models for population structure / relatedness\nSearch for combinations of variants acting jointly, not just one at a time\nFine-mapping / functional validation / Mendelian randomization to move from association toward causation"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#key-messages",
-    "href": "F26_GMS7858/ibi-hypertension.html#key-messages",
+    "objectID": "F26_GMS7858/index.html#key-messages",
+    "href": "F26_GMS7858/index.html#key-messages",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "Key Messages",
     "text": "Key Messages\n\nGWAS finds what matters on average — not necessarily what matters for the patient in front of you\nIBI reframes variant discovery around the individual’s genomic background, by scoring a “patients-like-me” subgroup separately from everyone else\nIn the Framingham cohort, IBI explained far more hypertensive patients (99% vs. 16%), surfaced biologically plausible rare variants GWAS missed, and gave a modest but significant boost in predictive accuracy"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#open-discussion",
-    "href": "F26_GMS7858/ibi-hypertension.html#open-discussion",
+    "objectID": "F26_GMS7858/index.html#open-discussion",
+    "href": "F26_GMS7858/index.html#open-discussion",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "Open Discussion",
     "text": "Open Discussion\n\nApplicability to my research - Identifying Digital Twin Similar Patients for future trajectory prediction\nQuestions?"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#bayesian-networks-bayesian-inference",
-    "href": "F26_GMS7858/ibi-hypertension.html#bayesian-networks-bayesian-inference",
+    "objectID": "F26_GMS7858/index.html#bayesian-networks-bayesian-inference",
+    "href": "F26_GMS7858/index.html#bayesian-networks-bayesian-inference",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "Bayesian Networks & Bayesian Inference",
     "text": "Bayesian Networks & Bayesian Inference\n\n\nBayesian network: a directed acyclic graph (DAG) where nodes are random variables and edges encode probabilistic (and candidate causal) dependencies. The joint distribution factorizes along the graph\nBayesian inference: updating a prior belief about a hypothesis with observed data (via the likelihood) to get a posterior belief using Bayes’ rule\n\n\n\n\n\n\nflowchart LR\n    P[\"Prior&lt;br/&gt;P(H)\"] --&gt; R{\"Bayes' Rule\"}\n    L[\"Likelihood&lt;br/&gt;P(D | H)\"] --&gt; R\n    R --&gt; Po[\"Posterior&lt;br/&gt;P(H | D)\"]\n\n\n\n\n\n\n\n\n\n\n\n\n\nBN\n\n\n\nV1\n\nVariant V1\n\n\n\nT\n\nTrait T\n(Hypertension)\n\n\n\nV1-&gt;T\n\n\n\n\n\nV2\n\nVariant V2\n\n\n\nV2-&gt;T"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#marginal-likelihood-bayesian-scoring",
-    "href": "F26_GMS7858/ibi-hypertension.html#marginal-likelihood-bayesian-scoring",
+    "objectID": "F26_GMS7858/index.html#marginal-likelihood-bayesian-scoring",
+    "href": "F26_GMS7858/index.html#marginal-likelihood-bayesian-scoring",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "Marginal Likelihood & Bayesian Scoring",
     "text": "Marginal Likelihood & Bayesian Scoring\n\nMarginal likelihood \\(P(D \\mid \\text{model})\\): the probability of the observed data, integrating out uncertainty in the model’s parameters. This is used to compare candidate network structures without overfitting to one parameter setting\nBDeu score (Bayesian Dirichlet equivalent uniform): a closed-form marginal likelihood for discrete variables with a uniform structural prior. In this study, IBI uses BDeu for binary HTN status\nBIC (Bayesian information criterion): a large-sample approximation to marginal likelihood, applicable to continuous variables. Under future work, the authors’ proposed swap-in for continuous traits like lipid levels would need to use BIC"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#individualized-causal-inference",
-    "href": "F26_GMS7858/ibi-hypertension.html#individualized-causal-inference",
+    "objectID": "F26_GMS7858/index.html#individualized-causal-inference",
+    "href": "F26_GMS7858/index.html#individualized-causal-inference",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "Individualized Causal Inference",
     "text": "Individualized Causal Inference\n\n\n\nA family of methods that estimate a model specific to one instance (a patient, a tumor) rather than a single model averaged over the whole population — by partitioning the population into an instance-relevant subgroup and its complement, then combining subgroup-specific explanations.\n\n\n\n\n\n\n\nflowchart TD\n    Pop[\"Full population D\"] --&gt; D1[\"Subgroup D(Vs=1)&lt;br/&gt;'patients like me'\"]\n    Pop --&gt; D0[\"Subgroup D(Vs=0)&lt;br/&gt;everyone else\"]\n    D1 --&gt; M1[\"Score M(s)¹\"]\n    D0 --&gt; M0[\"Score M(r)⁰\"]\n    M1 --&gt; C[\"Combined score M(s,r)\"]\n    M0 --&gt; C\n    C --&gt; Post[\"Normalized → personalized&lt;br/&gt;posterior probability\"]"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#dags-the-causal-markov-condition",
-    "href": "F26_GMS7858/ibi-hypertension.html#dags-the-causal-markov-condition",
+    "objectID": "F26_GMS7858/index.html#dags-the-causal-markov-condition",
+    "href": "F26_GMS7858/index.html#dags-the-causal-markov-condition",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "DAGs & the Causal Markov Condition",
     "text": "DAGs & the Causal Markov Condition\n\n\nDirected acyclic graph (DAG):\n\nnodes = variables\ndirected edges = direct dependence, no directed cycles\n\nCausal Markov condition:\n\nEach node is independent of its non-descendants, given its direct parents. This lets the joint distribution factorize into local pieces\n\nIBI’s own graph is deliberately minimal and it is designed as bipartite, and only one edge \\(V_s \\to T_i\\) evaluated at a time. It never learns a structure with multiple parents pointing into \\(T\\)\n\n\n\n\n\n\n\n\nMC\n\n\n\nA\n\nA\n\n\n\nB\n\nB\n\n\n\nA-&gt;B\n\n\n\n\n\nC\n\nC\n\n\n\nA-&gt;C\n\n\n\n\n\nB-&gt;C"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#faithfulness-and-ibis-consistency-claim",
-    "href": "F26_GMS7858/ibi-hypertension.html#faithfulness-and-ibis-consistency-claim",
+    "objectID": "F26_GMS7858/index.html#faithfulness-and-ibis-consistency-claim",
+    "href": "F26_GMS7858/index.html#faithfulness-and-ibis-consistency-claim",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "Faithfulness — and IBI’s Consistency Claim",
     "text": "Faithfulness — and IBI’s Consistency Claim\n\nFaithfulness: every conditional independence present in the data-generating distribution is a consequence of the graph’s structure (via d-separation) and is not a coincidental cancellation of two or more paths’ effects\n\n\nFaithfulness is what makes learning causal structure from observational data alone possible at all\nNot explicitly tested in this paper: Genomic data is a plausible place for near-violations: strong linkage disequilibrium can produce highly correlated or near-cancelling signals between nearby SNPs, where faithfulness condition may not hold"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#confounding-ld-population-structure",
-    "href": "F26_GMS7858/ibi-hypertension.html#confounding-ld-population-structure",
+    "objectID": "F26_GMS7858/index.html#confounding-ld-population-structure",
+    "href": "F26_GMS7858/index.html#confounding-ld-population-structure",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "Confounding: LD & Population Structure",
     "text": "Confounding: LD & Population Structure\n\n\nConfounding: a third variable that influences both the “exposure” (a SNP) and the “outcome” (HTN), creating a spurious or inflated association\nLinkage disequilibrium (LD): nearby SNPs are correlated, so a flagged SNP may just be “riding along” with the true causal variant\nPopulation structure: ancestry differences can independently affect both allele frequencies and disease prevalence, inflating spurious associations — this is exactly why the authors flag it as unmodeled in the current IBI implementation\n\n\n\n\n\n\n\n\nConfound\n\n\n\nA\n\nAncestry /\nPopulation structure\n\n\n\nS\n\nObserved SNP\n\n\n\nA-&gt;S\n\n\n\n\n\nH\n\nHypertension\n\n\n\nA-&gt;H\n\n\n\n\n\nS-&gt;H\n\n\n  association\n  (possibly confounded)"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#hypertension-causal-structure-is-more-complex-than-ibis-arc",
-    "href": "F26_GMS7858/ibi-hypertension.html#hypertension-causal-structure-is-more-complex-than-ibis-arc",
+    "objectID": "F26_GMS7858/index.html#hypertension-causal-structure-is-more-complex-than-ibis-arc",
+    "href": "F26_GMS7858/index.html#hypertension-causal-structure-is-more-complex-than-ibis-arc",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "Hypertension causal structure is more complex than IBI’s Arc",
     "text": "Hypertension causal structure is more complex than IBI’s Arc\nIBI evaluates a single arc \\(V_s \\to T_i\\). The true system generating hypertension almost certainly has more structure behind it, including\n\n\n\nLD / haplotype fork: SNPs that operate close together are generally inherited together on the same ancestral chromosome segment\n\nA latent haplotype block \\(H\\) can be a common cause of two correlated SNPs\nOne or more SNPs may just “ride along” with the true causal variant\n\n\n\n\n\n\n\n\nLDfork\n\n\n\nH\n\nHaplotype block\n(latent)\n\n\n\nV1\n\nSNP 1\n(tag)\n\n\n\nH-&gt;V1\n\n\n\n\n\nV2\n\nSNP 2\n(true driver?)\n\n\n\nH-&gt;V2\n\n\n\n\n\n\n\n\n\n\n\n\n\nCollider risk in case-control conditioning:\n\nPatient-Coverage results analyze only within the Hypertension patients hence bringing means implicitly conditioning on the trait\nIf two variants each independently influence HTN, that would be a collider, and conditioning on HTN status can induce a spurious association between them that wouldn’t exist population-wide"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#information-gain",
-    "href": "F26_GMS7858/ibi-hypertension.html#information-gain",
+    "objectID": "F26_GMS7858/index.html#information-gain",
+    "href": "F26_GMS7858/index.html#information-gain",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "Information Gain",
     "text": "Information Gain\nInformation gain (IG): the reduction in uncertainty (entropy) about the outcome (HTN status) once you know a variant’s genotype\n\\[IG(T; V) = H(T) - H(T \\mid V)\\] - \\(H(T)\\): entropy of HTN status before knowing anything about the variant. - \\(H(T \\mid V)\\): remaining entropy after conditioning on the variant’s genotype\n\nA variant that perfectly separates cases from controls has high IG; a variant unrelated to HTN has IG ≈ 0\nUsed in the paper as an independent check that IBI-selected SNPs are more informative about HTN than GWAS-selected or random SNPs \n\n B[\"Population-level GWAS(Fisher's exact test)\"]\n    A --&gt; C[\"IBI: per-patient Bayesian Network(split population, score two subgroups)\"]\n    B --&gt; D[\"5 Bonferroni-significant SNPs→ explain 12.9% of HTN patients\"]\n    C --&gt; E[\"189 SNPs above IBI threshold→ explain 99.1% of HTN patients\"]\n    D --&gt; F{\"Compare & Validate\"}\n    E --&gt; F\n    F --&gt; G[\"Novel low-MAF variants surfacede.g., CSMD1 rs13265032 (46% of patients)\"]\n    F --&gt; H[\"Held-out prediction improvesAUROC 0.55 → 0.59–0.60\"]\n    G --&gt; I[\"IBI complements GWAStoward individualized / precision medicine\"]\n    H --&gt; I\n\n    style A fill:#1b2a4a,color:#fff\n    style C fill:#264d3d,color:#fff\n    style E fill:#264d3d,color:#fff\n    style I fill:#3d1f47,color:#fff\n```\n\n::: {.notes}\nThis is a graphical abstract of the entire talk — use it to orient the room before diving in (\"here's the whole paper, we'll walk through every box\"), and consider flashing back to it briefly before the Results section as a \"you are here\" reminder. Keep it visible for ~30–45 sec; don't read every box aloud, just narrate the main branch (GWAS vs. IBI → converge on complementary discovery).\n::: --&gt;"
   },
   {
-    "objectID": "F26_GMS7858/ibi-hypertension.html#thank-you",
-    "href": "F26_GMS7858/ibi-hypertension.html#thank-you",
+    "objectID": "F26_GMS7858/index.html#thank-you",
+    "href": "F26_GMS7858/index.html#thank-you",
     "title": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension",
     "section": "Thank You",
     "text": "Thank You\n\nPaper : Rahman MA, Cai C, Bo N, McNamara DM, Ding Y, Cooper GF, Lu X, Liu J. An individualized Bayesian method for estimating genomic variants of hypertension. BMC Genomics 23(Suppl 5):863 (2022). doi.org/10.1186/s12864-023-09757-9\nCode & summary data: github.com/asadcfc/IBI"
+  },
+  {
+    "objectID": "GMS6805_20260226/index.html#limitations-in-current-methods",
+    "href": "GMS6805_20260226/index.html#limitations-in-current-methods",
+    "title": "Learning the Natural History of Human Disease with Generative Transformers",
+    "section": "Limitations in current methods",
+    "text": "Limitations in current methods\n\n\nDiseases and conditions don’t happen in  isolation  - they cluster and affect each other’s progression\nCurrent risk prediction methods operate in silos, concentrating on  one condition  at a time\nIn most patients with intensive health burden, for e.g. aging populations, better models are required to represent the complexity of multiple diseases and their progression"
+  },
+  {
+    "objectID": "GMS6805_20260226/index.html#mapping-human-history-as-a-large-language-model-llm",
+    "href": "GMS6805_20260226/index.html#mapping-human-history-as-a-large-language-model-llm",
+    "title": "Learning the Natural History of Human Disease with Generative Transformers",
+    "section": "Mapping human history as a large language model (LLM)",
+    "text": "Mapping human history as a large language model (LLM)\n\n\nLLMs, like ChatGPT and Claude, use statistical models to predict the next word in a sentence based on the previous words\nThe paper hypothesizes that a similar approach can be applied to disease progression, where past diagnoses can be used to predict future ones\nDiseases are “words,” a patient’s health history is a “sentence”"
+  },
+  {
+    "objectID": "GMS6805_20260226/index.html#gpt-2-vs-delphi-2m",
+    "href": "GMS6805_20260226/index.html#gpt-2-vs-delphi-2m",
+    "title": "Learning the Natural History of Human Disease with Generative Transformers",
+    "section": "GPT-2 vs Delphi-2M",
+    "text": "GPT-2 vs Delphi-2M\n\n\n\n\n\n\n\n\nGPT-2 (Original)\nDelphi-2M (Modified)\n\n\n\n\nDiscrete positional encoding\nContinuous age encoding (sine/cosine)\n\n\nPredicts next token only\nAlso predicts time to next event (exponential model)\n\n\nStandard causal masking\nMasks same-time tokens (no circular causality)\n\n\n\n\nModel size: 2.2 million parameters (12 layers, 12 heads, 120-dim embedding)\nFollows empirical scaling laws — performance improves with more data"
+  },
+  {
+    "objectID": "GMS6805_20260226/index.html#results-and-discussion",
+    "href": "GMS6805_20260226/index.html#results-and-discussion",
+    "title": "Learning the Natural History of Human Disease with Generative Transformers",
+    "section": "Results and Discussion",
+    "text": "Results and Discussion\n\n\nPerformed significantly well across ~1,000 diseases\nAverage AUC ~0.76 across all diseases in internal validation\n97% of diagnoses had AUC &gt; 0.5 (better than random)\nPredicting death: AUC = 0.97\nPerformance holds up to 10 years into the future (AUC ~0.70)\n\nCompared to current standards:\n\nMatches or beats cardiovascular risk scores (Framingham, QRisk3)\nMatches dementia risk scores (UKBDRS)\nOutperforms death prediction tools (Charlson, Elixhauser)"
+  },
+  {
+    "objectID": "GMS6805_20260226/index.html#results-and-discussion-1",
+    "href": "GMS6805_20260226/index.html#results-and-discussion-1",
+    "title": "Learning the Natural History of Human Disease with Generative Transformers",
+    "section": "Results and Discussion",
+    "text": "Results and Discussion\n\n\nFor a patient with digestive tract diseases → pancreatic cancer risk elevated 19×\nPancreatic cancer diagnosis → mortality rate elevated ~93,000×\nChickenpox peaks in childhood; heart attacks rise exponentially with age\nDelphi updates each person’s risk every time a new diagnosis is recorded"
+  },
+  {
+    "objectID": "GMS6805_20260226/index.html#clinical-and-biological-revalence",
+    "href": "GMS6805_20260226/index.html#clinical-and-biological-revalence",
+    "title": "Learning the Natural History of Human Disease with Generative Transformers",
+    "section": "Clinical and Biological Revalence",
+    "text": "Clinical and Biological Revalence\n\n\nUnlike conventional models, Delphi can sample entire future health trajectories\nInput: everything known about a patient up to age 60\nOutput: simulated health events for the next 20 years\nApplications:\n\nEstimating future disease burden at population scale\nPlanning healthcare resources for specific communities\nIdentifying who needs screening before conventional age thresholds"
+  },
+  {
+    "objectID": "GMS6805_20260226/index.html#clinical-and-biological-revalence-2",
+    "href": "GMS6805_20260226/index.html#clinical-and-biological-revalence-2",
+    "title": "Learning the Natural History of Human Disease with Generative Transformers",
+    "section": "Clinical and Biological Revalence",
+    "text": "Clinical and Biological Revalence\n\n\nEarly Cancer or any disease screenings\nClinical Decision Support by including multi-disease risk\nPredicting community-level disease burden for healthcare planning\nDigital Twin technology and Similar Patient identification for personalized medicine"
+  },
+  {
+    "objectID": "GMS6805_20260226/index.html#limitations",
+    "href": "GMS6805_20260226/index.html#limitations",
+    "title": "Learning the Natural History of Human Disease with Generative Transformers",
+    "section": "Limitations",
+    "text": "Limitations\n\n\nOnly predicts correlations, not causations\nLimited performance for ages 80+ (insufficient training data)\nDiabetes prediction still outperformed by a single blood biomarker (HbA1c)\nUK Biobank population is skewed towards white, affluent, educated — the healthy volunteer bias\nRecruitment ages are between 40-70 years old and hence underestimates early mortality (immortality bias)\nData source missingness (hospital vs. GP records) influences predictions"
+  },
+  {
+    "objectID": "GMS6805_20260226/index.html#future-directions",
+    "href": "GMS6805_20260226/index.html#future-directions",
+    "title": "Learning the Natural History of Human Disease with Generative Transformers",
+    "section": "Future Directions",
+    "text": "Future Directions\n\n\nAdd genomic data, imaging, wearables, prescription records\nConnect Delphi to LLMs as a risk module\nIntegration of free-text clinical notes\n\nIf interested, you can also read Dr. Yonghui Wu’s thoughts on the paper in Nature"
+  },
+  {
+    "objectID": "GMS6805_20260226/index.html#information-modelling-context",
+    "href": "GMS6805_20260226/index.html#information-modelling-context",
+    "title": "Learning the Natural History of Human Disease with Generative Transformers",
+    "section": "Information Modelling Context",
+    "text": "Information Modelling Context\n\n\nBased on the study, results and limitations presented by the researchers, they use the phrase AI very carefully (less than 10 times in the paper text)\nA rational understanding of Delphi will validate the same - there is nothing artificially intelligent about it\nIt is a statistical model that learns patterns in data and makes predictions based on those patterns\nThe part that seperates it from other similar studies is their implmentation of disease history modelling as the input for their model, representing events in a time-series, generalizable to any patient in any common data model (For e.g. i2b2, OMOP, PCORNET, etc.)\nFixed coordinate systems are not a new concept- principles of genetic data analysis are build on genomic coordinates that are uniform across all patients, and hence it is easier to identify mutations and changes and make inferences about their effects on disease risk and progression\nSimilarly, the use of age as a coordinate system for disease history allows for a more standardized and interpretable representation of health trajectories, which can be applied across different patient populations and healthcare settings"
+  },
+  {
+    "objectID": "GMS6805_20260226/index.html#questions",
+    "href": "GMS6805_20260226/index.html#questions",
+    "title": "Learning the Natural History of Human Disease with Generative Transformers",
+    "section": "Questions?",
+    "text": "Questions?"
+  },
+  {
+    "objectID": "HOBISharkTank_2026/index.html#thank-you",
+    "href": "HOBISharkTank_2026/index.html#thank-you",
+    "title": "Zero Knowledge Medicine",
+    "section": "Thank You!",
+    "text": "Thank You!\n\nThis presentation was made using Quarto. Quarto enables you to weave together content and executable code into a finished document. Click here learn more about Quarto."
   }
 ]

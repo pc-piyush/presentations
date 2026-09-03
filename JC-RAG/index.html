@@ -132,7 +132,7 @@
     }
   </style>
 <meta name="twitter:title" content="Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks – Piyush Chaudhari">
-<meta name="twitter:description" content="Journal club — Lewis et al.&nbsp;(2020).">
+<meta name="twitter:description" content="Journal Club — Lewis et al.&nbsp;(2020).">
 <meta name="twitter:creator" content="@iampiyushvc">
 <meta name="twitter:card" content="summary">
 </head>
@@ -204,7 +204,7 @@ Piyush Chaudhari
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><a href="images/x1.PNG" class="lightbox" data-gallery="my-gallery2" title="The paper combines a pre-trained retriever (Query Encoder + Document Index) with a pre-trained seq2seq model (Generator) and fine-tune end-to-end. For query x, we use Maximum Inner Product Search (MIPS) to find the top-K documents zi. For final prediction y, we treat z as a latent variable and marginalize over seq2seq predictions given different documents"><img data-src="images/x1.PNG" alt="The paper combines a pre-trained retriever (Query Encoder + Document Index) with a pre-trained seq2seq model (Generator) and fine-tune end-to-end. For query x, we use Maximum Inner Product Search (MIPS) to find the top-K documents zi. For final prediction y, we treat z as a latent variable and marginalize over seq2seq predictions given different documents"></a></p>
-<figcaption>The paper combines a pre-trained retriever (Query Encoder + Document Index) with a pre-trained seq2seq model (Generator) and fine-tune end-to-end. For query <span class="math inline">\(x\)</span>, we use Maximum Inner Product Search (MIPS) to find the top-K documents <span class="math inline">\(z\)</span><sub><span class="math inline">\(i\)</span></sub>. For final prediction <span class="math inline">\(y\)</span>, we treat <span class="math inline">\(z\)</span> as a latent variable and marginalize over seq2seq predictions given different documents</figcaption>
+<figcaption>The paper combines a pre-trained retriever (Query Encoder + Document Index) with a pre-trained seq2seq model (Generator) and fine-tune end-to-end. For query <span class="math inline">\(x\)</span>, we use Maximum Inner Product Search (MIPS) to find the top-K documents <span class="math inline">\(z\)</span><span class="math inline">\(i\)</span>. For final prediction <span class="math inline">\(y\)</span>, we treat <span class="math inline">\(z\)</span> as a latent variable and marginalize over seq2seq predictions given different documents</figcaption>
 </figure>
 </div>
 </div>
@@ -216,8 +216,8 @@ Piyush Chaudhari
 <li><p>The paper explores RAG models, that uses input sequence <span class="math inline">\(x\)</span> to retrieve text documents <span class="math inline">\(z\)</span> to use them as additional context when generating the target sequence <span class="math inline">\(y\)</span></p></li>
 <li><p>The model leverages two components</p>
 <ul>
-<li><strong>Retriever</strong> <span class="math inline">\(p\)</span><sub><span class="math inline">\(\eta\)</span></sub><span class="math inline">\((z | x)\)</span> with parameters <span class="math inline">\(\eta\)</span> that returns top-K truncated distributions over the text given a query <span class="math inline">\(x\)</span></li>
-<li><strong>Generator</strong> <span class="math inline">\(p\)</span><sub><span class="math inline">\(\theta\)</span></sub>(<span class="math inline">\(y\)</span><sub>i</sub> | <span class="math inline">\(x,z,y\)</span><sub>1:i-1</sub>) parametrized by <span class="math inline">\(\theta\)</span> that generates a current token based on the context of the previous <span class="math inline">\(i-1\)</span> tokens <span class="math inline">\(y\)</span><sub>1:i-1</sub> , the original input <span class="math inline">\(x\)</span> and a retrieved text <span class="math inline">\(z\)</span></li>
+<li><strong>Retriever</strong> <span class="math inline">\(p\)</span><span class="math inline">\(\eta\)</span><span class="math inline">\((z | x)\)</span> with parameters <span class="math inline">\(\eta\)</span> that returns top-K truncated distributions over the text given a query <span class="math inline">\(x\)</span></li>
+<li><strong>Generator</strong> <span class="math inline">\(p\)</span><span class="math inline">\(\theta\)</span>(<span class="math inline">\(y\)</span><sub>i</sub> | <span class="math inline">\(x,z,y\)</span><sub>1:i-1</sub>) parametrized by <span class="math inline">\(\theta\)</span> that generates a current token based on the context of the previous <span class="math inline">\(i-1\)</span> tokens <span class="math inline">\(y\)</span><sub>1:i-1</sub> , the original input <span class="math inline">\(x\)</span> and a retrieved text <span class="math inline">\(z\)</span></li>
 </ul></li>
 <li><p>The retrieved documents are treated as <span title="hidden, unobservable constructs—such as intelligence, anxiety, or quality of life—that cannot be measured directly but are inferred through statistical modeling of observed, measurable variables"><strong>latent variable</strong></span> - the model never directly supervises which document is correct</p></li>
 <li><p>The paper proposes two models - <strong>RAG-Sequence</strong> that uses the same document to predict each target token and <strong>RAG-Token</strong> which can predict each target token based on a different document</p></li>
@@ -237,15 +237,15 @@ Piyush Chaudhari
 </ul>
 </div>
 <div style="font-size: 60%;">
-<p><span class="math inline">\(p\)</span><sub>RAG-Sequence</sub><span class="math inline">\((y|x)\)</span> <span class="math inline">\(\approx\)</span> <span class="math inline">\(\sum_{z\in top-k(p(.|x))}\)</span> <span class="math inline">\(p\)</span><sub><span class="math inline">\(\eta\)</span></sub><span class="math inline">\((z|x)p\)</span><sub><span class="math inline">\(\theta\)</span></sub><span class="math inline">\((y|x,z)\)</span> <span class="math inline">\(=\)</span> <span class="math inline">\(\sum_{z\in top-k(p(.|x))}\)</span> <span class="math inline">\(p\)</span><sub><span class="math inline">\(\eta\)</span></sub><span class="math inline">\((z|x)\prod p\)</span><sub><span class="math inline">\(\theta\)</span></sub><span class="math inline">\((y\)</span><sub>i</sub><span class="math inline">\(|x,z,y\)</span><sub>1:i-1</sub> <span class="math inline">\()\)</span></p>
+<p><span class="math inline">\(p\)</span><sub>RAG-Sequence</sub><span class="math inline">\((y|x)\)</span> <span class="math inline">\(\approx\)</span> <span class="math inline">\(\sum_{z\in top-k(p(.|x))}\)</span> <span class="math inline">\(p\)</span><span class="math inline">\(\eta\)</span><span class="math inline">\((z|x)p\)</span><span class="math inline">\(\theta\)</span><span class="math inline">\((y|x,z)\)</span> <span class="math inline">\(=\)</span> <span class="math inline">\(\sum_{z\in top-k(p(.|x))}\)</span> <span class="math inline">\(p\)</span><span class="math inline">\(\eta\)</span><span class="math inline">\((z|x)\prod p\)</span><span class="math inline">\(\theta\)</span><span class="math inline">\((y\)</span><sub>i</sub><span class="math inline">\(|x,z,y\)</span><sub>1:i-1</sub> <span class="math inline">\()\)</span></p>
 <!--
 $p$~RAG-Seq~(\mathbf{y}|\mathbf{x}) \approx \sum_{j=1}^{k} P_{\eta}(\mathbf{z}_j|\mathbf{x}) \prod_{i=1}^{N} P_{\theta}(y_i|\mathbf{x}, \mathbf{z}_j, \mathbf{y}_{<i})
 -->
 </div>
 <div style="font-size: 65%;">
 <ul>
-<li><span title="BART generates the answer one token at a time, each token conditioned on everything before it. Multiplying these token probabilities together gives the probability of the whole sequence y given one specific document z"><span class="math inline">\(\prod p\)</span><sub><span class="math inline">\(\theta\)</span></sub><span class="math inline">\((y\)</span><sub>i</sub><span class="math inline">\(|x,z,y\)</span><sub>1:i-1</sub> <span class="math inline">\()\)</span></span> is the standard autoregressive generator</li>
-<li><span title="weight each full-sequence probability by how likely we were to retrieve that document, and sum them all up"><span class="math inline">\(\sum_{z\in top-k(p(.|x))}\)</span> <span class="math inline">\(p\)</span><sub><span class="math inline">\(\eta\)</span></sub><span class="math inline">\((z|x)\)</span></span> does it for top-K documents</li>
+<li><span title="BART generates the answer one token at a time, each token conditioned on everything before it. Multiplying these token probabilities together gives the probability of the whole sequence y given one specific document z"><span class="math inline">\(\prod p\)</span><span class="math inline">\(\theta\)</span><span class="math inline">\((y\)</span><sub>i</sub><span class="math inline">\(|x,z,y\)</span><sub>1:i-1</sub> <span class="math inline">\()\)</span></span> is the standard autoregressive generator</li>
+<li><span title="weight each full-sequence probability by how likely we were to retrieve that document, and sum them all up"><span class="math inline">\(\sum_{z\in top-k(p(.|x))}\)</span> <span class="math inline">\(p\)</span><span class="math inline">\(\eta\)</span><span class="math inline">\((z|x)\)</span></span> does it for top-K documents</li>
 </ul>
 <!--
 $p$~RAG-Seq~(\mathbf{y}|\mathbf{x}) \approx \sum_{j=1}^{k} P_{\eta}(\mathbf{z}_j|\mathbf{x}) \prod_{i=1}^{N} P_{\theta}(y_i|\mathbf{x}, \mathbf{z}_j, \mathbf{y}_{<i})
@@ -267,7 +267,7 @@ $p$~RAG-Seq~(\mathbf{y}|\mathbf{x}) \approx \sum_{j=1}^{k} P_{\eta}(\mathbf{z}_j
 </div>
 <div style="font-size: 60%;">
 <center>
-<span class="math inline">\(p\)</span><sub>RAG-Token</sub><span class="math inline">\((y|x)\)</span> <span class="math inline">\(\approx\)</span> <span class="math inline">\(\prod_{i}^{N}\)</span> <span class="math inline">\(\sum_{z\in top-k(p(.|x))}\)</span> <span class="math inline">\(p\)</span><sub><span class="math inline">\(\eta\)</span></sub><span class="math inline">\((z|x) p\)</span><sub><span class="math inline">\(\theta\)</span></sub><span class="math inline">\((y\)</span><sub>i</sub><span class="math inline">\(|x,z,y\)</span><sub>1:i-1</sub> <span class="math inline">\()\)</span>
+<span class="math inline">\(p\)</span><sub>RAG-Token</sub><span class="math inline">\((y|x)\)</span> <span class="math inline">\(\approx\)</span> <span class="math inline">\(\prod_{i}^{N}\)</span> <span class="math inline">\(\sum_{z\in top-k(p(.|x))}\)</span> <span class="math inline">\(p\)</span><span class="math inline">\(\eta\)</span><span class="math inline">\((z|x) p\)</span><span class="math inline">\(\theta\)</span><span class="math inline">\((y\)</span><sub>i</sub><span class="math inline">\(|x,z,y\)</span><sub>1:i-1</sub> <span class="math inline">\()\)</span>
 </center>
 </div>
 </section>
@@ -280,7 +280,7 @@ $p$~RAG-Seq~(\mathbf{y}|\mathbf{x}) \approx \sum_{j=1}^{k} P_{\eta}(\mathbf{z}_j
 </div>
 <div style="font-size: 60%;">
 <center>
-<span class="math inline">\(p\)</span><sub>RAG-Token</sub><span class="math inline">\((y|x)\)</span> <span class="math inline">\(\approx\)</span> <span class="math inline">\(\prod_{i}^{N}\)</span> <span class="math inline">\(\sum_{z\in top-k(p(.|x))}\)</span> <span class="math inline">\(p\)</span><sub><span class="math inline">\(\eta\)</span></sub><span class="math inline">\((z|x) p\)</span><sub><span class="math inline">\(\theta\)</span></sub><span class="math inline">\((y\)</span><sub>i</sub><span class="math inline">\(|x,z,y\)</span><sub>1:i-1</sub> <span class="math inline">\()\)</span>
+<span class="math inline">\(p\)</span><sub>RAG-Token</sub><span class="math inline">\((y|x)\)</span> <span class="math inline">\(\approx\)</span> <span class="math inline">\(\prod_{i}^{N}\)</span> <span class="math inline">\(\sum_{z\in top-k(p(.|x))}\)</span> <span class="math inline">\(p\)</span><span class="math inline">\(\eta\)</span><span class="math inline">\((z|x) p\)</span><span class="math inline">\(\theta\)</span><span class="math inline">\((y\)</span><sub>i</sub><span class="math inline">\(|x,z,y\)</span><sub>1:i-1</sub> <span class="math inline">\()\)</span>
 </center>
 </div>
 <div style="font-size: 65%;">
@@ -295,13 +295,13 @@ $p$~RAG-Seq~(\mathbf{y}|\mathbf{x}) \approx \sum_{j=1}^{k} P_{\eta}(\mathbf{z}_j
 <h2>Retriever</h2>
 <div style="font-size: 65%;">
 <ul>
-<li>The retriever <span class="math inline">\(p\)</span><sub><span class="math inline">\(\eta\)</span></sub><span class="math inline">\((z|x)\)</span> is based on <span title="Dense Passage Retrieval (DPR) is a search technique that maps queries and documents into high-dimensional, semantic vectors (embeddings) using neural networks, enabling retrieval based on conceptual similarity rather than exact keywords. It generally outperforms traditional methods like BM25 by using twin encoders to identify contextually relevant information"><strong>Dense Passage Retrival (DPR)</strong></span> that follows a bi-encoder structure</li>
+<li>The retriever <span class="math inline">\(p\)</span><span class="math inline">\(\eta\)</span><span class="math inline">\((z|x)\)</span> is based on <span title="Dense Passage Retrieval (DPR) is a search technique that maps queries and documents into high-dimensional, semantic vectors (embeddings) using neural networks, enabling retrieval based on conceptual similarity rather than exact keywords. It generally outperforms traditional methods like BM25 by using twin encoders to identify contextually relevant information"><strong>Dense Passage Retrival (DPR)</strong></span> that follows a bi-encoder structure</li>
 </ul>
 </div>
 <div style="font-size: 60%;">
 <center>
-<p><span class="math inline">\(d(z)\)</span> = BERT<sub><span class="math inline">\(d\)</span></sub><span class="math inline">\((z)\)</span> <em>document encoder</em></p>
-<span class="math inline">\(q(x)\)</span> = BERT<sub><span class="math inline">\(q\)</span></sub><span class="math inline">\((x)\)</span> <em>query encoder</em>
+<p><span class="math inline">\(d(z)\)</span> = BERT<span class="math inline">\(d\)</span><span class="math inline">\((z)\)</span> <em>document encoder</em></p>
+<p><span class="math inline">\(q(x)\)</span> = BERT<span class="math inline">\(q\)</span><span class="math inline">\((x)\)</span> <em>query encoder</em></p>
 </center>
 </div>
 <div style="font-size: 65%;">
@@ -309,7 +309,7 @@ $p$~RAG-Seq~(\mathbf{y}|\mathbf{x}) \approx \sum_{j=1}^{k} P_{\eta}(\mathbf{z}_j
 </div>
 <div style="font-size: 60%;">
 <center>
-<span class="math inline">\(p\)</span><sub><span class="math inline">\(\eta\)</span></sub><span class="math inline">\((z|x)\)</span> <span class="math inline">\(\propto\)</span> exp <span class="math inline">\((d(z)^T.q(x))\)</span>
+<span class="math inline">\(p\)</span><span class="math inline">\(\eta\)</span><span class="math inline">\((z|x)\)</span> <span class="math inline">\(\propto\)</span> exp <span class="math inline">\((d(z)^T.q(x))\)</span>
 </center>
 </div>
 <div style="font-size: 65%;">
@@ -346,7 +346,7 @@ $p$~RAG-Seq~(\mathbf{y}|\mathbf{x}) \approx \sum_{j=1}^{k} P_{\eta}(\mathbf{z}_j
 </div>
 <div style="font-size: 65%;">
 <center>
-<span class="math inline">\(p\)</span><sub><span class="math inline">\(\theta\)</span></sub><span class="math inline">\((y\)</span><sub>i</sub><span class="math inline">\(|x,z,y\)</span><sub>1:i-1</sub> <span class="math inline">\()\)</span>
+<span class="math inline">\(p\)</span><span class="math inline">\(\theta\)</span><span class="math inline">\((y\)</span><sub>i</sub><span class="math inline">\(|x,z,y\)</span><sub>1:i-1</sub> <span class="math inline">\()\)</span>
 </center>
 </div>
 <div style="font-size: 65%;">
@@ -375,7 +375,7 @@ $p$~RAG-Seq~(\mathbf{y}|\mathbf{x}) \approx \sum_{j=1}^{k} P_{\eta}(\mathbf{z}_j
 </ul></li>
 </ul>
 <center>
-<span class="math inline">\(p(y|x)=\)</span> <span class="math inline">\(\sum_{z\in top-k(p(.|x))}\)</span> <span class="math inline">\(p\)</span><sub><span class="math inline">\(\eta\)</span></sub><span class="math inline">\((z|x)\prod p\)</span><sub><span class="math inline">\(\theta\)</span></sub><span class="math inline">\((y\)</span><sub>i</sub><span class="math inline">\(|x,z,y\)</span><sub>1:i-1</sub> <span class="math inline">\()\)</span>
+<span class="math inline">\(p(y|x)=\)</span> <span class="math inline">\(\sum_{z\in top-k(p(.|x))}\)</span> <span class="math inline">\(p\)</span><span class="math inline">\(\eta\)</span><span class="math inline">\((z|x)\prod p\)</span><span class="math inline">\(\theta\)</span><span class="math inline">\((y\)</span><sub>i</sub><span class="math inline">\(|x,z,y\)</span><sub>1:i-1</sub> <span class="math inline">\()\)</span>
 </center>
 <ul>
 <li><strong>RAG-Token</strong> potentially has different document per output token
@@ -384,7 +384,7 @@ $p$~RAG-Seq~(\mathbf{y}|\mathbf{x}) \approx \sum_{j=1}^{k} P_{\eta}(\mathbf{z}_j
 </ul></li>
 </ul>
 <center>
-<span class="math inline">\(p(y|x)\)</span> <span class="math inline">\(\approx\)</span> <span class="math inline">\(\prod_{i}^{N}\)</span> <span class="math inline">\(\sum_{z\in top-k(p(.|x))}\)</span> <span class="math inline">\(p\)</span><sub><span class="math inline">\(\eta\)</span></sub><span class="math inline">\((z|x) . p\)</span><sub><span class="math inline">\(\theta\)</span></sub><span class="math inline">\((y\)</span><sub>i</sub><span class="math inline">\(|x,z,y\)</span><sub>1:i-1</sub> <span class="math inline">\()\)</span>
+<span class="math inline">\(p(y|x)\)</span> <span class="math inline">\(\approx\)</span> <span class="math inline">\(\prod_{i}^{N}\)</span> <span class="math inline">\(\sum_{z\in top-k(p(.|x))}\)</span> <span class="math inline">\(p\)</span><span class="math inline">\(\eta\)</span><span class="math inline">\((z|x) . p\)</span><span class="math inline">\(\theta\)</span><span class="math inline">\((y\)</span><sub>i</sub><span class="math inline">\(|x,z,y\)</span><sub>1:i-1</sub> <span class="math inline">\()\)</span>
 </center>
 </div>
 </section>
@@ -393,8 +393,8 @@ $p$~RAG-Seq~(\mathbf{y}|\mathbf{x}) \approx \sum_{j=1}^{k} P_{\eta}(\mathbf{z}_j
 <div style="font-size: 65%;">
 <table class="caption-top">
 <colgroup>
-<col style="width: 25%">
-<col style="width: 46%">
+<col style="width: 26%">
+<col style="width: 45%">
 <col style="width: 28%">
 </colgroup>
 <thead>
@@ -433,15 +433,15 @@ $p$~RAG-Seq~(\mathbf{y}|\mathbf{x}) \approx \sum_{j=1}^{k} P_{\eta}(\mathbf{z}_j
 <h2>Training</h2>
 <div style="font-size: 65%;">
 <ul>
-<li>Trained end-to-end on input/output pairs (<span class="math inline">\(x\)</span><sub><span class="math inline">\(j\)</span></sub>,<span class="math inline">\(y\)</span><sub><span class="math inline">\(j\)</span></sub> ) only — no supervision on which document to retrieve</li>
-<li><span title="log p(yⱼ|xⱼ) is the log probability the model assigns to the correct answer. If the model is confident and correct, this number is close to 0 (log of 1). If the model is wrong or uncertain, it’s a large negative number. We want to maximize the log probability of correct answers — equivalently, minimize the negative log probability. That’s the loss.">Loss function</span>: negative marginal log-likelihood of the target output
+<li><p>Trained end-to-end on input/output pairs (<span class="math inline">\(x\)</span><span class="math inline">\(j\)</span>,<span class="math inline">\(y\)</span><span class="math inline">\(j\)</span> ) only — no supervision on which document to retrieve</p></li>
+<li><p><span title="log p(yⱼ|xⱼ) is the log probability the model assigns to the correct answer. If the model is confident and correct, this number is close to 0 (log of 1). If the model is wrong or uncertain, it’s a large negative number. We want to maximize the log probability of correct answers — equivalently, minimize the negative log probability. That’s the loss.">Loss function</span>: negative marginal log-likelihood of the target output</p>
 <center>
-<span class="math inline">\(Loss\)</span> = - <span class="math inline">\(\sum\)</span><sub><span class="math inline">\(j\)</span></sub> <span class="math inline">\(log\)</span> <span class="math inline">\(p(y\)</span><sub><span class="math inline">\(j\)</span></sub>|<span class="math inline">\(x\)</span><sub><span class="math inline">\(j\)</span></sub> <span class="math inline">\()\)</span>
+<p><span class="math inline">\(Loss\)</span> = - <span class="math inline">\(\sum\)</span><span class="math inline">\(j\)</span> <span class="math inline">\(log\)</span> <span class="math inline">\(p(y\)</span><span class="math inline">\(j\)</span>|<span class="math inline">\(x\)</span><span class="math inline">\(j\)</span> <span class="math inline">\()\)</span></p>
 </center></li>
-<li><span title="The gradient of this loss flows backward through BART (adjusting how it generates) and through the query encoder (adjusting what it retrieves). Both improve simultaneously from a single signal: did you produce the right answer?">Gradient flows through BART (generator) and the query encoder</span></li>
-<li><span title="No document is ever labeled as correct or incorrect. The retriever learns what to fetch purely because fetching the right documents leads to lower loss on the generation side">The system learns to retrieve by learning what helps it generate correct answers</span></li>
-<li>Only the query encoder and BART are updated; document encoder + index are frozen</li>
-<li>Optimizer: <span title="Adaptive Moment estimation.“Adaptive” — each parameter gets its own effective learning rate, adapted based on history. “Moment” — it tracks two statistical moments of the gradients over time- the mean of recent gradients and the mean of recent squared gradients">Adam</span> with stochastic gradient descent</li>
+<li><p><span title="The gradient of this loss flows backward through BART (adjusting how it generates) and through the query encoder (adjusting what it retrieves). Both improve simultaneously from a single signal: did you produce the right answer?">Gradient flows through BART (generator) and the query encoder</span></p></li>
+<li><p><span title="No document is ever labeled as correct or incorrect. The retriever learns what to fetch purely because fetching the right documents leads to lower loss on the generation side">The system learns to retrieve by learning what helps it generate correct answers</span></p></li>
+<li><p>Only the query encoder and BART are updated; document encoder + index are frozen</p></li>
+<li><p>Optimizer: <span title="Adaptive Moment estimation.“Adaptive” — each parameter gets its own effective learning rate, adapted based on history. “Moment” — it tracks two statistical moments of the gradients over time- the mean of recent gradients and the mean of recent squared gradients">Adam</span> with stochastic gradient descent</p></li>
 </ul>
 </div>
 </section>
@@ -449,16 +449,16 @@ $p$~RAG-Seq~(\mathbf{y}|\mathbf{x}) \approx \sum_{j=1}^{k} P_{\eta}(\mathbf{z}_j
 <h2>Decoding</h2>
 <div style="font-size: 65%;">
 <ul>
-<li>RAG-Token
+<li><p>RAG-Token</p>
 <ul>
 <li>Per-token probability factors are plugged directly into standard beam decoder</li>
 <li>Transition probability</li>
 </ul>
 <center>
-<span class="math inline">\(p'\)</span><sub><span class="math inline">\(\theta\)</span></sub><span class="math inline">\((y\)</span><sub>i</sub><span class="math inline">\(|x,y\)</span><sub>1:i-1</sub> <span class="math inline">\()\)</span> <span class="math inline">\(=\)</span> <span class="math inline">\(\sum_{z\in top-k(p(.|x))}\)</span> <span class="math inline">\(p\)</span><sub><span class="math inline">\(\eta\)</span></sub><span class="math inline">\((z\)</span><sub><span class="math inline">\(i\)</span></sub><span class="math inline">\(|x)p\)</span><sub><span class="math inline">\(\theta\)</span></sub><span class="math inline">\((y\)</span><sub>i</sub><span class="math inline">\(|x,z\)</span><sub><span class="math inline">\(i\)</span></sub><span class="math inline">\(,y\)</span><sub>1:i-1</sub> <span class="math inline">\()\)</span>
+<p><span class="math inline">\(p'\)</span><span class="math inline">\(\theta\)</span><span class="math inline">\((y\)</span><sub>i</sub><span class="math inline">\(|x,y\)</span><sub>1:i-1</sub> <span class="math inline">\()\)</span> <span class="math inline">\(=\)</span> <span class="math inline">\(\sum_{z\in top-k(p(.|x))}\)</span> <span class="math inline">\(p\)</span><span class="math inline">\(\eta\)</span><span class="math inline">\((z\)</span><span class="math inline">\(i\)</span><span class="math inline">\(|x)p\)</span><span class="math inline">\(\theta\)</span><span class="math inline">\((y\)</span><sub>i</sub><span class="math inline">\(|x,z\)</span><span class="math inline">\(i\)</span><span class="math inline">\(,y\)</span><sub>1:i-1</sub> <span class="math inline">\()\)</span></p>
 </center>
 <ul>
-<li>To decode, <span class="math inline">\(p'\)</span><sub><span class="math inline">\(\theta\)</span></sub><span class="math inline">\((y\)</span><sub>i</sub><span class="math inline">\(|x,y\)</span><sub>1:i-1</sub> <span class="math inline">\()\)</span> can be plugged into a <strong>standard beam decoder</strong></li>
+<li>To decode, <span class="math inline">\(p'\)</span><span class="math inline">\(\theta\)</span><span class="math inline">\((y\)</span><sub>i</sub><span class="math inline">\(|x,y\)</span><sub>1:i-1</sub> <span class="math inline">\()\)</span> can be plugged into a <strong>standard beam decoder</strong></li>
 </ul></li>
 </ul>
 </div>
@@ -472,15 +472,15 @@ $p$~RAG-Seq~(\mathbf{y}|\mathbf{x}) \approx \sum_{j=1}^{k} P_{\eta}(\mathbf{z}_j
 <li>Full sequence probability <span class="math inline">\(p(y|x)\)</span> doesn’t factor per-token, hence can’t do a single beam search</li>
 <li><strong>Thorough Decoding</strong>:
 <ol type="1">
-<li>Get <span class="math inline">\(K\)</span> sets of candidate sequences by running beam search independently for each of the <span class="math inline">\(K\)</span> retrieved documents<br>
-</li>
-<li>Take the union of all candidates across all K beams which is the hypothesis set <span class="math inline">\(Y\)</span></li>
-<li>For any candidate <span class="math inline">\(y\)</span> that didn’t appear in a particular document’s beam, run an additional forward pass through BART to score it against that document anyway</li>
-<li>Final probability
+<li><p>Get <span class="math inline">\(K\)</span> sets of candidate sequences by running beam search independently for each of the <span class="math inline">\(K\)</span> retrieved documents<br>
+</p></li>
+<li><p>Take the union of all candidates across all K beams which is the hypothesis set <span class="math inline">\(Y\)</span></p></li>
+<li><p>For any candidate <span class="math inline">\(y\)</span> that didn’t appear in a particular document’s beam, run an additional forward pass through BART to score it against that document anyway</p></li>
+<li><p>Final probability</p>
 <center>
-<span class="math inline">\(p(y|x)=\)</span> <span class="math inline">\(\sum_{z}\)</span> <span class="math inline">\(p\)</span><sub><span class="math inline">\(\eta\)</span></sub><span class="math inline">\((z|x) . p\)</span><sub><span class="math inline">\(\theta\)</span></sub><span class="math inline">\((y|x,z)\)</span> summed across all <span class="math inline">\(K\)</span> documents
+<p><span class="math inline">\(p(y|x)=\)</span> <span class="math inline">\(\sum_{z}\)</span> <span class="math inline">\(p\)</span><span class="math inline">\(\eta\)</span><span class="math inline">\((z|x) . p\)</span><span class="math inline">\(\theta\)</span><span class="math inline">\((y|x,z)\)</span> summed across all <span class="math inline">\(K\)</span> documents</p>
 </center></li>
-<li>Pick the highest scoring <span class="math inline">\(y\)</span></li>
+<li><p>Pick the highest scoring <span class="math inline">\(y\)</span></p></li>
 </ol></li>
 </ul></li>
 </ul>
@@ -496,7 +496,7 @@ $p$~RAG-Seq~(\mathbf{y}|\mathbf{x}) \approx \sum_{j=1}^{k} P_{\eta}(\mathbf{z}_j
 <ul>
 <li>Similar to Thorough, but skips Step 3</li>
 <li>If a candidate was generated from document 1’s beam but not document 2’s, <strong>Thorough Decoding</strong> still need to score it against document 2. With K=10 and a large hypothesis set, this is computinally expensive</li>
-<li>In <strong>Fast Decoding</strong>, if <span class="math inline">\(y\)</span> didn’t appear in document <span class="math inline">\(z\)</span>’s beam, <span class="math inline">\(p\)</span><sub><span class="math inline">\(\theta\)</span></sub><span class="math inline">\((y|x,z)\)</span> is assumed as 0</li>
+<li>In <strong>Fast Decoding</strong>, if <span class="math inline">\(y\)</span> didn’t appear in document <span class="math inline">\(z\)</span>’s beam, <span class="math inline">\(p\)</span><span class="math inline">\(\theta\)</span><span class="math inline">\((y|x,z)\)</span> is assumed as 0</li>
 </ul></li>
 </ul></li>
 </ul>
@@ -520,11 +520,11 @@ $p$~RAG-Seq~(\mathbf{y}|\mathbf{x}) \approx \sum_{j=1}^{k} P_{\eta}(\mathbf{z}_j
 <div style="font-size: 65%;">
 <table class="caption-top">
 <colgroup>
-<col style="width: 32%">
-<col style="width: 23%">
-<col style="width: 17%">
-<col style="width: 10%">
-<col style="width: 15%">
+<col style="width: 25%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 18%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -593,7 +593,7 @@ $p$~RAG-Seq~(\mathbf{y}|\mathbf{x}) \approx \sum_{j=1}^{k} P_{\eta}(\mathbf{z}_j
 <div style="font-size: 65%;">
 <table class="caption-top">
 <colgroup>
-<col style="width: 25%">
+<col style="width: 26%">
 <col style="width: 25%">
 <col style="width: 24%">
 <col style="width: 24%">
@@ -721,7 +721,7 @@ $p$~RAG-Seq~(\mathbf{y}|\mathbf{x}) \approx \sum_{j=1}^{k} P_{\eta}(\mathbf{z}_j
 <h2>Index Hot-Swapping</h2>
 <div style="font-size: 65%;">
 <ul>
-<li>Same trained RAG model, two different Wikipedia indexes (Dec 2016 vs.&nbsp;Dec 2018)</li>
+<li>Same trained RAG model, two different Wikipedia indexes (Dec 2016 vs. Dec 2018)</li>
 <li>82 world leaders who changed roles between those dates</li>
 </ul>
 <table class="caption-top">
@@ -775,6 +775,11 @@ $p$~RAG-Seq~(\mathbf{y}|\mathbf{x}) \approx \sum_{j=1}^{k} P_{\eta}(\mathbf{z}_j
 <h2>Parametric vs Non-Parametric Memory</h2>
 <div style="font-size: 65%;">
 <table class="caption-top">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 34%">
+<col style="width: 39%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Property</th>
