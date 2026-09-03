@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="RAG_files/libs/clipboard/clipboard.min.js"></script>
-<script src="RAG_files/libs/quarto-html/tabby.min.js"></script>
-<script src="RAG_files/libs/quarto-html/popper.min.js"></script>
-<script src="RAG_files/libs/quarto-html/tippy.umd.min.js"></script>
-<link href="RAG_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="RAG_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="RAG_files/libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="RAG_files/libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="RAG_files/libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="RAG_files/libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><meta charset="utf-8">
+<link href="../photos/Piyush.png" rel="icon" type="image/png">
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-d0ae9245876894da5ac7e18953ecc5cc.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.9.37">
 
   <meta name="author" content="Piyush Chaudhari">
-  <title>Retrival-Augmented Generation for Knowledge-Intensive NLP Tasks</title>
+  <meta name="dcterms.date" content="2026-03-23">
+  <title>Piyush Chaudhari – Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="RAG_files/libs/revealjs/dist/reset.css">
-  <link rel="stylesheet" href="RAG_files/libs/revealjs/dist/reveal.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
   <style>
     /* Default styles provided by pandoc.
     ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -35,13 +37,13 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="RAG_files/libs/revealjs/dist/theme/quarto-4df01d85d5cf19cc6202400f4f043f84.css">
-  <link href="RAG_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-  <link href="RAG_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-  <link href="RAG_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-  <link href="RAG_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
-  <link href="RAG_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
-  <link href="RAG_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-4df01d85d5cf19cc6202400f4f043f84.css">
+  <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
     .reveal div.sourceCode {
       margin: 0;
@@ -129,13 +131,17 @@
       margin-right: 0; 
     }
   </style>
+<meta name="twitter:title" content="Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks – Piyush Chaudhari">
+<meta name="twitter:description" content="Journal club — Lewis et al.&nbsp;(2020).">
+<meta name="twitter:creator" content="@iampiyushvc">
+<meta name="twitter:card" content="summary">
 </head>
 <body class="quarto-dark">
   <div class="reveal">
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Retrival-Augmented Generation for Knowledge-Intensive NLP Tasks</h1>
+  <h1 class="title">Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -145,6 +151,7 @@ Piyush Chaudhari
 </div>
 </div>
 
+  <p class="date">2026-03-23</p>
 </section>
 <section id="limitations-in-current-methods" class="slide level2">
 <h2>Limitations in current methods</h2>
@@ -865,6 +872,7 @@ $p$~RAG-Seq~(\mathbf{y}|\mathbf{x}) \approx \sum_{j=1}^{k} P_{\eta}(\mathbf{z}_j
 </ul>
 </div>
 
+
 </section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
@@ -875,20 +883,20 @@ $p$~RAG-Seq~(\mathbf{y}|\mathbf{x}) \approx \sum_{j=1}^{k} P_{\eta}(\mathbf{z}_j
 </div></div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
-  <script src="RAG_files/libs/revealjs/dist/reveal.js"></script>
+  <script src="../site_libs/revealjs/dist/reveal.js"></script>
   <!-- reveal.js plugins -->
-  <script src="RAG_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
-  <script src="RAG_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
-  <script src="RAG_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
-  <script src="RAG_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-  <script src="RAG_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
-  <script src="RAG_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  <script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
-  <script src="RAG_files/libs/revealjs/plugin/notes/notes.js"></script>
-  <script src="RAG_files/libs/revealjs/plugin/search/search.js"></script>
-  <script src="RAG_files/libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="RAG_files/libs/revealjs/plugin/math/math.js"></script>
+  <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>
@@ -1154,7 +1162,7 @@ $p$~RAG-Seq~(\mathbf{y}|\mathbf{x}) \approx \sum_{j=1}^{k} P_{\eta}(\mathbf{z}_j
         }
           var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
           var mailtoRegex = new RegExp(/^mailto:/);
-            var filterRegex = new RegExp('/' + window.location.host + '/');
+            var filterRegex = new RegExp("https:\/\/pc-piyush\.github\.io\/presentations");
           var isInternal = (href) => {
               return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
           }
