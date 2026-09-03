@@ -1,5 +1,5 @@
 ---
-title: "Presentations"
+title: ""
 # subtitle: "Talks, journal clubs, and pitches"
 listing:
   - id: talks
