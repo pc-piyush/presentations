@@ -1,0 +1,643 @@
+---
+header: Journal Club - March 23, 2026
+title: "Retrival-Augmented Generation for Knowledge-Intensive NLP Tasks"
+author: "Piyush Chaudhari"
+format: 
+    revealjs:
+#        axe:
+#            output: document
+        slide-number: true
+        chalkboard: 
+            buttons: false
+        preview-links: auto
+        logo: images/favicon.ico
+        #css: styles.css
+footer: "[Retrieval-augmented generation for knowledge-intensive NLP tasks
+ (2020)](https://dl.acm.org/doi/abs/10.5555/3495724.3496517)"
+theme: "dark"
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+## Limitations in current methods
+
+::: {style="font-size: 65%;"}
+-   Standard models (For e.g. BART) store their knowledge as
+    <ins>**model weights**</ins> during training
+
+-   Limitations -
+
+    -   **Difficult to update** without retraining
+    -   **Hallucinations**- model interpolate from compressed parametric
+        memory
+    -   There is no way to tell what part was looked at to produce
+        output
+
+-   This paper treats retrieval as a **learnable**, **differentiable**
+    element that can be plugged into a generative model
+
+-   A jointly trained system where
+
+    -   **Model** knows what to query
+    -   **Generator** knows how to use what is queried
+:::
+
+------------------------------------------------------------------------
+
+## Types of Memory
+
+::: {style="font-size: 65%;"}
+-   <ins>**Parametric Memory**</ins>
+
+    -   Knowledge is frozen into model weights
+    -   Can't update it without retraining
+    -   Fast to infer insights but limited and brittle
+
+-   <ins>**Non-parametric Memory**</ins>
+
+    -   Indexed text, external to the model, which the model looks up at
+        runtime
+    -   The index can be swapped, updated or replaced independent of
+        model weights
+
+-   RAG combines both types of memories - **retriever** fetches relevant
+    documents from non-parametric memory, and **generators** (that stores
+    parametric knowledge) synthesizes a response using both
+
+-   Prior work on the hybrid approach was done only on extractive tasks
+    ([**REALM**]{title="REALM is a pre-training method that uses a neural retriever to find relevant documents to help a language model learn knowledge, resulting in improved performance on open-domain QA tasks"},[**ORQA**]{title="ORQA focuses specifically on the open-retrieval QA framework, often serving as the foundational fine-tuning structure for models like REALM"}) but RAG extends it to generative seq2seq tasks
+:::
+
+------------------------------------------------------------------------
+
+## Approach
+
+<!-- ![](images/x1.png){.absolute .fragment bottom="10" right="10" width="650"} -->
+::: {style="font-size: 65%;"}
+
+![The paper combines a pre-trained retriever
+(Query Encoder + Document Index) with a pre-trained seq2seq model
+(Generator) and fine-tune end-to-end. For query $x$, we use Maximum
+Inner Product Search (MIPS) to find the top-K documents $z$~$i$~. For
+final prediction $y$, we treat $z$ as a latent variable and marginalize
+over seq2seq predictions given different
+documents](images/x1.PNG){.lightbox group="my-gallery2"}
+
+:::
+
+------------------------------------------------------------------------
+
+## Methods
+
+::: {style="font-size: 65%;"}
+-   The paper explores RAG models, that uses input sequence $x$ to
+    retrieve text documents $z$ to use them as additional context when
+    generating the target sequence $y$
+
+-   The model leverages two components
+
+    -   **Retriever** $p$~$\eta$~$(z | x)$ with parameters $\eta$ that
+        returns top-K truncated distributions over the text given a
+        query $x$
+    -   **Generator** $p$~$\theta$~($y$~i~ \| $x,z,y$~1:i-1~) parametrized
+        by $\theta$ that generates a current token based on the context
+        of the previous $i-1$ tokens $y$~1:i-1~ , the original input $x$
+        and a retrieved text $z$
+
+-   The retrieved documents are treated as [**latent
+    variable**]{title="hidden, unobservable constructs—such as intelligence, anxiety, or quality of life—that cannot be measured directly but are inferred through statistical modeling of observed, measurable variables"} -
+    the model never directly supervises which document is correct
+
+-   The paper proposes two models - **RAG-Sequence** that uses the same
+    document to predict each target token and **RAG-Token** which can
+    predict each target token based on a different document
+:::
+
+------------------------------------------------------------------------
+
+## Models
+
+::: {style="font-size: 65%;"}
+1.  **RAG-Sequence Model**
+
+-   uses the same retrived document to generate complete sequence
+-   treats retrieved document as a single latent variable marginalized
+    to get seq2seq probability $p(y|x)$ via a top-K approximation
+-   top K documents are retrived using the **retriver** and
+    **generator** produces output sequence probability of each document,
+    then marginalized
+:::
+
+::: {style="font-size: 60%;"}
+
+$p$~RAG-Sequence~$(y|x)$ $\approx$ $\sum_{z\in top-k(p(.|x))}$ $p$~$\eta$~$(z|x)p$~$\theta$~$(y|x,z)$ $=$ $\sum_{z\in top-k(p(.|x))}$ $p$~$\eta$~$(z|x)\prod p$~$\theta$~$(y$~i~$|x,z,y$~1:i-1~ $)$
+
+<!--
+$p$~RAG-Seq~(\mathbf{y}|\mathbf{x}) \approx \sum_{j=1}^{k} P_{\eta}(\mathbf{z}_j|\mathbf{x}) \prod_{i=1}^{N} P_{\theta}(y_i|\mathbf{x}, \mathbf{z}_j, \mathbf{y}_{<i})
+-->
+:::
+
+::: {style="font-size: 65%;"}
+
+- [$\prod p$~$\theta$~$(y$~i~$|x,z,y$~1:i-1~ $)$]{title="BART generates the answer one token at a time, each token conditioned on everything before it. Multiplying these token probabilities together gives the probability of the whole sequence y given one specific document z"} is the standard autoregressive generator
+- [$\sum_{z\in top-k(p(.|x))}$ $p$~$\eta$~$(z|x)$]{title="weight each full-sequence probability by how likely we were to retrieve that document, and sum them all up"} does it for top-K documents
+
+<!--
+$p$~RAG-Seq~(\mathbf{y}|\mathbf{x}) \approx \sum_{j=1}^{k} P_{\eta}(\mathbf{z}_j|\mathbf{x}) \prod_{i=1}^{N} P_{\theta}(y_i|\mathbf{x}, \mathbf{z}_j, \mathbf{y}_{<i})
+-->
+:::
+
+---
+
+## Models
+::: {style="font-size: 65%;"}
+
+2. **RAG-Token Model**
+
+- Draw different latent document for each target token
+- Allows the generator to choose content from different documents when generating a response
+- Once top K documents are retrieved, the generator produces a distribution for the next output token for each document, before marginalizing
+- The process is repeated for following output token
+
+:::
+
+::: {style="font-size: 60%;"}
+<center>
+
+$p$~RAG-Token~$(y|x)$ $\approx$ $\prod_{i}^{N}$ $\sum_{z\in top-k(p(.|x))}$ $p$~$\eta$~$(z|x) p$~$\theta$~$(y$~i~$|x,z,y$~1:i-1~ $)$
+</center>
+
+:::
+
+---
+
+## Models
+::: {style="font-size: 65%;"}
+
+2. **RAG-Token Model**
+:::
+
+::: {style="font-size: 60%;"}
+<center>
+
+$p$~RAG-Token~$(y|x)$ $\approx$ $\prod_{i}^{N}$ $\sum_{z\in top-k(p(.|x))}$ $p$~$\eta$~$(z|x) p$~$\theta$~$(y$~i~$|x,z,y$~1:i-1~ $)$
+</center>
+
+:::
+
+
+::: {style="font-size: 65%;"}
+
+- The product is outside while the sum is inside, compared to RAG Sequence. At each token position $i$, the model considers all K documents simultaneously, weights each document’s contribution to this specific token by the retrieval probability, and sums. 
+
+- Then moves to position $i+1$ and does it again — potentially with a different document dominating.
+
+- RAG can be used for sequence classification tasks by considering target class as a target sequence of length one, where **RAG-Sequence** and **RAG-Token** are equivalent
+:::
+
+---
+
+## Retriever
+
+::: {style="font-size: 65%;"}
+
+- The retriever $p$~$\eta$~$(z|x)$ is based on [**Dense Passage Retrival (DPR)**]{title="Dense Passage Retrieval (DPR) is a search technique that maps queries and documents into high-dimensional, semantic vectors (embeddings) using neural networks, enabling retrieval based on conceptual similarity rather than exact keywords. It generally outperforms traditional methods like BM25 by using twin encoders to identify contextually relevant information"} that follows a bi-encoder structure 
+:::
+
+::: {style="font-size: 60%;"}
+<center>
+$d(z)$ = BERT~$d$~$(z)$                 *document encoder*
+
+$q(x)$ = BERT~$q$~$(x)$                 *query encoder*
+</center>
+
+:::
+
+::: {style="font-size: 65%;"}
+with a retrival probability of
+
+:::
+
+::: {style="font-size: 60%;"}
+<center>
+$p$~$\eta$~$(z|x)$ $\propto$ exp $(d(z)^T.q(x))$
+</center>
+
+:::
+
+::: {style="font-size: 65%;"}
+
+- [Higher dot product equals higher probability of retrival]{title="Both the query and every document get compressed into vectors of the same dimension — say 768 numbers each. The dot product measures how geometrically aligned those two vectors are. High alignment = high similarity = high retrieval probability. The exp turns the raw dot product score into a positive number. Dividing by the sum across all documents (the normalization implied by ∝) turns it into a proper probability distribution that sums to 1."}
+- Finding top-K is a [**Maximum Inner Product Search**]{title="Maximum Inner Product Search (MIPS) is a retrieval technique that finds the vector in a dataset with the highest inner product (often representing similarity) to a given query vector"} problem
+- Solved approximately using [**FAISS**]{title="Faiss (Facebook AI Similarity Search) is an open-source library for efficient, high-dimensional dense vector similarity search and clustering. Developed by Meta AI Research, it enables searching through millions or billions of vectors—even those not fitting in RAM—using algorithms like HNSW and PCA. It supports CPU and GPU acceleration, making it ideal for recommendation systems and semantic search"} + [**HNSW**]{title="Hierarchical Navigable Small World (HNSW) is a state-of-the-art graph-based algorithm for Approximate Nearest Neighbor (ANN) search, designed for fast, high-recall similarity searches in large vector datasets. It builds a multi-layered, hierarchical graph structure where higher layers feature long-range links for fast, coarse searching, and lower layers provide short-range links for refined, accurate searches"} graphs - sub-linear time over 21 million documents
+
+:::
+---
+
+## Retriever
+
+::: {style="font-size: 65%;"}
+- One performace tradeoff is that the Document Encoder $d(z)$ is frozen during fine-tuning
+
+    - Re-embedding 21 million documents every training step is expensive
+    - The initialization DPR retriever was pre-trained specifically to retrieve passages relevant to **Natural Questions** and **TriviaQA**. This means the document embeddings it produces are already semantically well-organized
+    - So $d(z)$ already has a meaningful embedding space before fine-tuning begins
+    - Doesn't hurt the performance significantly
+    - Prevents **catastrophic indexing** - Updating the encoded during training changes the embedding, clashing with FAISS which was build over old embeddings
+:::
+
+---
+
+## Generator
+
+::: {style="font-size: 65%;"}
+
+- 400M parameter seq2seq transformer, pre-trained with a denoising objective
+- Input is simply the concatenation of query and retrieved document: [$x$ ; $z$]
+- Generates answer autoregressively, one token at a time:
+
+:::
+
+::: {style="font-size: 65%;"}
+
+<center> 
+$p$~$\theta$~$(y$~i~$|x,z,y$~1:i-1~ $)$ 
+</center>
+
+:::
+
+::: {style="font-size: 65%;"}
+
+- At each step: conditioned on the full query, the retrieved document, and all prior output tokens
+- BART over T5: 
+    - BART outperforms comparably-sized T5 on generation tasks 
+    - Bidirectional encoder + left-to-right decoder is well-suited for this hybrid input structure
+
+:::
+
+---
+
+## Marginalizing Over Documents
+
+::: {style="font-size: 65%;"}
+
+- Since the "correct" document is unknown, both RAG variants sum (marginalize) over top-K documents, weighted by retrieval probability
+
+:::
+
+::: {style="font-size: 65%;"}
+
+- **RAG-Sequence** has the same document for the whole output
+    - Generates a complete answer for each document, then weight by how likely it was to be retrieved
+
+<center> 
+
+$p(y|x)=$ $\sum_{z\in top-k(p(.|x))}$ $p$~$\eta$~$(z|x)\prod p$~$\theta$~$(y$~i~$|x,z,y$~1:i-1~ $)$
+</center>
+
+
+
+- **RAG-Token** potentially has different document per output token
+    - At each token step, the model can draw from a different document
+
+
+<center>
+
+$p(y|x)$ $\approx$ $\prod_{i}^{N}$ $\sum_{z\in top-k(p(.|x))}$ $p$~$\eta$~$(z|x) . p$~$\theta$~$(y$~i~$|x,z,y$~1:i-1~ $)$
+</center>
+
+
+
+:::
+
+---
+
+## RAG-Sequence vs RAG-Token
+
+::: {style="font-size: 65%;"}
+
+| Cohort | RAG-Sequence | RAG-Token |
+|--------|---------------|---------|
+| Document Usage | One Document for full answer | Different document per token |
+| Flexibility | Lower | Higher |
+| Applications | Coherent, Single-Source Outputs | Outputs synthesizing multiple sources |
+| Decoding | Beam Search per document + re-scoring | [Standard Beam Decoder]{title="A standard beam decoder is a heuristic search algorithm used in sequence-to-sequence models to find the most likely output sequence by maintaining a fixed-size set (k) of the most promising candidates, known as the beam. Unlike greedy search, which only keeps the single best next token or breadth-first search, which explores all possible combinations, beam search offers a trade-off between computational complexity and output quality"} |
+
+:::
+
+---
+
+## Training
+
+::: {style="font-size: 65%;"}
+
+- Trained end-to-end on input/output pairs ($x$~$j$~,$y$~$j$~ ) only — no supervision on which document to retrieve
+- [Loss function]{title="log p(yⱼ|xⱼ) is the log probability the model assigns to the correct answer. If the model is confident and correct, this number is close to 0 (log of 1). If the model is wrong or uncertain, it’s a large negative number. We want to maximize the log probability of correct answers — equivalently, minimize the negative log probability. That’s the loss."}: negative marginal log-likelihood of the target output
+<center>
+$Loss$ = - $\sum$~$j$~ $log$ $p(y$~$j$~|$x$~$j$~ $)$
+</center>
+
+- [Gradient flows through BART (generator) and the query encoder]{title="The gradient of this loss flows backward through BART (adjusting how it generates) and through the query encoder (adjusting what it retrieves). Both improve simultaneously from a single signal: did you produce the right answer?"}
+- [The system learns to retrieve by learning what helps it generate correct answers]{title="No document is ever labeled as correct or incorrect. The retriever learns what to fetch purely because fetching the right documents leads to lower loss on the generation side"}
+- Only the query encoder and BART are updated; document encoder + index are frozen
+- Optimizer: [Adam]{title="Adaptive Moment estimation.“Adaptive” — each parameter gets its own effective learning rate, adapted based on history. “Moment” — it tracks two statistical moments of the gradients over time- the mean of recent gradients and the mean of recent squared gradients"} with stochastic gradient descent
+
+:::
+
+---
+
+## Decoding
+
+::: {style="font-size: 65%;"}
+
+- RAG-Token
+    - Per-token probability factors are plugged directly into standard beam decoder
+    - Transition probability
+
+    <center>$p'$~$\theta$~$(y$~i~$|x,y$~1:i-1~ $)$ $=$  $\sum_{z\in top-k(p(.|x))}$ $p$~$\eta$~$(z$~$i$~$|x)p$~$\theta$~$(y$~i~$|x,z$~$i$~$,y$~1:i-1~ $)$</center>
+
+    - To decode, $p'$~$\theta$~$(y$~i~$|x,y$~1:i-1~ $)$ can be plugged into a **standard beam decoder**
+
+:::
+
+---
+
+## Decoding
+
+::: {style="font-size: 65%;"}
+
+- RAG-Sequence
+    - Full sequence probability $p(y|x)$ doesn't factor per-token, hence can't do a single beam search
+    - **Thorough Decoding**: 
+        1.	Get $K$ sets of candidate sequences by running beam search independently for each of the $K$ retrieved documents  
+	    2.	Take the union of all candidates across all K beams which is the hypothesis set $Y$
+	    3.	For any candidate $y$ that didn’t appear in a particular document’s beam, run an additional forward pass through BART to score it against that document anyway
+	    4.	Final probability
+        <center>
+        $p(y|x)=$ $\sum_{z}$ $p$~$\eta$~$(z|x) . p$~$\theta$~$(y|x,z)$
+        summed across all $K$ documents
+	    </center>
+        5.	Pick the highest scoring $y$
+
+:::
+
+---
+
+## Decoding
+
+::: {style="font-size: 65%;"}
+
+- RAG-Sequence
+    - **Fast Decoding**
+        - Similar to Thorough, but skips Step 3
+        - If a candidate was generated from document 1’s beam but not document 2’s, **Thorough Decoding** still need to score it against document 2. With K=10 and a large hypothesis set, this is computinally expensive
+        - In **Fast Decoding**, if $y$ didn't appear in document $z$'s beam, $p$~$\theta$~$(y|x,z)$ is assumed as 0
+
+
+:::
+
+---
+
+## Experiments
+
+::: {style="font-size: 65%;"}
+
+RAG was tested across five distinct task types to prove generality:
+
+- Open-Domain QA (Natural Questions, TriviaQA, WebQuestions, CuratedTrec) — exact match
+- Abstractive QA (MS-MARCO) — free-form answer generation, BLEU + Rouge-L
+- Jeopardy Question Generation — given an entity, generate the Jeopardy clue — Q-BLEU-1 + human evaluation
+- Fact Verification (FEVER) — classify claims as supported / refuted / not enough information
+
+:::
+
+---
+
+## Results
+
+#### Open-Domain Q&A
+
+::: {style="font-size: 65%;"}
+
+
+| Model                    | [Natural Questions]{title="The Natural Questions (NQ) corpus is a Google-developed benchmark dataset for training and evaluating open-domain question-answering systems. It consists of 300,000+ real, anonymized Google Search queries paired with Wikipedia pages, requiring systems to identify both long-form paragraphs and short, specific answers within the text"} | [TriviaQA]{title="TriviaQA is a large-scale, open-domain reading comprehension dataset containing over 650,000 question-answer-evidence triples, used to train and evaluate AI systems. It consists of 95,000 human-authored question-answer pairs paired with 6 independently gathered, evidence-rich documents per question, focusing on challenging, multi-sentence reasoning"}      | [WebQ]{title="his dataset consists of 6,642 question/answer pairs. The questions are supposed to be answerable by Freebase, a large knowledge graph. The questions are mostly centered around a single named entity. The questions are popular ones asked on the web (at least in 2013)."}     | CuratedTrec |
+| ------------------------ | ----------------- | ------------- | -------- | ----------- |
+| [T5-11B (closed book)]{title="The Text-to-Text Transfer Transformer (T5), developed by Google AI researchers in 2019, is a versatile encoder-decoder model that treats every Natural Language Processing (NLP) task—such as translation, summarization, and classification—as a text-to-text problem. By converting input data into specific text formats (e.g., summarize: ...), it achieves state-of-the-art results across various tasks, optimized through training on the massive Colossal Clean Crawled Corpus (C4)"}     | 34.5              | —/50.1        | 37.4     | —           |
+| T5-11B+SSM (closed book) | 36.6              | —/60.5        | 44.7     | —           |
+| [REALM (open book)]{title="REALM (Retrieval-Augmented Language Model Pre-training) is a Google-developed framework that enhances language models by retrieving relevant information from an external knowledge source (e.g., Wikipedia) before generating responses. By training a retriever and a transformer-based language model together, it improves accuracy, interpretability, and modularity over traditional, purely parametric models, particularly in open-domain question answering"}        | 40.4              | —             | 40.7     | 46.8        |
+| [DPR (open book)]{title="Dense Passage Retrieval (DPR) is a neural retrieval framework that uses dual-encoder BERT models to represent queries and documents as dense vectors, enabling semantic search superior to keyword-based methods (e.g., BM25). It is a key component in retrieval-augmented generation (RAG) for open-domain question answering, mapping high-dimensional text to low-dimensional vectors for fast, semantic retrieval."}          | 41.5              | 57.9          | 41.1     | 50.6        |
+| **RAG-Token**            | **44.1**          | **55.2/66.1** | **45.5** | 50.0        |
+| **RAG-Sequence**         | **44.5**          | **56.8/68.0** | 45.2     | **52.2**    |
+
+
+- RAG beats T5-11B (27x larger, expensive pre-training) on NQ and WebQ
+- RAG beats DPR's extractive pipeline — without a re-ranker or cross-encoder
+- RAG scores 11.8% accuracy even when the correct answer is **absent from all retrieved documents** — extractive systems score 0% in this case
+
+:::
+
+---
+
+## Results
+
+#### Generation Tasks
+
+::: {style="font-size: 65%;"}
+
+
+| Model             | Jeopardy Q-BLEU-1 | MS-MARCO Rouge-L | FEVER-3 Accuracy |
+| ----------------- | ----------------- | ---------------- | ---------------- |
+| BART baseline     | 19.7              | 38.2             | 64.0             |
+| RAG-Token         | **22.2**          | 40.1             | **72.5**         |
+| RAG-Sequence      | 21.4              | **40.8**         | —                |
+| State of the art* | —                 | 49.8*            | 76.8             |
+
+*SotA uses gold context/evidence passages; RAG retrieves its own
+
+:::
+
+---
+
+## Results
+
+#### Jeopardy
+
+::: {style="font-size: 65%;"}
+
+
+**Human evaluation on Jeopardy (452 pairs):**
+
+- RAG more factual than BART: **42.7% of cases**
+- BART more factual than RAG: **7.1% of cases**
+- RAG more specific: **37.4% vs. 16.8%**
+
+On FEVER, RAG comes within 4.3% of complex pipeline systems that use domain-specific architectures and supervised retrieval labels — while using none of that.
+
+:::
+
+---
+
+## Results
+
+#### Generation Diversity
+
+::: {style="font-size: 65%;"}
+
+
+Measured as ratio of distinct tri-grams to total tri-grams:
+
+|Model|MS-MARCO|Jeopardy|
+|---|---|---|
+|Gold (human)|89.6%|90.0%|
+|BART|70.7%|32.4%|
+|RAG-Token|77.8%|46.8%|
+|RAG-Sequence|**83.5%**|**53.8%**|
+
+- RAG generates significantly more diverse outputs than BART — without any diversity-promoting decoding tricks
+- The retrieval of varied evidence naturally pushes the generator toward more specific, varied language
+
+- BART on Jeopardy at 32.4% - a pure parametric model tends to repeat generic patterns
+- RAG is anchored to specific retrieved facts
+
+:::
+
+---
+
+## Ablations
+
+::: {style="font-size: 65%;"}
+
+- Frozen vs. learned retrieval:
+
+    - RAG-Token with frozen retriever: 37.8 on NQ and 43.5 with learned
+    - Learning to retrieve is worth ~6 EM points on NQ alone
+
+- Dense retrieval (DPR) vs. sparse retrieval (BM25):
+
+    - BM25 replacement tanks QA performance significantly (29.7 vs. 43.5 on NQ for RAG-Token)
+    - Exception: FEVER — BM25 performs comparably or better, because fact-checking claims are entity-heavy and keyword overlap is a reliable signal
+    - For generation tasks: dense retrieval is crucial
+
+- Number of retrieved documents:
+
+    - RAG-Sequence: more docs monotonically helps QA
+    - RAG-Token: performance peaks at K=10, then levels off
+    - Flexibility to adjust K at inference time without retraining is a practical advantage
+
+:::
+
+---
+
+## Index Hot-Swapping
+
+::: {style="font-size: 65%;"}
+
+- Same trained RAG model, two different Wikipedia indexes (Dec 2016 vs. Dec 2018)
+- 82 world leaders who changed roles between those dates
+
+|Index|2016 leaders query|2018 leaders query|
+|---|---|---|
+|2016 index|**70%** correct|4% correct|
+|2018 index|12% correct|**68%** correct|
+
+- Mismatched index has a near-zero accuracy
+- Matched index has about 70% accuracy with same model weights, but different index
+- RAG's world knowledge lives in the index, not the weights, and hence a deplyed RAG system can be updated on factual knowledge by replacing its document store
+    - without retraining
+    - without fine-tuning
+
+:::
+
+---
+
+## Generation vs Extraction
+
+::: {style="font-size: 65%;"}
+
+- All four QA benchmarks in the paper are classified as **extractive** tasks — the answer exists verbatim in some document. 
+
+- Still, RAG's generative approach beats purpose-built extractive systems.
+
+    - Documents that contain **clues** but not the verbatim answer can still guide generation — extraction can't use them at all
+    - Marginalization over $K$ documents lets multiple partial-evidence documents contribute to a single correct answer
+    - Generation can synthesize across documents while extraction is limited to one span in one document
+    - RAG can produce correct answers even when no retrieved document contains the answer
+
+:::
+
+---
+
+## Parametric vs Non-Parametric Memory
+
+::: {style="font-size: 65%;"}
+
+
+|Property|Parametric (BART weights)|Non-Parametric (FAISS index)|
+|---|---|---|
+|Update mechanism|Retraining|Index replacement|
+|Interpretability|Opaque|Human-readable raw text|
+|Writability|No|Yes — edit documents directly|
+|Access speed|Instant (forward pass)|Fast (MIPS, sub-linear)|
+|Knowledge source|Training corpus|Any document collection|
+|Hallucination risk|High|Lower (grounded in text)|
+
+- The non-parametric memory being **raw text** (not embeddings) is a design choice
+- Keeps the memory human-readable and human-writable
+- Gives you authority to correct - a factual error can be corrected by editing a document in the index, the same thing cannot be done with weights
+
+:::
+
+---
+
+## Limitations
+
+::: {style="font-size: 65%;"}
+
+- Single knowledge source (Wikipedia was the one source tested)
+- Joint pre-training wasn't explored, only fine-tuning. was performed
+- RAG-Sequencing Decoding doesn't scale optimally
+- Knowledge spanning multiple documents can't be multi-hopped while reasoning natively 
+- No inference regarding when to retrieve vs. when to rely purely on parametric memory
+
+
+:::
+
+---
+
+## Legacy of the Paper
+
+::: {style="font-size: 65%;"}
+
+While some of the specific components have been replaced by stronger alternatives, the core ideas from this paper propel the field even today
+
+- Treat retrieval as a learnable, differentiable function
+- Marginalize over uncertainty in which document is relevant
+- Separate updatable knowledge (index) from reasoning capability (weights)
+- Train end-to-end on (input, output) pairs without document-level supervision
+- Hot-Swapping has saved retraining costs across the industry- The observation that a 400M parameter model with a good index beats an 11B parameter model without one reshaped how to think about the scaling-vs-retrieval tradeoff
+
+
+:::
+
+---
+
+## Current Advances
+
+::: {style="font-size: 65%;"}
+
+- Retrievers
+    - Sparse + Dense Hybrid Retrievals outperform and have replaced DPR
+    - Both encoders can be fine-tuned using. contrastive learning, solving the frozen document-encoder compromise
+
+- Generators
+    - BART has been replaced by stronger LLMs like LLaMA, Mistral, GPT-4
+    - Capability to synthesize retrieved context has improved
+
+- Multi-Hop RAG
+    - Modern systems reads retrieved docs, generates a sub-question, retrieves again, and chains reasoning across multiple retrieval steps
+
+- Production RAG
+    - The index hot-swap insight became the architectural backbone of virtually every enterprise AI system — LlamaIndex, LangChain, and similar frameworks are essentially RAG pipelines with better chunking, re-ranking, and hybrid retrieval layered on top
+
+:::

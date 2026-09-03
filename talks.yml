@@ -1,0 +1,38 @@
+# Landing-page listing. One entry per talk; `path` points at the rendered deck
+# produced by build.sh. Adjust dates / descriptions / categories as needed.
+
+- title: "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension"
+  description: "Journal club — Rahman MA, Cai C, Bo N, et al. BMC Genomics."
+  path: "F26_GMS7858/ibi-hypertension.html"
+  date: "2026-08-31"
+  categories: ["Journal Club", "GMS 7858"]
+
+- title: "Fixed Coordinate Temporal Architecture for EHR Representation"
+  description: "Fixed Coordinate Tensor Data Model for EHR representation."
+  path: "GMS6805_FCT_CDM/presentation_20260416.html"
+  date: "2026-04-16"
+  categories: ["GMS 6805"]
+
+- title: "Zero Knowledge Medicine"
+  description: "Privacy-preserving Fixed Coordinate Temporal Architecture — HOBI Shark Tank pitch."
+  path: "HOBISharkTank_2026/pitch_2026.html"
+  date: "2026-03-25"
+  categories: ["Pitch", "HOBI Shark Tank"]
+
+- title: "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks"
+  description: "Journal club — Lewis et al. (2020)."
+  path: "JournalClub/2026-03-23-RAG/RAG.html"
+  date: "2026-03-23"
+  categories: ["Journal Club"]
+
+- title: "Learning the Natural History of Human Disease with Generative Transformers"
+  description: "GMS 6805 seminar presentation."
+  path: "GMS6805_20260226/slides.html"
+  date: "2026-02-26"
+  categories: ["GMS 6805"]
+
+- title: "Machine Learning-Based Penetrance of Genetic Variants"
+  description: "GMS 6804 presentation — Forrest IS, Vy HMT, Rocheleau G, et al. Science (2025)."
+  path: "GMS6804_20260217/slides.html"
+  date: "2026-02-17"
+  categories: ["GMS 6804"]

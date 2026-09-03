@@ -1,0 +1,27 @@
+/*-- scss:defaults --*/
+$body-bg: #ffffff;
+$body-color: #1a1a1a;
+$link-color: #2a6fdb;
+$presentation-heading-font: "Lato", sans-serif;
+$presentation-font-size-root: 30px;
+$code-block-bg: #f5f5f5;
+
+/*-- scss:rules --*/
+.reveal h1, .reveal h2 {
+  font-weight: 700;
+}
+
+.reveal .slide-background {
+  background-size: cover;
+}
+
+.callout-important {
+  border-left: 5px solid #c0392b;
+  background: #fdecea;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+}
+
+.reveal .slides section .fragment.highlight-current-blue.current-fragment {
+  color: #2a6fdb;
+}

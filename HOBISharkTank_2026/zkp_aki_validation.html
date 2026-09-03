@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZKP Cross-Hospital Model Validation — AKI Trajectory</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #03060f;
+  --surface: #080d1a;
+  --panel: #0c1220;
+  --border: #162035;
+  --border2: #1e2f4a;
+  --teal: #00e5c8;
+  --teal-dim: rgba(0,229,200,0.12);
+  --red: #ff4466;
+  --red-dim: rgba(255,68,102,0.12);
+  --amber: #ffb830;
+  --amber-dim: rgba(255,184,48,0.12);
+  --blue: #3d9fff;
+  --blue-dim: rgba(61,159,255,0.1);
+  --purple: #a855f7;
+  --purple-dim: rgba(168,85,247,0.1);
+  --text: #dde8f5;
+  --muted: #4a6080;
+  --muted2: #2a3f5a;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Fira Code', monospace;
+  line-height: 1.5;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Animated grid bg */
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+    linear-gradient(rgba(0,229,200,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,200,0.025) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events:none;
+  z-index:0;
+}
+
+.page { position:relative; z-index:1; padding:40px 32px 80px; max-width:1200px; margin:0 auto; }
+
+/* ── HEADER ── */
+.header { text-align:center; margin-bottom:56px; }
+.header-label {
+  display:inline-block;
+  font-size:10px; letter-spacing:5px; text-transform:uppercase;
+  color:var(--teal); border:1px solid var(--teal);
+  padding:5px 16px; margin-bottom:20px;
+  animation: fadeIn 0.6s ease both;
+}
+.header h1 {
+  font-family:'Syne',sans-serif; font-size:clamp(24px,4vw,44px);
+  font-weight:800; line-height:1.1;
+  color:#fff; margin-bottom:12px;
+  animation: fadeIn 0.6s ease 0.1s both;
+}
+.header h1 span { color:var(--teal); }
+.header p {
+  font-size:12px; color:var(--muted); max-width:600px; margin:0 auto;
+  animation: fadeIn 0.6s ease 0.2s both;
+}
+
+/* ── SECTION HEADERS ── */
+.sec-head {
+  font-family:'Syne',sans-serif; font-size:11px; font-weight:700;
+  letter-spacing:4px; text-transform:uppercase;
+  color:var(--muted); margin-bottom:20px;
+  display:flex; align-items:center; gap:10px;
+}
+.sec-head::after { content:''; flex:1; height:1px; background:var(--border); }
+
+/* ── STEP 1: Hospital A builds model ── */
+.hosp-a-block {
+  background:var(--panel);
+  border:1px solid var(--border2);
+  border-top:2px solid var(--blue);
+  padding:28px;
+  margin-bottom:24px;
+  animation: slideUp 0.5s ease 0.3s both;
+}
+.hosp-tag {
+  display:inline-block; font-size:9px; letter-spacing:4px;
+  text-transform:uppercase; padding:3px 12px; margin-bottom:16px;
+}
+.hosp-a-tag { background:var(--blue-dim); color:var(--blue); border:1px solid rgba(61,159,255,0.3); }
+.hosp-b-tag { background:var(--purple-dim); color:var(--purple); border:1px solid rgba(168,85,247,0.3); }
+
+.model-box {
+  background:var(--surface);
+  border:1px solid var(--border);
+  padding:20px 24px;
+  font-size:12px;
+}
+.model-box h3 { font-family:'Syne',sans-serif; font-weight:700; font-size:14px; color:#fff; margin-bottom:12px; }
+.model-features { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+.feat-chip {
+  background:var(--blue-dim); border:1px solid rgba(61,159,255,0.2);
+  color:var(--blue); font-size:10px; padding:4px 10px; letter-spacing:1px;
+}
+
+/* ── COMMITMENT FORMULA ── */
+.commitment-block {
+  background:var(--surface);
+  border:1px solid var(--teal);
+  padding:24px 28px;
+  margin:24px 0;
+  position:relative;
+  animation: slideUp 0.5s ease 0.4s both;
+}
+.commitment-block::before {
+  content:'ZK COMMITMENT';
+  position:absolute; top:-10px; left:20px;
+  background:var(--bg); padding:0 8px;
+  font-size:9px; letter-spacing:4px; color:var(--teal);
+}
+.formula {
+  font-size:13px; color:var(--teal); line-height:2.2;
+}
+.formula .comment { color:var(--muted); font-size:11px; }
+.formula .var { color:var(--amber); }
+.formula .fn  { color:var(--blue); }
+.formula .out { color:#fff; font-weight:500; }
+
+/* ── FLOW ARROW ── */
+.flow-arrow {
+  display:flex; align-items:center; justify-content:center;
+  gap:12px; margin:20px 0; color:var(--muted); font-size:10px;
+  letter-spacing:3px; text-transform:uppercase;
+}
+.flow-arrow::before, .flow-arrow::after {
+  content:''; flex:1; height:1px;
+  background:linear-gradient(90deg, transparent, var(--muted2), transparent);
+}
+.arrow-down {
+  display:flex; flex-direction:column; align-items:center;
+  gap:4px; margin:16px 0; color:var(--muted);
+  font-size:20px;
+}
+
+/* ── TWO PATIENT CASES ── */
+.cases-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:24px;
+  margin-top:8px;
+}
+
+.case-card {
+  border:1px solid var(--border2);
+  overflow:hidden;
+  animation: slideUp 0.6s ease 0.5s both;
+}
+.case-card.positive { border-top:2px solid var(--teal); }
+.case-card.negative { border-top:2px solid var(--red); }
+
+.case-header {
+  padding:16px 20px;
+  display:flex; align-items:center; gap:12px;
+}
+.case-card.positive .case-header { background:var(--teal-dim); }
+.case-card.negative .case-header { background:var(--red-dim); }
+
+.case-icon { font-size:24px; }
+.case-header-text h3 { font-family:'Syne',sans-serif; font-weight:700; font-size:14px; }
+.case-card.positive .case-header-text h3 { color:var(--teal); }
+.case-card.negative .case-header-text h3 { color:var(--red); }
+.case-header-text p { font-size:10px; color:var(--muted); letter-spacing:1px; margin-top:2px; }
+
+.case-body { background:var(--panel); padding:20px; }
+
+/* ── FEATURE ROWS ── */
+.feature-row {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:8px 0; border-bottom:1px solid var(--border);
+  font-size:11px;
+}
+.feature-row:last-child { border-bottom:none; }
+.feat-name { color:var(--muted); }
+.feat-val { font-weight:500; }
+.feat-val.high { color:var(--red); }
+.feat-val.med  { color:var(--amber); }
+.feat-val.low  { color:var(--teal); }
+.feat-val.none { color:var(--muted); }
+
+/* ── PROOF RESULT ── */
+.proof-result {
+  margin-top:16px; padding:16px 20px;
+  border:1px solid;
+  font-size:12px;
+}
+.proof-result.valid {
+  background:rgba(0,229,200,0.06);
+  border-color:rgba(0,229,200,0.3);
+}
+.proof-result.invalid {
+  background:rgba(255,68,102,0.06);
+  border-color:rgba(255,68,102,0.3);
+}
+.proof-label {
+  font-size:9px; letter-spacing:4px; text-transform:uppercase; margin-bottom:8px;
+}
+.proof-result.valid .proof-label { color:var(--teal); }
+.proof-result.invalid .proof-label { color:var(--red); }
+
+.proof-output { line-height:2; }
+.proof-output .k { color:var(--muted); }
+.proof-output .v-teal { color:var(--teal); }
+.proof-output .v-red { color:var(--red); }
+.proof-output .v-amber { color:var(--amber); }
+.proof-output .v-muted { color:var(--muted); font-style:italic; }
+
+/* ── AKI TIMELINE ── */
+.aki-timeline {
+  margin-top:16px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  padding:16px;
+}
+.aki-timeline h4 { font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--teal); margin-bottom:12px; }
+
+.timeline-track {
+  position:relative; height:8px;
+  background:var(--border); border-radius:4px; margin-bottom:20px;
+}
+.timeline-fill {
+  position:absolute; left:0; top:0; height:100%; border-radius:4px;
+  background:linear-gradient(90deg, var(--teal), var(--amber), var(--red));
+  width:72%;
+  animation: fillBar 1.2s ease 0.8s both;
+}
+.timeline-marker {
+  position:absolute; top:-4px;
+  width:16px; height:16px; border-radius:50%;
+  border:2px solid var(--red); background:var(--bg);
+  left:70%; transform:translateX(-50%);
+  animation: pulse 2s ease-in-out infinite;
+}
+.timeline-labels {
+  display:flex; justify-content:space-between;
+  font-size:9px; color:var(--muted); letter-spacing:1px;
+}
+.timeline-labels .now { color:var(--teal); }
+.timeline-labels .aki-point { color:var(--red); }
+
+/* ── WHAT HOSPITAL B LEARNS ── */
+.learns-grid {
+  display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:8px;
+}
+.learns-card {
+  background:var(--surface); border:1px solid var(--border);
+  padding:14px;
+  animation: slideUp 0.5s ease 0.7s both;
+}
+.learns-card h4 { font-size:9px; letter-spacing:3px; text-transform:uppercase; margin-bottom:8px; }
+.learns-card.knows h4 { color:var(--teal); }
+.learns-card.doesnt h4 { color:var(--red); }
+.learns-card.acts h4   { color:var(--amber); }
+.learns-card ul { list-style:none; }
+.learns-card ul li { font-size:11px; color:var(--muted); padding:4px 0; border-bottom:1px solid var(--border); line-height:1.5; }
+.learns-card ul li:last-child { border:none; }
+.learns-card.knows ul li::before { content:'✓ '; color:var(--teal); }
+.learns-card.doesnt ul li::before { content:'✗ '; color:var(--red); }
+.learns-card.acts ul li::before { content:'→ '; color:var(--amber); }
+
+/* ── ZKP PROTOCOL STEPS ── */
+.protocol-steps {
+  display:grid; grid-template-columns:repeat(5,1fr); gap:0;
+  background:var(--panel); border:1px solid var(--border2);
+  margin-top:8px; overflow:hidden;
+}
+.proto-step {
+  padding:20px 16px; border-right:1px solid var(--border);
+  position:relative;
+  animation: slideUp 0.5s ease 0.6s both;
+}
+.proto-step:last-child { border-right:none; }
+.proto-step::after {
+  content:'▶';
+  position:absolute; right:-8px; top:50%; transform:translateY(-50%);
+  color:var(--muted2); font-size:12px; z-index:2;
+}
+.proto-step:last-child::after { display:none; }
+.proto-num {
+  font-family:'Syne',sans-serif; font-size:28px; font-weight:800;
+  color:var(--border2); margin-bottom:8px;
+}
+.proto-actor { font-size:9px; letter-spacing:3px; text-transform:uppercase; margin-bottom:6px; }
+.proto-step:nth-child(odd) .proto-actor { color:var(--blue); }
+.proto-step:nth-child(even) .proto-actor { color:var(--purple); }
+.proto-title { font-family:'Syne',sans-serif; font-weight:700; font-size:12px; color:#fff; margin-bottom:6px; }
+.proto-desc { font-size:10px; color:var(--muted); line-height:1.6; }
+.proto-code {
+  margin-top:8px; background:var(--surface);
+  border:1px solid var(--border); padding:6px 10px;
+  font-size:9px; color:var(--teal); word-break:break-all;
+}
+
+/* ── KEY INSIGHT BOX ── */
+.insight-box {
+  background:linear-gradient(135deg, rgba(0,229,200,0.06), rgba(168,85,247,0.06));
+  border:1px solid var(--border2);
+  padding:28px 32px;
+  margin-top:24px;
+  display:flex; gap:24px; align-items:flex-start;
+  animation: slideUp 0.5s ease 0.8s both;
+}
+.insight-icon { font-size:36px; flex-shrink:0; }
+.insight-text h3 { font-family:'Syne',sans-serif; font-weight:700; font-size:16px; color:#fff; margin-bottom:8px; }
+.insight-text p { font-size:12px; color:var(--muted); line-height:1.8; }
+.insight-text p strong { color:var(--text); }
+.insight-text p span.teal { color:var(--teal); }
+.insight-text p span.red  { color:var(--red); }
+.insight-text p span.amber{ color:var(--amber); }
+
+/* ANIMATIONS */
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+@keyframes slideUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fillBar { from{width:0} to{width:72%} }
+@keyframes pulse {
+  0%,100% { box-shadow:0 0 0 0 rgba(255,68,102,0.4); }
+  50%      { box-shadow:0 0 0 6px rgba(255,68,102,0); }
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.blink { animation:blink 1.5s ease-in-out infinite; }
+
+@media(max-width:768px) {
+  .cases-grid, .learns-grid { grid-template-columns:1fr; }
+  .protocol-steps { grid-template-columns:1fr; }
+  .proto-step::after { display:none; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-label">AXIOM · ZKP Cross-Hospital Model Validation</div>
+    <h1>Hospital B validates Hospital A's <span>AKI Trajectory Model</span><br>without seeing a single patient record</h1>
+    <p>A zero-knowledge proof lets Hospital B verify model predictions on its own patients — revealing only whether the trajectory claim holds, never the underlying data or model weights.</p>
+  </div>
+
+  <!-- ── STEP 1: HOSPITAL A ── -->
+  <div class="sec-head">01 · Hospital A builds & commits the AKI model</div>
+  <div class="hosp-a-block">
+    <div class="hosp-tag hosp-a-tag">Hospital A — Model Owner</div>
+    <div class="model-box">
+      <h3>AKI Trajectory Prediction Model  <span style="color:var(--muted);font-size:11px;font-weight:400">[ trained internally, never shared ]</span></h3>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:12px;">Trained on 180,000 patient records. Predicts: AKI onset window, severity tier, and top contributing features.</div>
+      <div class="model-features">
+        <div class="feat-chip">Creatinine slope</div>
+        <div class="feat-chip">BUN / Creatinine ratio</div>
+        <div class="feat-chip">eGFR trend</div>
+        <div class="feat-chip">Urine output</div>
+        <div class="feat-chip">Contrast exposure</div>
+        <div class="feat-chip">Sepsis comorbidity</div>
+        <div class="feat-chip">Medication nephrotoxicity score</div>
+        <div class="feat-chip">Age · Diabetes · HTN</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMMITMENT -->
+  <div class="commitment-block">
+    <div class="formula">
+      <div><span class="comment">// Hospital A creates a cryptographic commitment — never shares raw model weights</span></div>
+      <div><span class="var">M</span>  <span style="color:var(--muted)">=</span>  model_weights + decision_boundary + feature_coefficients</div>
+      <div><span class="var">K</span>  <span style="color:var(--muted)">=</span>  <span class="fn">Pedersen_Commit</span>(<span class="var">M</span>, r)  <span class="comment">// r = random blinding factor</span></div>
+      <div><span class="var">π</span>  <span style="color:var(--muted)">=</span>  <span class="fn">ZK-STARK_Prove</span>(<span class="var">M</span>, <span class="var">K</span>, AKI_threshold, feature_importances)</div>
+      <div><span class="out">→ Hospital A publishes:  [ K,  π ]  to shared registry</span>  <span class="comment">// M stays private forever</span></div>
+    </div>
+  </div>
+
+  <div class="flow-arrow">Hospital B receives commitment K + proof π — no raw model data</div>
+
+  <!-- ── STEP 2: HOSPITAL B QUERIES ── -->
+  <div class="sec-head" style="margin-top:32px;">02 · Hospital B applies proof to its own patients</div>
+
+  <!-- PROTOCOL STEPS -->
+  <div class="protocol-steps">
+    <div class="proto-step">
+      <div class="proto-num">01</div>
+      <div class="proto-actor">Hospital B</div>
+      <div class="proto-title">Prepare Patient Vector</div>
+      <div class="proto-desc">Extracts feature vector for target patient from local EHR. Data never leaves Hospital B.</div>
+      <div class="proto-code">x = [creatinine_slope, bun_cr_ratio, egfr_7d, ...]</div>
+    </div>
+    <div class="proto-step">
+      <div class="proto-num">02</div>
+      <div class="proto-actor">Hospital B</div>
+      <div class="proto-title">Construct Claim</div>
+      <div class="proto-desc">Hospital B states what it wants to verify: "Does this patient's vector satisfy AKI trajectory under model K?"</div>
+      <div class="proto-code">claim: π_K(x) → AKI_onset ∈ [t₁, t₂]</div>
+    </div>
+    <div class="proto-step">
+      <div class="proto-num">03</div>
+      <div class="proto-actor">ZKP Verifier</div>
+      <div class="proto-title">Evaluate Circuit</div>
+      <div class="proto-desc">Arithmetic circuit evaluates the claim against the committed model. Neither M nor x are revealed during evaluation.</div>
+      <div class="proto-code">circuit(K, π, x_commit) → {0, 1}</div>
+    </div>
+    <div class="proto-step">
+      <div class="proto-num">04</div>
+      <div class="proto-actor">ZKP Verifier</div>
+      <div class="proto-title">Generate Verdict Proof</div>
+      <div class="proto-desc">Outputs a new ZK proof: "Given committed model K, patient vector x satisfies [or fails] AKI condition."</div>
+      <div class="proto-code">π_verdict = STARK_Prove(result, K, x_commit)</div>
+    </div>
+    <div class="proto-step">
+      <div class="proto-num">05</div>
+      <div class="proto-actor">Hospital B</div>
+      <div class="proto-title">Receive Verdict Only</div>
+      <div class="proto-desc">Hospital B receives: verdict (true/false), projected onset window, top features — nothing else.</div>
+      <div class="proto-code">Verify(π_verdict) → result_bundle</div>
+    </div>
+  </div>
+
+  <!-- ── STEP 3: TWO PATIENT CASES ── -->
+  <div class="sec-head" style="margin-top:36px;">03 · Two patients at Hospital B — same proof commitment, different verdicts</div>
+
+  <div class="cases-grid">
+
+    <!-- PATIENT 1: AKI TRUE -->
+    <div class="case-card positive">
+      <div class="case-header">
+        <div class="case-icon">🔴</div>
+        <div class="case-header-text">
+          <h3>Patient 1 — AKI Trajectory CONFIRMED</h3>
+          <p>Proof returns: VALID · π verdict = TRUE</p>
+        </div>
+      </div>
+      <div class="case-body">
+        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Feature Signal Strengths</div>
+        <div class="feature-row"><span class="feat-name">Creatinine slope (72h)</span><span class="feat-val high">+2.4 mg/dL/day ▲</span></div>
+        <div class="feature-row"><span class="feat-name">eGFR trend</span><span class="feat-val high">−38% over 5 days ▼</span></div>
+        <div class="feature-row"><span class="feat-name">BUN/Creatinine ratio</span><span class="feat-val high">28.4 (elevated)</span></div>
+        <div class="feature-row"><span class="feat-name">Urine output (24h)</span><span class="feat-val high">&lt;0.5 mL/kg/hr</span></div>
+        <div class="feature-row"><span class="feat-name">Sepsis comorbidity</span><span class="feat-val med">Present</span></div>
+        <div class="feature-row"><span class="feat-name">Nephrotoxic meds</span><span class="feat-val med">Vancomycin active</span></div>
+        <div class="feature-row"><span class="feat-name">Diabetes / HTN</span><span class="feat-val low">Both present</span></div>
+
+        <div class="aki-timeline">
+          <h4>Projected AKI Onset Window</h4>
+          <div class="timeline-track">
+            <div class="timeline-fill"></div>
+            <div class="timeline-marker blink"></div>
+          </div>
+          <div class="timeline-labels">
+            <span class="now">Now (Day 0)</span>
+            <span>Day 3</span>
+            <span class="aki-point">Day 5–7 ◀ AKI onset</span>
+          </div>
+        </div>
+
+        <div class="proof-result valid">
+          <div class="proof-label">ZKP Verdict — PROOF VALID ✓</div>
+          <div class="proof-output">
+            <div><span class="k">trajectory_match : </span><span class="v-teal">TRUE</span></div>
+            <div><span class="k">aki_onset_window : </span><span class="v-amber">Day 5–7 (±1 day)</span></div>
+            <div><span class="k">severity_tier    : </span><span class="v-amber">Stage 2 (KDIGO)</span></div>
+            <div><span class="k">top_features     : </span><span class="v-teal">creatinine_slope, eGFR_trend, urine_output</span></div>
+            <div><span class="k">model_commitment : </span><span class="v-teal">K_verified ✓</span></div>
+            <div><span class="k">patient_data_seen: </span><span class="v-teal">NONE — ZK guarantee</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PATIENT 2: AKI FALSE -->
+    <div class="case-card negative">
+      <div class="case-header">
+        <div class="case-icon">🟢</div>
+        <div class="case-header-text">
+          <h3>Patient 2 — AKI Trajectory NOT FOUND</h3>
+          <p>Proof returns: INVALID · π verdict = FALSE</p>
+        </div>
+      </div>
+      <div class="case-body">
+        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Feature Signal Strengths</div>
+        <div class="feature-row"><span class="feat-name">Creatinine slope (72h)</span><span class="feat-val low">+0.1 mg/dL/day ≈ stable</span></div>
+        <div class="feature-row"><span class="feat-name">eGFR trend</span><span class="feat-val low">−4% over 5 days (stable)</span></div>
+        <div class="feature-row"><span class="feat-name">BUN/Creatinine ratio</span><span class="feat-val low">14.2 (normal)</span></div>
+        <div class="feature-row"><span class="feat-name">Urine output (24h)</span><span class="feat-val low">1.2 mL/kg/hr (adequate)</span></div>
+        <div class="feature-row"><span class="feat-name">Sepsis comorbidity</span><span class="feat-val low">Absent</span></div>
+        <div class="feature-row"><span class="feat-name">Nephrotoxic meds</span><span class="feat-val low">None active</span></div>
+        <div class="feature-row"><span class="feat-name">Diabetes / HTN</span><span class="feat-val low">Absent</span></div>
+
+        <div class="aki-timeline" style="border-color:var(--border);">
+          <h4 style="color:var(--muted);">No AKI Onset Projected</h4>
+          <div class="timeline-track">
+            <div style="position:absolute;left:0;top:0;height:100%;width:15%;border-radius:4px;background:var(--teal);opacity:0.5;animation:fillBarShort 1s ease 0.8s both;"></div>
+          </div>
+          <div class="timeline-labels">
+            <span class="now">Now (Day 0)</span>
+            <span style="color:var(--muted)">Day 3</span>
+            <span style="color:var(--muted)">Day 7 — no event</span>
+          </div>
+        </div>
+
+        <div class="proof-result invalid">
+          <div class="proof-label">ZKP Verdict — PROOF FALSE ✗</div>
+          <div class="proof-output">
+            <div><span class="k">trajectory_match : </span><span class="v-red">FALSE</span></div>
+            <div><span class="k">aki_onset_window : </span><span class="v-muted">null — no onset projected</span></div>
+            <div><span class="k">severity_tier    : </span><span class="v-muted">null</span></div>
+            <div><span class="k">top_features     : </span><span class="v-muted">below threshold — not disclosed</span></div>
+            <div><span class="k">model_commitment : </span><span class="v-teal">K_verified ✓ (same model)</span></div>
+            <div><span class="k">patient_data_seen: </span><span class="v-teal">NONE — ZK guarantee</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── WHAT HOSPITAL B LEARNS ── -->
+  <div class="sec-head" style="margin-top:36px;">04 · Information budget — what Hospital B learns vs. never learns</div>
+
+  <div class="learns-grid">
+    <div class="learns-card knows">
+      <h4>Hospital B Learns ✓</h4>
+      <ul>
+        <li>Whether AKI trajectory is confirmed (true/false)</li>
+        <li>Projected onset window (days), if true</li>
+        <li>KDIGO severity tier, if true</li>
+        <li>Top 3 feature names driving the prediction</li>
+        <li>That the model commitment K is authentic (Hospital A's model)</li>
+        <li>That the proof was computed correctly and not tampered with</li>
+      </ul>
+    </div>
+    <div class="learns-card doesnt">
+      <h4>Hospital B Never Learns ✗</h4>
+      <ul>
+        <li>Hospital A's model weights or architecture</li>
+        <li>Hospital A's training data (180K records)</li>
+        <li>The exact coefficient values for each feature</li>
+        <li>How confident the model is (raw probability score)</li>
+        <li>Any patient data from Hospital A</li>
+        <li>The blinding factor r used in the commitment</li>
+      </ul>
+    </div>
+    <div class="learns-card acts">
+      <h4>Hospital B Can Now Act →</h4>
+      <ul>
+        <li>Trigger AKI prevention protocol for Patient 1</li>
+        <li>Order nephrology consult based on Day 5–7 window</li>
+        <li>Reassure clinical team re: Patient 2 (no intervention)</li>
+        <li>Cite a validated, peer-auditable model — not a black box</li>
+        <li>Publish study results without sharing PHI from either hospital</li>
+        <li>Audit proof on-chain for regulatory compliance</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── KEY INSIGHT ── -->
+  <div class="insight-box">
+    <div class="insight-icon">💡</div>
+    <div class="insight-text">
+      <h3>The Critical Insight: The Commitment K is the Model's Passport</h3>
+      <p>
+        Hospital A publishes one commitment <span class="teal">K</span> — a cryptographic fingerprint of its model.
+        Hospital B can run that commitment against <strong>any of its own patients</strong>, any number of times, without Hospital A ever being involved again.
+        For Patient 1, the arithmetic circuit finds the feature vector satisfies the AKI decision boundary → <span class="teal">proof is TRUE</span>, and the onset window is disclosed.
+        For Patient 2, the same circuit finds the vector falls outside the boundary → <span class="red">proof is FALSE</span>, and nothing further is revealed — not even <em>how far</em> below the threshold the patient is.
+        <strong>The same commitment K works for every patient. The verdict is patient-specific. The model remains permanently private.</strong>
+        This is fundamentally different from sending a model API call — there is <span class="amber">no server, no query log, no leakage</span>.
+      </p>
+    </div>
+  </div>
+
+</div>
+<style>
+@keyframes fillBarShort { from{width:0} to{width:15%} }
+</style>
+</body>
+</html>

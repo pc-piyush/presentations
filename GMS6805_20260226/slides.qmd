@@ -1,0 +1,286 @@
+---
+header: "GMS 6805 Presentation"
+title: "<span style='font-size: 0.5em;'>Learning the natural history of human disease with generative transformers</span>"
+author: "Piyush Chaudhari"
+format: 
+    revealjs:
+        slide-number: true
+        chalkboard: 
+            buttons: false
+        preview-links: auto
+        logo: images/favicon.ico
+        #css: styles.css
+footer: "[Learning the natural history of human disease with generative transformers. 
+ Nature 647, 248–256 (2025).](https://doi.org/10.1038/s41586-025-09529-3)"
+theme: "default"
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+## Limitations in current methods
+
+::: {style="font-size: 75%;"}
+-   Diseases and conditions don't happen in <ins> **isolation** </ins> -
+    they cluster and affect each other's progression
+-   Current risk prediction methods operate in silos, concentrating on
+    <ins> **one condition** </ins> at a time
+-   In most patients with intensive health burden, for e.g. aging
+    populations, better models are required to represent the complexity
+    of multiple diseases and their progression
+:::
+
+------------------------------------------------------------------------
+
+## Mapping human history as a large language model (LLM)
+
+::: {style="font-size: 75%;"}
+-   LLMs, like ChatGPT and Claude, use statistical models to predict the
+    next word in a sentence based on the previous words
+-   The paper hypothesizes that a similar approach can be applied to
+    disease progression, where past diagnoses can be used to predict
+    future ones
+-   Diseases are "words," a patient's health history is a "sentence"
+:::
+
+------------------------------------------------------------------------
+
+::: {style="font-size: 85%;"}
+#### Delphi, a modified GPT architecture, models health trajectories
+
+![](images/Fig_1.png){.lightbox .r-stretch group="my-gallery"
+width="75%" fig-align="bottom"}
+:::
+
+:::: {.fragment style="display:none"}
+::: {style="font-size: 85%;"}
+![Schematic of **health** trajectories based on ICD-10 diagnoses,
+lifestyle and healthy padding tokens, each recorded at a distinct
+age](images/Step1.PNG){.lightbox group="my-gallery"}
+
+![Training, validation and testing data derived from the UK Biobank
+(left) and Danish disease registries
+(right)](images/Step2.PNG){.lightbox group="my-gallery"}
+
+![The Delphi model architecture. The red elements indicate changes
+compared with the underlying GPT-2 model. ‘N ×’ denotes applying the
+transformer block sequentially N times](images/Step3.PNG){.lightbox
+group="my-gallery"}
+
+![Example model input (prompt) and output (samples) comprising
+(age:token) pairs](images/Step4.PNG){.lightbox group="my-gallery"}
+
+![Scaling laws of Delphi, showing the optimal validation loss as a
+function of model parameters for different training data
+sizes](images/Step5.PNG){.lightbox group="my-gallery"}
+
+![Ablation results measured by the cross-entropy differences relative to
+an age- and sex-based baseline (y axis) for different ages (x
+axis)](images/Step6.PNG){.lightbox group="my-gallery"}
+
+![The accuracy of predicted time to event. The observed (y axis) and
+expected (x axis) time to events are shown for each next token
+prediction (grey dots). The blue line shows the average across
+consecutive bins of the x axis](images/Step7.PNG){.lightbox
+group="my-gallery"}
+:::
+::::
+
+------------------------------------------------------------------------
+
+## GPT-2 vs Delphi-2M
+
+::: {style="font-size: 75%;"}
+| GPT-2 (Original) | Delphi-2M (Modified) |
+|------------------------------------|------------------------------------|
+| Discrete positional encoding | **Continuous age encoding** (sine/cosine) |
+| Predicts next token only | **Also predicts time to next event** (exponential model) |
+| Standard causal masking | **Masks same-time tokens** (no circular causality) |
+
+-   Model size: 2.2 million parameters (12 layers, 12 heads, 120-dim
+    embedding)
+
+-   Follows empirical scaling laws — performance improves with more data
+:::
+
+------------------------------------------------------------------------
+
+::: {style="font-size: 85%;"}
+#### Results
+
+![](images/fig2_all.png){.lightbox .r-stretch width="60%" fig-align="bottom" group="my-gallery2"}
+:::
+
+:::: {.fragment style="display:none"}
+::: {style="font-size: 85%;"}
+![a) The predicted rates for nine exemplary diagnoses and death (y axis) as a function of age (x axis). The points show predictions at each recorded input token. Colours separate biological sex; the darker colours indicate predictions immediately before the diagnosis in question. The purple and turquoise lines are disease rates observed for each yearly age bin in the training data. The solid black line connects consecutive predictions for one randomly selected case throughout age](images/Fig2.PNG){.lightbox group="my-gallery2"}
+
+![b) Average age–sex-stratified AUC values (y axis) as a function of training occurrences (x axis). Shown are data for n = 906 diagnoses for male individuals and n = 957 diagnoses for female individuals for which a sufficient number of events was recorded in the validation data to evaluate AUC values. c) The same as b, but aggregated by the ICD-10 chapter. d) The same as b, aggregated by sex. e) AUC values of all diagnoses in b for different time gaps between prediction and diagnoses (x axis)](images/Fig2_1.PNG){.lightbox group="my-gallery2"}
+
+![f) ROC curves for Delphi and other clinical or machine learning methods for three selected end points evaluated on the internal longitudinal testing set. g) AUC values of MILTON, a biomarker-based machine learning model (x axis), in prognostic mode, compared with Delphi-2M AUC values from the UK Biobank validation set (y axis) for n = 410 diagnoses. The box plots in c–e show the median (centre line), the first to the third quartile (box limits) and the 0.025 and 0.975 quantiles (whiskers)](images/Fig2_2.PNG){.lightbox
+group="my-gallery2"}
+:::
+::::
+
+---
+
+
+## Results and Discussion
+
+::: {style="font-size: 75%;"}
+-   Performed significantly well across **\~1,000 diseases**
+
+-   Average AUC **\~0.76** across all diseases in internal validation
+
+-   **97%** of diagnoses had AUC \> 0.5 (better than random)
+
+-   Predicting death: AUC = **0.97**
+
+-   Performance holds up to 10 years into the future (AUC **\~0.70**)
+
+Compared to current standards:
+
+- Matches or beats cardiovascular risk scores (Framingham, QRisk3)
+
+- Matches dementia risk scores (UKBDRS)
+
+- Outperforms death prediction tools (Charlson, Elixhauser)
+:::
+
+------------------------------------------------------------------------
+
+## Results and Discussion
+
+::: {style="font-size: 75%;"}
+
+
+- For a patient with digestive tract diseases → pancreatic cancer risk elevated **19×**
+
+- Pancreatic cancer diagnosis → mortality rate elevated **\~93,000×**
+
+- Chickenpox peaks in childhood; heart attacks rise exponentially with age 
+
+- Delphi updates each person's risk every time a new diagnosis is recorded
+:::
+
+------------------------------------------------------------------------
+
+## Clinical and Biological Revalence
+
+::: {style="font-size: 75%;"}
+
+
+- Unlike conventional models, Delphi can sample entire future health trajectories
+
+- **Input**: everything known about a patient up to age 60 
+
+- **Output**: simulated health events for the next 20 years 
+
+- **Applications**: 
+    - Estimating future disease burden at population scale 
+    - Planning healthcare resources for specific communities 
+    - Identifying who needs screening before conventional age thresholds
+
+:::
+
+---
+
+::: {style="font-size: 85%;"}
+#### Clinical and Biological Revalence
+
+![](images/Fig3.png){.lightbox .r-stretch width="100%" fig-align="bottom" group="my-gallery3"}
+:::
+
+:::: {.fragment style="display:none"}
+::: {style="font-size: 85%;"}
+![a) Schematic of the experiment design. Delphi-2M is used to simulate health trajectories using validation data (n = 63,622 individuals with disease records both before and after 60 years of age) observed until the age of 60. A single trajectory is simulated per individual. Subsequently, simulated trajectories are compared to the observed outcomes for the same person](images/Fig3_1.PNG){.lightbox group="my-gallery3"}
+
+![b) Delphi-2M-modelled disease rates at ages 70–75 years (x axis) compared with observed rates at the same ages (y axis)](images/Fig3_2.PNG){.lightbox group="my-gallery3"}
+
+![c) The fraction of correctly predicted diagnoses (y axis) per 1-year age bin as a function of the years after simulation started at age 60 years (x axis). Delphi-2M, orange. The blue curve uses age and sex as a prediction baseline](images/Fig3_3.PNG){.lightbox
+group="my-gallery3"}
+
+![d) Simulated (x axis) and observed (y axis) fold changes of disease rates for high versus low smoking, alcohol consumption and BMI groups. The evaluation period included ages 70–75 years and used simulations from the age of 60 years](images/Fig3_4.PNG){.lightbox group="my-gallery3"}
+
+![e) The same as b, evaluated for simulations from birth. f) The AUC values of disease risk prediction (n = 1,334 disease–sex pairs) for Delphi when trained on UKB and Delphi-2M-sampled synthetic data. The box plots show the median (centre line), the first to the third quartile (box limits) and the 0.025 and 0.975 quantiles (whiskers)](images/Fig3_5.PNG){.lightbox group="my-gallery3"}
+
+:::
+::::
+
+
+------------------------------------------------------------------------
+
+## Clinical and Biological Revalence
+
+::: {style="font-size: 75%;"}
+
+
+- Early **Cancer** or any disease screenings
+
+- **Clinical Decision Support** by including multi-disease risk
+
+- Predicting **community-level** disease burden for healthcare planning 
+
+- **Digital Twin** technology and **Similar Patient** identification for personalized medicine
+
+:::
+
+------------------------------------------------------------------------
+
+## Limitations
+
+::: {style="font-size: 75%;"}
+
+
+- Only predicts **correlations, not causations**
+
+- Limited performance for ages 80+ (insufficient training data) 
+
+- Diabetes prediction still outperformed by a **single** blood biomarker (HbA1c)
+
+- UK Biobank population is skewed towards white, affluent, educated — the **healthy volunteer** bias 
+
+- Recruitment ages are between 40-70 years old and hence underestimates early mortality (**immortality bias**)
+
+- Data source missingness (hospital vs. GP records) influences predictions
+
+:::
+
+
+---
+
+## Future Directions 
+
+::: {style="font-size: 75%;"}
+
+
+- Add genomic data, imaging, wearables, prescription records 
+- Connect Delphi to LLMs as a risk module
+- Integration of free-text clinical notes
+
+
+If interested, you can also read Dr. [Yonghui Wu's](https://hobi.med.ufl.edu/profile/wu-yonghui/) thoughts on the paper in [Nature](https://www.nature.com/articles/d41586-025-02971-3.epdf?sharing_token=6bZNwgl7p8iMvzaxLNtK2tRgN0jAjWel9jnR3ZoTv0OKcQL6Zag4IX8KUDJuNibaWQhQspiap4-ewfy70yBN47_BUIzU3tsSpJtnMXwhKpCK43-tB41n9zCrWBkeDouQoiaJIAQUXeuCxFKbgNTXw7gGZDXM6KyyaU8E_99PEZM%3D)
+
+:::
+
+--- 
+
+## Information Modelling Context
+::: {style="font-size: 65%;"}
+
+
+- Based on the study, results and limitations presented by the researchers, they use the phrase **AI** very carefully (less than 10 times in the paper text)
+
+- A rational understanding of Delphi will validate the same - there is nothing **artificially intelligent** about it
+
+- It is a **statistical model** that learns patterns in data and makes predictions based on those patterns
+
+- The part that seperates it from other similar studies is their implmentation of disease history modelling as the input for their model, representing events in a time-series, **generalizable** to any patient in any common data model (For e.g. i2b2, OMOP, PCORNET, etc.)
+
+- Fixed coordinate systems are not a new concept- principles of genetic data analysis are build on genomic coordinates that are uniform across all patients, and hence it is easier to identify mutations and changes and make inferences about their effects on disease risk and progression
+
+- Similarly, the use of age as a coordinate system for disease history allows for a more standardized and interpretable representation of health trajectories, which can be applied across different patient populations and healthcare settings
+:::
+
+---
+## Questions? {.center}
