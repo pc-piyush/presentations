@@ -15,8 +15,9 @@ quarto render           # landing page + decks -> _site/
 
 ## Add a talk
 
-1. Drop the deck's folder in (its `.qmd` plus `images/` etc.).
-2. Give the `.qmd` front matter `title`, `date`, `description`, `categories`
+1. Drop the deck's folder in as `<folder>/index.qmd` (plus its `images/` etc.).
+2. Give `index.qmd` front matter `title`, `date`, `description`, `categories`
    (these feed the landing-page card) and `brand: false`.
-3. Add its `.qmd` path to `render:` in `_quarto.yml` **and** to `contents:` in
-   `index.qmd`.
+
+That's it — `render: ["index.qmd", "*/index.qmd"]` and the `*/index.qmd` listing
+glob in `index.qmd` pick it up automatically.

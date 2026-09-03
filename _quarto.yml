@@ -2,16 +2,11 @@ project:
   type: website
   output-dir: _site
 
-  # The landing page plus every reveal.js deck. Each deck keeps its own
-  # front matter / theme; listing it here (and in index.qmd) is all it takes.
+  # The landing page (index.qmd) plus every reveal.js deck (<folder>/index.qmd).
+  # Each deck keeps its own front matter / theme.
   render:
     - "index.qmd"
-    - "GMS6804_20260217/slides.qmd"
-    - "GMS6805_20260226/slides.qmd"
-    - "GMS6805_FCT_CDM/presentation_20260416.qmd"
-    - "HOBISharkTank_2026/pitch_2026.qmd"
-    - "F26_GMS7858/ibi-hypertension.qmd"
-    - "2026-03-23-RAG/RAG.qmd"
+    - "*/index.qmd"
 
   preview:
     port: 5558
