@@ -3,6 +3,7 @@ title: "CAMEL: Communicative Agents for \"Mind\" Exploration of Large Language M
 subtitle: "Li et al., 2023"
 author: "Piyush Chaudhari"
 institute: "Journal Club"
+date: "2026-09-30"
 brand: ../brand/_brand.yml
 categories: ["Journal Club"]
 format:
