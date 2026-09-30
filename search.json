@@ -196,165 +196,88 @@
     "text": "Current Advances\n\n\nRetrievers\n\nSparse + Dense Hybrid Retrievals outperform and have replaced DPR\nBoth encoders can be fine-tuned using. contrastive learning, solving the frozen document-encoder compromise\n\nGenerators\n\nBART has been replaced by stronger LLMs like LLaMA, Mistral, GPT-4\nCapability to synthesize retrieved context has improved\n\nMulti-Hop RAG\n\nModern systems reads retrieved docs, generates a sub-question, retrieves again, and chains reasoning across multiple retrieval steps\n\nProduction RAG\n\nThe index hot-swap insight became the architectural backbone of virtually every enterprise AI system — LlamaIndex, LangChain, and similar frameworks are essentially RAG pipelines with better chunking, re-ranking, and hybrid retrieval layered on top"
   },
   {
-    "objectID": "GMS6805_FCT_CDM/index.html#questions",
-    "href": "GMS6805_FCT_CDM/index.html#questions",
-    "title": "Fixed Coordinate Temporal Architecture",
+    "objectID": "HOBISharkTank_2026/index.html#thank-you",
+    "href": "HOBISharkTank_2026/index.html#thank-you",
+    "title": "Zero Knowledge Medicine",
+    "section": "Thank You!",
+    "text": "Thank You!\n\nThis presentation was made using Quarto. Quarto enables you to weave together content and executable code into a finished document. Click here learn more about Quarto."
+  },
+  {
+    "objectID": "GMS6805_20260226/index.html#limitations-in-current-methods",
+    "href": "GMS6805_20260226/index.html#limitations-in-current-methods",
+    "title": "Learning the Natural History of Human Disease with Generative Transformers",
+    "section": "Limitations in current methods",
+    "text": "Limitations in current methods\n\n\nDiseases and conditions don’t happen in  isolation  - they cluster and affect each other’s progression\nCurrent risk prediction methods operate in silos, concentrating on  one condition  at a time\nIn most patients with intensive health burden, for e.g. aging populations, better models are required to represent the complexity of multiple diseases and their progression"
+  },
+  {
+    "objectID": "GMS6805_20260226/index.html#mapping-human-history-as-a-large-language-model-llm",
+    "href": "GMS6805_20260226/index.html#mapping-human-history-as-a-large-language-model-llm",
+    "title": "Learning the Natural History of Human Disease with Generative Transformers",
+    "section": "Mapping human history as a large language model (LLM)",
+    "text": "Mapping human history as a large language model (LLM)\n\n\nLLMs, like ChatGPT and Claude, use statistical models to predict the next word in a sentence based on the previous words\nThe paper hypothesizes that a similar approach can be applied to disease progression, where past diagnoses can be used to predict future ones\nDiseases are “words,” a patient’s health history is a “sentence”"
+  },
+  {
+    "objectID": "GMS6805_20260226/index.html#gpt-2-vs-delphi-2m",
+    "href": "GMS6805_20260226/index.html#gpt-2-vs-delphi-2m",
+    "title": "Learning the Natural History of Human Disease with Generative Transformers",
+    "section": "GPT-2 vs Delphi-2M",
+    "text": "GPT-2 vs Delphi-2M\n\n\n\n\n\n\n\n\nGPT-2 (Original)\nDelphi-2M (Modified)\n\n\n\n\nDiscrete positional encoding\nContinuous age encoding (sine/cosine)\n\n\nPredicts next token only\nAlso predicts time to next event (exponential model)\n\n\nStandard causal masking\nMasks same-time tokens (no circular causality)\n\n\n\n\nModel size: 2.2 million parameters (12 layers, 12 heads, 120-dim embedding)\nFollows empirical scaling laws — performance improves with more data"
+  },
+  {
+    "objectID": "GMS6805_20260226/index.html#results-and-discussion",
+    "href": "GMS6805_20260226/index.html#results-and-discussion",
+    "title": "Learning the Natural History of Human Disease with Generative Transformers",
+    "section": "Results and Discussion",
+    "text": "Results and Discussion\n\n\nPerformed significantly well across ~1,000 diseases\nAverage AUC ~0.76 across all diseases in internal validation\n97% of diagnoses had AUC &gt; 0.5 (better than random)\nPredicting death: AUC = 0.97\nPerformance holds up to 10 years into the future (AUC ~0.70)\n\nCompared to current standards:\n\nMatches or beats cardiovascular risk scores (Framingham, QRisk3)\nMatches dementia risk scores (UKBDRS)\nOutperforms death prediction tools (Charlson, Elixhauser)"
+  },
+  {
+    "objectID": "GMS6805_20260226/index.html#results-and-discussion-1",
+    "href": "GMS6805_20260226/index.html#results-and-discussion-1",
+    "title": "Learning the Natural History of Human Disease with Generative Transformers",
+    "section": "Results and Discussion",
+    "text": "Results and Discussion\n\n\nFor a patient with digestive tract diseases → pancreatic cancer risk elevated 19×\nPancreatic cancer diagnosis → mortality rate elevated ~93,000×\nChickenpox peaks in childhood; heart attacks rise exponentially with age\nDelphi updates each person’s risk every time a new diagnosis is recorded"
+  },
+  {
+    "objectID": "GMS6805_20260226/index.html#clinical-and-biological-revalence",
+    "href": "GMS6805_20260226/index.html#clinical-and-biological-revalence",
+    "title": "Learning the Natural History of Human Disease with Generative Transformers",
+    "section": "Clinical and Biological Revalence",
+    "text": "Clinical and Biological Revalence\n\n\nUnlike conventional models, Delphi can sample entire future health trajectories\nInput: everything known about a patient up to age 60\nOutput: simulated health events for the next 20 years\nApplications:\n\nEstimating future disease burden at population scale\nPlanning healthcare resources for specific communities\nIdentifying who needs screening before conventional age thresholds"
+  },
+  {
+    "objectID": "GMS6805_20260226/index.html#clinical-and-biological-revalence-2",
+    "href": "GMS6805_20260226/index.html#clinical-and-biological-revalence-2",
+    "title": "Learning the Natural History of Human Disease with Generative Transformers",
+    "section": "Clinical and Biological Revalence",
+    "text": "Clinical and Biological Revalence\n\n\nEarly Cancer or any disease screenings\nClinical Decision Support by including multi-disease risk\nPredicting community-level disease burden for healthcare planning\nDigital Twin technology and Similar Patient identification for personalized medicine"
+  },
+  {
+    "objectID": "GMS6805_20260226/index.html#limitations",
+    "href": "GMS6805_20260226/index.html#limitations",
+    "title": "Learning the Natural History of Human Disease with Generative Transformers",
+    "section": "Limitations",
+    "text": "Limitations\n\n\nOnly predicts correlations, not causations\nLimited performance for ages 80+ (insufficient training data)\nDiabetes prediction still outperformed by a single blood biomarker (HbA1c)\nUK Biobank population is skewed towards white, affluent, educated — the healthy volunteer bias\nRecruitment ages are between 40-70 years old and hence underestimates early mortality (immortality bias)\nData source missingness (hospital vs. GP records) influences predictions"
+  },
+  {
+    "objectID": "GMS6805_20260226/index.html#future-directions",
+    "href": "GMS6805_20260226/index.html#future-directions",
+    "title": "Learning the Natural History of Human Disease with Generative Transformers",
+    "section": "Future Directions",
+    "text": "Future Directions\n\n\nAdd genomic data, imaging, wearables, prescription records\nConnect Delphi to LLMs as a risk module\nIntegration of free-text clinical notes\n\nIf interested, you can also read Dr. Yonghui Wu’s thoughts on the paper in Nature"
+  },
+  {
+    "objectID": "GMS6805_20260226/index.html#information-modelling-context",
+    "href": "GMS6805_20260226/index.html#information-modelling-context",
+    "title": "Learning the Natural History of Human Disease with Generative Transformers",
+    "section": "Information Modelling Context",
+    "text": "Information Modelling Context\n\n\nBased on the study, results and limitations presented by the researchers, they use the phrase AI very carefully (less than 10 times in the paper text)\nA rational understanding of Delphi will validate the same - there is nothing artificially intelligent about it\nIt is a statistical model that learns patterns in data and makes predictions based on those patterns\nThe part that seperates it from other similar studies is their implmentation of disease history modelling as the input for their model, representing events in a time-series, generalizable to any patient in any common data model (For e.g. i2b2, OMOP, PCORNET, etc.)\nFixed coordinate systems are not a new concept- principles of genetic data analysis are build on genomic coordinates that are uniform across all patients, and hence it is easier to identify mutations and changes and make inferences about their effects on disease risk and progression\nSimilarly, the use of age as a coordinate system for disease history allows for a more standardized and interpretable representation of health trajectories, which can be applied across different patient populations and healthcare settings"
+  },
+  {
+    "objectID": "GMS6805_20260226/index.html#questions",
+    "href": "GMS6805_20260226/index.html#questions",
+    "title": "Learning the Natural History of Human Disease with Generative Transformers",
     "section": "Questions?",
     "text": "Questions?"
-  },
-  {
-    "objectID": "GMS6805_FCT_CDM/index.html#thank-you",
-    "href": "GMS6805_FCT_CDM/index.html#thank-you",
-    "title": "Fixed Coordinate Temporal Architecture",
-    "section": "Thank you",
-    "text": "Thank you\n\nThis presentation was made using Quarto. Quarto enables you to weave together content and executable code into a finished document. Click here learn more about Quarto."
-  },
-  {
-    "objectID": "GMS6804_20260217/index.html#limitations-in-current-methods-of-variant-interpretation",
-    "href": "GMS6804_20260217/index.html#limitations-in-current-methods-of-variant-interpretation",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "Limitations in current methods of variant interpretation",
-    "text": "Limitations in current methods of variant interpretation\n\nTraditional penetrance estimates rely on small, disease-enriched cohorts → ascertainment bias\nPatients are classified in a binary manner - case/control, sick/healthy, etc. while ignoring the fact that diseases exist on a spectrum\nStudies with smaller scope cannot assess rare variants with significant accuracy\nDifficult to interpret if Variants of Uncertain Signifance (VUS) are associated with disease pathogenecity or are harmful"
-  },
-  {
-    "objectID": "GMS6804_20260217/index.html#research-question",
-    "href": "GMS6804_20260217/index.html#research-question",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "Research Question",
-    "text": "Research Question\n\n\nGiven a genetic variant exists in a patient, can machine learning and statistical methods predict what is its penetrance?"
-  },
-  {
-    "objectID": "GMS6804_20260217/index.html#methodology",
-    "href": "GMS6804_20260217/index.html#methodology",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "Methodology",
-    "text": "Methodology\n\n\n\nDevelopment, testing, and application of disease-predictive ML models to generate disease scores\nIdentification of individuals carrying rare P variants in genes corresponding to 10 dominant genetic conditions\n\n\n\n\n\n\nArrhythmogenic Right Ventricular Cardiomyopathy (ARVC)\nFamilial Breast Cancer (FBC)\nFamilial Hypercholesterolemia (FH)\nHypertrophic Cardiomyopathy (HCM)\nAdult Hypophosphatasia (HPP)\n\n\n\n\n\nLong QT Syndrome (LQTS)\nLynch Syndrome (LS)\nMonogenic Diabetes (MD)\nPolycystic Kidney Disease (PKD)\nvon Willebrand Disease (VWD)\n\n\n\n\n\nComputation and characterization of ML penetrance"
-  },
-  {
-    "objectID": "GMS6804_20260217/index.html#methodology-1",
-    "href": "GMS6804_20260217/index.html#methodology-1",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "Methodology",
-    "text": "Methodology\n\n\n\nThe disease scores can be used as a continuous measure of measuring odds of disease.\nInstead of\n\n\n“you have the variant, you might get sick”\n\n\nthe model will allow us to predict\n\n“you have this variant, based on the data, you risk for disease is x%”"
-  },
-  {
-    "objectID": "GMS6804_20260217/index.html#data",
-    "href": "GMS6804_20260217/index.html#data",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "Data",
-    "text": "Data\n\n\n\n\nCohort\nN Participants\nPurpose\nMedian Age\n\n\n\n\nMSDW\n1,325,257\nModel training & validation\n55 years\n\n\nBioMe ML\n22,041\nModel testing (holdout)\n56 years\n\n\nBioMe Exome\n28,953\nPenetrance assessment\n65 years"
-  },
-  {
-    "objectID": "GMS6804_20260217/index.html#workflow",
-    "href": "GMS6804_20260217/index.html#workflow",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "Workflow",
-    "text": "Workflow"
-  },
-  {
-    "objectID": "GMS6804_20260217/index.html#prediction-model-features",
-    "href": "GMS6804_20260217/index.html#prediction-model-features",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "Prediction Model Features",
-    "text": "Prediction Model Features\n\nInput Features (47 lab tests + 9 vital signs)\n\nRoutine laboratory measurements (median values)\nComplete blood count, metabolic panel\nLipid profiles, liver/kidney function\nVital signs (BP, heart rate, BMI)\nDemographics (age, sex, ancestry)"
-  },
-  {
-    "objectID": "GMS6804_20260217/index.html#predictive-performance-of-ml-models",
-    "href": "GMS6804_20260217/index.html#predictive-performance-of-ml-models",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "Predictive Performance of ML Models",
-    "text": "Predictive Performance of ML Models\n\n\n\n\nMetric\nMSDW (Internal)\nBioMe (Holdout)\n\n\n\n\nMean AUROC\n0.85 (0.77-0.95)\n0.84 (0.79-0.95)\n\n\nSensitivity\n0.77 (0.70-0.87)\n0.78 (0.74-0.88)\n\n\nSpecificity\n0.78 (0.68-0.91)\n0.78 (0.67-0.92)\n\n\n\nExample:\n\nFH model identified LDL-C, total cholesterol, age, and HDL-C as most important features\nGlucose, age, body mass index (BMI), and glomerular filtration rate (GFR) were the most important features for the MD models"
-  },
-  {
-    "objectID": "GMS6804_20260217/index.html#ml-penetrance-evaluation",
-    "href": "GMS6804_20260217/index.html#ml-penetrance-evaluation",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "ML Penetrance Evaluation",
-    "text": "ML Penetrance Evaluation\n\n\nApply ML models to generate continuous disease probability scores (0-1)\nUse Generalized Linear Mixed-Effects Model (GLMM) to compute penetrance\nAccounts for variability between carriers and across ML iterations\n\nlogit-transformed disease scores from all 50 ML iterations in all carriers, which accounted for variability in scores between different carriers (random effects term) and variability in scores between different ML iterations within the same individual (residual random effects term)\nThe model’s inverse logit coefficients and error terms were then used to provide a point estimate of ML penetrance, 95% confidence interval (95% CI), and p-value"
-  },
-  {
-    "objectID": "GMS6804_20260217/index.html#ml-penetrance-results",
-    "href": "GMS6804_20260217/index.html#ml-penetrance-results",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "ML Penetrance Results",
-    "text": "ML Penetrance Results\n\n\n\n\n\n\n\n\n\nFinding Category\nKey Results\nStatistical Significance\n\n\n\n\nPathogenic vs. Benign Variants\nPathogenic variants: median ML penetrance = 0.52 (IQR 0.38)Benign variants: median ML penetrance = 0.28 (IQR 0.22)\np-value = 6.1 × 10⁻⁸\n\n\nRare vs. Common Variants\nRare variants (AF &lt;0.001): median penetrance = 0.46Common variants (AF ≥0.001): median penetrance = 0.28\np-value = 8.9 × 10⁻⁴⁸"
-  },
-  {
-    "objectID": "GMS6804_20260217/index.html#ml-penetrance-results-1",
-    "href": "GMS6804_20260217/index.html#ml-penetrance-results-1",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "ML Penetrance Results",
-    "text": "ML Penetrance Results\n\n\n\n\n\n\n\n\n\nFinding Category\nKey Results\nStatistical Significance\n\n\n\n\nClinical Outcome Correlation - PKD\nPer 0.1 increase in ML penetrance:• Chronic kidney disease: OR = 1.11• End-stage renal disease: OR = 1.09• Secondary hypertension: OR = 1.05\np-value = 2.9×10⁻¹³p-value = 4.7×10⁻¹³p-value = 1.3×10⁻⁸\n\n\nClinical Outcome Correlation - FH\nMyocardial infarction: OR = 1.02 per 0.1 ML penetrance increase\np-value = 2.4×10⁻³"
-  },
-  {
-    "objectID": "GMS6804_20260217/index.html#ml-penetrance-results-2",
-    "href": "GMS6804_20260217/index.html#ml-penetrance-results-2",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "ML Penetrance Results",
-    "text": "ML Penetrance Results\n\n\n\n\n\n\n\n\n\nFinding Category\nKey Results\nStatistical Significance\n\n\n\n\nFunctional Validation - BRCA1\n0.01 increase in ML penetrance → 0.027 decrease in DNA repair function score\np-value = 2.9×10⁻³\n\n\nFunctional Validation - LDLR\nHigher ML penetrance correlated with reduced LDL uptake\nr = -0.76, p-value = 0.021\n\n\nFunctional Validation - KCNQ1\nHigher ML penetrance → 303-ms increase in deactivation time\np-value = 9.1×10⁻³"
-  },
-  {
-    "objectID": "GMS6804_20260217/index.html#ml-penetrance-results-3",
-    "href": "GMS6804_20260217/index.html#ml-penetrance-results-3",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "ML Penetrance Results",
-    "text": "ML Penetrance Results\n\n\n\n\n\n\n\n\n\nFinding Category\nKey Results\nStatistical Significance\n\n\n\n\nModel Performance\nMean AUROC: 0.85 (MSDW) and 0.84 (BioMe ML)Mean sensitivity: 0.77-0.78Mean specificity: 0.78\nRange: 0.77-0.95\n\n\nVUS Characterization\nVUS median ML penetrance = 0.46 (IQR 0.31)Higher than benign, lower than pathogenic\np-value = 4.9×10⁻⁸ vs. Bp-value = 0.011 vs. P"
-  },
-  {
-    "objectID": "GMS6804_20260217/index.html#ml-penetrance-results-4",
-    "href": "GMS6804_20260217/index.html#ml-penetrance-results-4",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "ML Penetrance Results",
-    "text": "ML Penetrance Results\n\n\n\n\n\n\n\n\n\nFinding Category\nKey Results\nStatistical Significance\n\n\n\n\nLoF Variants\nMedian ML penetrance = 0.48 (IQR 0.36)Higher than benign variants21% had high penetrance ≥0.75, 18% had low penetrance ≤0.25\np-value = 5.7×10⁻⁸"
-  },
-  {
-    "objectID": "GMS6804_20260217/index.html#ml-penetrance-results-5",
-    "href": "GMS6804_20260217/index.html#ml-penetrance-results-5",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "ML Penetrance Results",
-    "text": "ML Penetrance Results\n\n\n\n\n\n\n\n\n\nFinding Category\nKey Results\nStatistical Significance\n\n\n\n\nUK Biobank Validation\nML penetrance values significantly correlated across BioMe and UK BiobankStrongest correlations: ARVC (R=0.96), MD (R=0.58)\np-value = 1.8×10⁻³ overall"
-  },
-  {
-    "objectID": "GMS6804_20260217/index.html#clinical-applications",
-    "href": "GMS6804_20260217/index.html#clinical-applications",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "Clinical Applications",
-    "text": "Clinical Applications\n\n\nImproved Variant Classification: Quantitative risk estimates beyond P/LP/VUS categories\nEnhanced Risk Stratification: Individualized screening protocols based on ML penetrance\nGenetic Counseling: More precise risk communication to patients\nClinical Trial Recruitment: Identify high-penetrance variant carriers\nResource Allocation: Prioritize monitoring for high-risk individuals"
-  },
-  {
-    "objectID": "GMS6804_20260217/index.html#study-strengths",
-    "href": "GMS6804_20260217/index.html#study-strengths",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "Study Strengths",
-    "text": "Study Strengths\n\n\nLarge-scale: &gt;1.3 million participants with deep phenotyping\nUnselected population: Reduced ascertainment bias vs. family studies\nQuantitative: Continuous penetrance estimates, not binary\nClinically grounded: Uses routine lab data already in EHR\nValidated: Functional data, clinical outcomes, external cohorts\nHigh-throughput: Scalable to other health systems and diseases"
-  },
-  {
-    "objectID": "GMS6804_20260217/index.html#limitations-future-directions",
-    "href": "GMS6804_20260217/index.html#limitations-future-directions",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "Limitations & Future Directions",
-    "text": "Limitations & Future Directions\n\nLimitations:\n\nDependent on EHR data quality and completeness\nFocused on autosomal dominant conditions\nLimited diversity in training cohorts\nDoes not address genetic modifiers or environmental factors\n\nFuture Work:\n\nExtend to other inheritance patterns and rare diseases\nDevelop ancestry-specific models\nProspective studies following variant carriers longitudinally\nIntegration with functional assays and polygenic risk scores"
-  },
-  {
-    "objectID": "GMS6804_20260217/index.html#key-takeaways",
-    "href": "GMS6804_20260217/index.html#key-takeaways",
-    "title": "Machine Learning-Based Penetrance of Genetic Variants",
-    "section": "Key Takeaways",
-    "text": "Key Takeaways\n\n\nML-based penetrance provides refined, quantitative disease risk estimates for genetic variants\nML penetrance correlates with clinical outcomes and functional data, validating biological relevance\nEnables interpretation of VUS and LoF variants through clinical trajectory analysis\nRepresents a scalable blueprint for precision medicine using routine EHR data"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Piyush Chaudhari",
-    "section": "",
-    "text": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension\n                    \n                \n                \n                    Rahman MA, Cai C, Bo N, et al. BMC Genomics\n                \n                \n                    August 31, 2026\n                \n                \n                    An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension — Rahman MA, Cai C, Bo N, et al. BMC Genomics.\n                \n            \n\n            \n            \n                \n                    \n                            GMS 7858\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Fixed Coordinate Temporal Architecture\n                    \n                \n                \n                    Fixed Coordinate Tensor Data Model for EHR Representation\n                \n                \n                    April 16, 2026\n                \n                \n                    GMS 6805 - Fixed Coordinate Tensor Data Model for EHR representation\n                \n            \n\n            \n            \n                \n                    \n                            GMS 6805\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Zero Knowledge Medicine\n                    \n                \n                \n                    Privacy Preserving Fixed Coordinate Temporal Architecture\n                \n                \n                    March 25, 2026\n                \n                \n                    Privacy-preserving Fixed Coordinate Temporal Architecture — HOBI Shark Tank pitch\n                \n            \n\n            \n            \n                \n                    \n                            Pitch\n                        \n                    \n                    \n                            HOBI Shark Tank\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks\n                    \n                \n                \n                \n                    March 23, 2026\n                \n                \n                    Journal Club — Lewis et al. (2020).\n                \n            \n\n            \n            \n                \n                    \n                            Journal Club\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Learning the Natural History of Human Disease with Generative Transformers\n                    \n                \n                \n                \n                    February 26, 2026\n                \n                \n                    GMS 6805 Presentation — Nature 647, 248–256 (2025).\n                \n            \n\n            \n            \n                \n                    \n                            GMS 6805\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Machine Learning-Based Penetrance of Genetic Variants\n                    \n                \n                \n                    Forrest IS, Vy HMT, Rocheleau G, et al. Science\n                \n                \n                    February 17, 2026\n                \n                \n                    GMS 6804 Presentation — Forrest IS, Vy HMT, Rocheleau G, et al. Science (2025).\n                \n            \n\n            \n            \n                \n                    \n                            GMS 6804\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n\n\nNo matching items"
-  },
-  {
-    "objectID": "index.html#presentations",
-    "href": "index.html#presentations",
-    "title": "Piyush Chaudhari",
-    "section": "",
-    "text": "An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension\n                    \n                \n                \n                    Rahman MA, Cai C, Bo N, et al. BMC Genomics\n                \n                \n                    August 31, 2026\n                \n                \n                    An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension — Rahman MA, Cai C, Bo N, et al. BMC Genomics.\n                \n            \n\n            \n            \n                \n                    \n                            GMS 7858\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Fixed Coordinate Temporal Architecture\n                    \n                \n                \n                    Fixed Coordinate Tensor Data Model for EHR Representation\n                \n                \n                    April 16, 2026\n                \n                \n                    GMS 6805 - Fixed Coordinate Tensor Data Model for EHR representation\n                \n            \n\n            \n            \n                \n                    \n                            GMS 6805\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Zero Knowledge Medicine\n                    \n                \n                \n                    Privacy Preserving Fixed Coordinate Temporal Architecture\n                \n                \n                    March 25, 2026\n                \n                \n                    Privacy-preserving Fixed Coordinate Temporal Architecture — HOBI Shark Tank pitch\n                \n            \n\n            \n            \n                \n                    \n                            Pitch\n                        \n                    \n                    \n                            HOBI Shark Tank\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks\n                    \n                \n                \n                \n                    March 23, 2026\n                \n                \n                    Journal Club — Lewis et al. (2020).\n                \n            \n\n            \n            \n                \n                    \n                            Journal Club\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Learning the Natural History of Human Disease with Generative Transformers\n                    \n                \n                \n                \n                    February 26, 2026\n                \n                \n                    GMS 6805 Presentation — Nature 647, 248–256 (2025).\n                \n            \n\n            \n            \n                \n                    \n                            GMS 6805\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Machine Learning-Based Penetrance of Genetic Variants\n                    \n                \n                \n                    Forrest IS, Vy HMT, Rocheleau G, et al. Science\n                \n                \n                    February 17, 2026\n                \n                \n                    GMS 6804 Presentation — Forrest IS, Vy HMT, Rocheleau G, et al. Science (2025).\n                \n            \n\n            \n            \n                \n                    \n                            GMS 6804\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n\n\nNo matching items"
   },
   {
     "objectID": "F26_GMS7858/index.html#hypertension",
@@ -567,87 +490,416 @@
     "text": "Thank You\n\nPaper : Rahman MA, Cai C, Bo N, McNamara DM, Ding Y, Cooper GF, Lu X, Liu J. An individualized Bayesian method for estimating genomic variants of hypertension. BMC Genomics 23(Suppl 5):863 (2022). doi.org/10.1186/s12864-023-09757-9\nCode & summary data: github.com/asadcfc/IBI"
   },
   {
-    "objectID": "GMS6805_20260226/index.html#limitations-in-current-methods",
-    "href": "GMS6805_20260226/index.html#limitations-in-current-methods",
-    "title": "Learning the Natural History of Human Disease with Generative Transformers",
-    "section": "Limitations in current methods",
-    "text": "Limitations in current methods\n\n\nDiseases and conditions don’t happen in  isolation  - they cluster and affect each other’s progression\nCurrent risk prediction methods operate in silos, concentrating on  one condition  at a time\nIn most patients with intensive health burden, for e.g. aging populations, better models are required to represent the complexity of multiple diseases and their progression"
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Piyush Chaudhari",
+    "section": "",
+    "text": "CAMEL: Communicative Agents for \"Mind\" Exploration of Large Language Model Society\n                    \n                \n                \n                    Li et al., 2023\n                \n                \n                \n                    \n                \n            \n\n            \n            \n                \n                    \n                            Journal Club\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension\n                    \n                \n                \n                    Rahman MA, Cai C, Bo N, et al. BMC Genomics\n                \n                \n                    August 31, 2026\n                \n                \n                    An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension — Rahman MA, Cai C, Bo N, et al. BMC Genomics.\n                \n            \n\n            \n            \n                \n                    \n                            GMS 7858\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Fixed Coordinate Temporal Architecture\n                    \n                \n                \n                    Fixed Coordinate Tensor Data Model for EHR Representation\n                \n                \n                    April 16, 2026\n                \n                \n                    GMS 6805 - Fixed Coordinate Tensor Data Model for EHR representation\n                \n            \n\n            \n            \n                \n                    \n                            GMS 6805\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Zero Knowledge Medicine\n                    \n                \n                \n                    Privacy Preserving Fixed Coordinate Temporal Architecture\n                \n                \n                    March 25, 2026\n                \n                \n                    Privacy-preserving Fixed Coordinate Temporal Architecture — HOBI Shark Tank pitch\n                \n            \n\n            \n            \n                \n                    \n                            Pitch\n                        \n                    \n                    \n                            HOBI Shark Tank\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks\n                    \n                \n                \n                \n                    March 23, 2026\n                \n                \n                    Journal Club — Lewis et al. (2020).\n                \n            \n\n            \n            \n                \n                    \n                            Journal Club\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Learning the Natural History of Human Disease with Generative Transformers\n                    \n                \n                \n                \n                    February 26, 2026\n                \n                \n                    GMS 6805 Presentation — Nature 647, 248–256 (2025).\n                \n            \n\n            \n            \n                \n                    \n                            GMS 6805\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Machine Learning-Based Penetrance of Genetic Variants\n                    \n                \n                \n                    Forrest IS, Vy HMT, Rocheleau G, et al. Science\n                \n                \n                    February 17, 2026\n                \n                \n                    GMS 6804 Presentation — Forrest IS, Vy HMT, Rocheleau G, et al. Science (2025).\n                \n            \n\n            \n            \n                \n                    \n                            GMS 6804\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n\n\nNo matching items"
   },
   {
-    "objectID": "GMS6805_20260226/index.html#mapping-human-history-as-a-large-language-model-llm",
-    "href": "GMS6805_20260226/index.html#mapping-human-history-as-a-large-language-model-llm",
-    "title": "Learning the Natural History of Human Disease with Generative Transformers",
-    "section": "Mapping human history as a large language model (LLM)",
-    "text": "Mapping human history as a large language model (LLM)\n\n\nLLMs, like ChatGPT and Claude, use statistical models to predict the next word in a sentence based on the previous words\nThe paper hypothesizes that a similar approach can be applied to disease progression, where past diagnoses can be used to predict future ones\nDiseases are “words,” a patient’s health history is a “sentence”"
+    "objectID": "index.html#presentations",
+    "href": "index.html#presentations",
+    "title": "Piyush Chaudhari",
+    "section": "",
+    "text": "CAMEL: Communicative Agents for \"Mind\" Exploration of Large Language Model Society\n                    \n                \n                \n                    Li et al., 2023\n                \n                \n                \n                    \n                \n            \n\n            \n            \n                \n                    \n                            Journal Club\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension\n                    \n                \n                \n                    Rahman MA, Cai C, Bo N, et al. BMC Genomics\n                \n                \n                    August 31, 2026\n                \n                \n                    An Individualized Bayesian Method for Estimating Genomic Variants of Hypertension — Rahman MA, Cai C, Bo N, et al. BMC Genomics.\n                \n            \n\n            \n            \n                \n                    \n                            GMS 7858\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Fixed Coordinate Temporal Architecture\n                    \n                \n                \n                    Fixed Coordinate Tensor Data Model for EHR Representation\n                \n                \n                    April 16, 2026\n                \n                \n                    GMS 6805 - Fixed Coordinate Tensor Data Model for EHR representation\n                \n            \n\n            \n            \n                \n                    \n                            GMS 6805\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Zero Knowledge Medicine\n                    \n                \n                \n                    Privacy Preserving Fixed Coordinate Temporal Architecture\n                \n                \n                    March 25, 2026\n                \n                \n                    Privacy-preserving Fixed Coordinate Temporal Architecture — HOBI Shark Tank pitch\n                \n            \n\n            \n            \n                \n                    \n                            Pitch\n                        \n                    \n                    \n                            HOBI Shark Tank\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks\n                    \n                \n                \n                \n                    March 23, 2026\n                \n                \n                    Journal Club — Lewis et al. (2020).\n                \n            \n\n            \n            \n                \n                    \n                            Journal Club\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Learning the Natural History of Human Disease with Generative Transformers\n                    \n                \n                \n                \n                    February 26, 2026\n                \n                \n                    GMS 6805 Presentation — Nature 647, 248–256 (2025).\n                \n            \n\n            \n            \n                \n                    \n                            GMS 6805\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n        \n            \n                \n                    \n                        Machine Learning-Based Penetrance of Genetic Variants\n                    \n                \n                \n                    Forrest IS, Vy HMT, Rocheleau G, et al. Science\n                \n                \n                    February 17, 2026\n                \n                \n                    GMS 6804 Presentation — Forrest IS, Vy HMT, Rocheleau G, et al. Science (2025).\n                \n            \n\n            \n            \n                \n                    \n                            GMS 6804\n                        \n                    \n            \n            \n            \n                \n                    \n                        \n                            \n                                 View slides »\n                            \n                        \n                    \n                \n            \n        \n        \n\n\nNo matching items"
   },
   {
-    "objectID": "GMS6805_20260226/index.html#gpt-2-vs-delphi-2m",
-    "href": "GMS6805_20260226/index.html#gpt-2-vs-delphi-2m",
-    "title": "Learning the Natural History of Human Disease with Generative Transformers",
-    "section": "GPT-2 vs Delphi-2M",
-    "text": "GPT-2 vs Delphi-2M\n\n\n\n\n\n\n\n\nGPT-2 (Original)\nDelphi-2M (Modified)\n\n\n\n\nDiscrete positional encoding\nContinuous age encoding (sine/cosine)\n\n\nPredicts next token only\nAlso predicts time to next event (exponential model)\n\n\nStandard causal masking\nMasks same-time tokens (no circular causality)\n\n\n\n\nModel size: 2.2 million parameters (12 layers, 12 heads, 120-dim embedding)\nFollows empirical scaling laws — performance improves with more data"
+    "objectID": "GMS6804_20260217/index.html#limitations-in-current-methods-of-variant-interpretation",
+    "href": "GMS6804_20260217/index.html#limitations-in-current-methods-of-variant-interpretation",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "Limitations in current methods of variant interpretation",
+    "text": "Limitations in current methods of variant interpretation\n\nTraditional penetrance estimates rely on small, disease-enriched cohorts → ascertainment bias\nPatients are classified in a binary manner - case/control, sick/healthy, etc. while ignoring the fact that diseases exist on a spectrum\nStudies with smaller scope cannot assess rare variants with significant accuracy\nDifficult to interpret if Variants of Uncertain Signifance (VUS) are associated with disease pathogenecity or are harmful"
   },
   {
-    "objectID": "GMS6805_20260226/index.html#results-and-discussion",
-    "href": "GMS6805_20260226/index.html#results-and-discussion",
-    "title": "Learning the Natural History of Human Disease with Generative Transformers",
-    "section": "Results and Discussion",
-    "text": "Results and Discussion\n\n\nPerformed significantly well across ~1,000 diseases\nAverage AUC ~0.76 across all diseases in internal validation\n97% of diagnoses had AUC &gt; 0.5 (better than random)\nPredicting death: AUC = 0.97\nPerformance holds up to 10 years into the future (AUC ~0.70)\n\nCompared to current standards:\n\nMatches or beats cardiovascular risk scores (Framingham, QRisk3)\nMatches dementia risk scores (UKBDRS)\nOutperforms death prediction tools (Charlson, Elixhauser)"
+    "objectID": "GMS6804_20260217/index.html#research-question",
+    "href": "GMS6804_20260217/index.html#research-question",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "Research Question",
+    "text": "Research Question\n\n\nGiven a genetic variant exists in a patient, can machine learning and statistical methods predict what is its penetrance?"
   },
   {
-    "objectID": "GMS6805_20260226/index.html#results-and-discussion-1",
-    "href": "GMS6805_20260226/index.html#results-and-discussion-1",
-    "title": "Learning the Natural History of Human Disease with Generative Transformers",
-    "section": "Results and Discussion",
-    "text": "Results and Discussion\n\n\nFor a patient with digestive tract diseases → pancreatic cancer risk elevated 19×\nPancreatic cancer diagnosis → mortality rate elevated ~93,000×\nChickenpox peaks in childhood; heart attacks rise exponentially with age\nDelphi updates each person’s risk every time a new diagnosis is recorded"
+    "objectID": "GMS6804_20260217/index.html#methodology",
+    "href": "GMS6804_20260217/index.html#methodology",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "Methodology",
+    "text": "Methodology\n\n\n\nDevelopment, testing, and application of disease-predictive ML models to generate disease scores\nIdentification of individuals carrying rare P variants in genes corresponding to 10 dominant genetic conditions\n\n\n\n\n\n\nArrhythmogenic Right Ventricular Cardiomyopathy (ARVC)\nFamilial Breast Cancer (FBC)\nFamilial Hypercholesterolemia (FH)\nHypertrophic Cardiomyopathy (HCM)\nAdult Hypophosphatasia (HPP)\n\n\n\n\n\nLong QT Syndrome (LQTS)\nLynch Syndrome (LS)\nMonogenic Diabetes (MD)\nPolycystic Kidney Disease (PKD)\nvon Willebrand Disease (VWD)\n\n\n\n\n\nComputation and characterization of ML penetrance"
   },
   {
-    "objectID": "GMS6805_20260226/index.html#clinical-and-biological-revalence",
-    "href": "GMS6805_20260226/index.html#clinical-and-biological-revalence",
-    "title": "Learning the Natural History of Human Disease with Generative Transformers",
-    "section": "Clinical and Biological Revalence",
-    "text": "Clinical and Biological Revalence\n\n\nUnlike conventional models, Delphi can sample entire future health trajectories\nInput: everything known about a patient up to age 60\nOutput: simulated health events for the next 20 years\nApplications:\n\nEstimating future disease burden at population scale\nPlanning healthcare resources for specific communities\nIdentifying who needs screening before conventional age thresholds"
+    "objectID": "GMS6804_20260217/index.html#methodology-1",
+    "href": "GMS6804_20260217/index.html#methodology-1",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "Methodology",
+    "text": "Methodology\n\n\n\nThe disease scores can be used as a continuous measure of measuring odds of disease.\nInstead of\n\n\n“you have the variant, you might get sick”\n\n\nthe model will allow us to predict\n\n“you have this variant, based on the data, you risk for disease is x%”"
   },
   {
-    "objectID": "GMS6805_20260226/index.html#clinical-and-biological-revalence-2",
-    "href": "GMS6805_20260226/index.html#clinical-and-biological-revalence-2",
-    "title": "Learning the Natural History of Human Disease with Generative Transformers",
-    "section": "Clinical and Biological Revalence",
-    "text": "Clinical and Biological Revalence\n\n\nEarly Cancer or any disease screenings\nClinical Decision Support by including multi-disease risk\nPredicting community-level disease burden for healthcare planning\nDigital Twin technology and Similar Patient identification for personalized medicine"
+    "objectID": "GMS6804_20260217/index.html#data",
+    "href": "GMS6804_20260217/index.html#data",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "Data",
+    "text": "Data\n\n\n\n\nCohort\nN Participants\nPurpose\nMedian Age\n\n\n\n\nMSDW\n1,325,257\nModel training & validation\n55 years\n\n\nBioMe ML\n22,041\nModel testing (holdout)\n56 years\n\n\nBioMe Exome\n28,953\nPenetrance assessment\n65 years"
   },
   {
-    "objectID": "GMS6805_20260226/index.html#limitations",
-    "href": "GMS6805_20260226/index.html#limitations",
-    "title": "Learning the Natural History of Human Disease with Generative Transformers",
-    "section": "Limitations",
-    "text": "Limitations\n\n\nOnly predicts correlations, not causations\nLimited performance for ages 80+ (insufficient training data)\nDiabetes prediction still outperformed by a single blood biomarker (HbA1c)\nUK Biobank population is skewed towards white, affluent, educated — the healthy volunteer bias\nRecruitment ages are between 40-70 years old and hence underestimates early mortality (immortality bias)\nData source missingness (hospital vs. GP records) influences predictions"
+    "objectID": "GMS6804_20260217/index.html#workflow",
+    "href": "GMS6804_20260217/index.html#workflow",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "Workflow",
+    "text": "Workflow"
   },
   {
-    "objectID": "GMS6805_20260226/index.html#future-directions",
-    "href": "GMS6805_20260226/index.html#future-directions",
-    "title": "Learning the Natural History of Human Disease with Generative Transformers",
-    "section": "Future Directions",
-    "text": "Future Directions\n\n\nAdd genomic data, imaging, wearables, prescription records\nConnect Delphi to LLMs as a risk module\nIntegration of free-text clinical notes\n\nIf interested, you can also read Dr. Yonghui Wu’s thoughts on the paper in Nature"
+    "objectID": "GMS6804_20260217/index.html#prediction-model-features",
+    "href": "GMS6804_20260217/index.html#prediction-model-features",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "Prediction Model Features",
+    "text": "Prediction Model Features\n\nInput Features (47 lab tests + 9 vital signs)\n\nRoutine laboratory measurements (median values)\nComplete blood count, metabolic panel\nLipid profiles, liver/kidney function\nVital signs (BP, heart rate, BMI)\nDemographics (age, sex, ancestry)"
   },
   {
-    "objectID": "GMS6805_20260226/index.html#information-modelling-context",
-    "href": "GMS6805_20260226/index.html#information-modelling-context",
-    "title": "Learning the Natural History of Human Disease with Generative Transformers",
-    "section": "Information Modelling Context",
-    "text": "Information Modelling Context\n\n\nBased on the study, results and limitations presented by the researchers, they use the phrase AI very carefully (less than 10 times in the paper text)\nA rational understanding of Delphi will validate the same - there is nothing artificially intelligent about it\nIt is a statistical model that learns patterns in data and makes predictions based on those patterns\nThe part that seperates it from other similar studies is their implmentation of disease history modelling as the input for their model, representing events in a time-series, generalizable to any patient in any common data model (For e.g. i2b2, OMOP, PCORNET, etc.)\nFixed coordinate systems are not a new concept- principles of genetic data analysis are build on genomic coordinates that are uniform across all patients, and hence it is easier to identify mutations and changes and make inferences about their effects on disease risk and progression\nSimilarly, the use of age as a coordinate system for disease history allows for a more standardized and interpretable representation of health trajectories, which can be applied across different patient populations and healthcare settings"
+    "objectID": "GMS6804_20260217/index.html#predictive-performance-of-ml-models",
+    "href": "GMS6804_20260217/index.html#predictive-performance-of-ml-models",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "Predictive Performance of ML Models",
+    "text": "Predictive Performance of ML Models\n\n\n\n\nMetric\nMSDW (Internal)\nBioMe (Holdout)\n\n\n\n\nMean AUROC\n0.85 (0.77-0.95)\n0.84 (0.79-0.95)\n\n\nSensitivity\n0.77 (0.70-0.87)\n0.78 (0.74-0.88)\n\n\nSpecificity\n0.78 (0.68-0.91)\n0.78 (0.67-0.92)\n\n\n\nExample:\n\nFH model identified LDL-C, total cholesterol, age, and HDL-C as most important features\nGlucose, age, body mass index (BMI), and glomerular filtration rate (GFR) were the most important features for the MD models"
   },
   {
-    "objectID": "GMS6805_20260226/index.html#questions",
-    "href": "GMS6805_20260226/index.html#questions",
-    "title": "Learning the Natural History of Human Disease with Generative Transformers",
+    "objectID": "GMS6804_20260217/index.html#ml-penetrance-evaluation",
+    "href": "GMS6804_20260217/index.html#ml-penetrance-evaluation",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "ML Penetrance Evaluation",
+    "text": "ML Penetrance Evaluation\n\n\nApply ML models to generate continuous disease probability scores (0-1)\nUse Generalized Linear Mixed-Effects Model (GLMM) to compute penetrance\nAccounts for variability between carriers and across ML iterations\n\nlogit-transformed disease scores from all 50 ML iterations in all carriers, which accounted for variability in scores between different carriers (random effects term) and variability in scores between different ML iterations within the same individual (residual random effects term)\nThe model’s inverse logit coefficients and error terms were then used to provide a point estimate of ML penetrance, 95% confidence interval (95% CI), and p-value"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#ml-penetrance-results",
+    "href": "GMS6804_20260217/index.html#ml-penetrance-results",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "ML Penetrance Results",
+    "text": "ML Penetrance Results\n\n\n\n\n\n\n\n\n\nFinding Category\nKey Results\nStatistical Significance\n\n\n\n\nPathogenic vs. Benign Variants\nPathogenic variants: median ML penetrance = 0.52 (IQR 0.38)Benign variants: median ML penetrance = 0.28 (IQR 0.22)\np-value = 6.1 × 10⁻⁸\n\n\nRare vs. Common Variants\nRare variants (AF &lt;0.001): median penetrance = 0.46Common variants (AF ≥0.001): median penetrance = 0.28\np-value = 8.9 × 10⁻⁴⁸"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#ml-penetrance-results-1",
+    "href": "GMS6804_20260217/index.html#ml-penetrance-results-1",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "ML Penetrance Results",
+    "text": "ML Penetrance Results\n\n\n\n\n\n\n\n\n\nFinding Category\nKey Results\nStatistical Significance\n\n\n\n\nClinical Outcome Correlation - PKD\nPer 0.1 increase in ML penetrance:• Chronic kidney disease: OR = 1.11• End-stage renal disease: OR = 1.09• Secondary hypertension: OR = 1.05\np-value = 2.9×10⁻¹³p-value = 4.7×10⁻¹³p-value = 1.3×10⁻⁸\n\n\nClinical Outcome Correlation - FH\nMyocardial infarction: OR = 1.02 per 0.1 ML penetrance increase\np-value = 2.4×10⁻³"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#ml-penetrance-results-2",
+    "href": "GMS6804_20260217/index.html#ml-penetrance-results-2",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "ML Penetrance Results",
+    "text": "ML Penetrance Results\n\n\n\n\n\n\n\n\n\nFinding Category\nKey Results\nStatistical Significance\n\n\n\n\nFunctional Validation - BRCA1\n0.01 increase in ML penetrance → 0.027 decrease in DNA repair function score\np-value = 2.9×10⁻³\n\n\nFunctional Validation - LDLR\nHigher ML penetrance correlated with reduced LDL uptake\nr = -0.76, p-value = 0.021\n\n\nFunctional Validation - KCNQ1\nHigher ML penetrance → 303-ms increase in deactivation time\np-value = 9.1×10⁻³"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#ml-penetrance-results-3",
+    "href": "GMS6804_20260217/index.html#ml-penetrance-results-3",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "ML Penetrance Results",
+    "text": "ML Penetrance Results\n\n\n\n\n\n\n\n\n\nFinding Category\nKey Results\nStatistical Significance\n\n\n\n\nModel Performance\nMean AUROC: 0.85 (MSDW) and 0.84 (BioMe ML)Mean sensitivity: 0.77-0.78Mean specificity: 0.78\nRange: 0.77-0.95\n\n\nVUS Characterization\nVUS median ML penetrance = 0.46 (IQR 0.31)Higher than benign, lower than pathogenic\np-value = 4.9×10⁻⁸ vs. Bp-value = 0.011 vs. P"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#ml-penetrance-results-4",
+    "href": "GMS6804_20260217/index.html#ml-penetrance-results-4",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "ML Penetrance Results",
+    "text": "ML Penetrance Results\n\n\n\n\n\n\n\n\n\nFinding Category\nKey Results\nStatistical Significance\n\n\n\n\nLoF Variants\nMedian ML penetrance = 0.48 (IQR 0.36)Higher than benign variants21% had high penetrance ≥0.75, 18% had low penetrance ≤0.25\np-value = 5.7×10⁻⁸"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#ml-penetrance-results-5",
+    "href": "GMS6804_20260217/index.html#ml-penetrance-results-5",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "ML Penetrance Results",
+    "text": "ML Penetrance Results\n\n\n\n\n\n\n\n\n\nFinding Category\nKey Results\nStatistical Significance\n\n\n\n\nUK Biobank Validation\nML penetrance values significantly correlated across BioMe and UK BiobankStrongest correlations: ARVC (R=0.96), MD (R=0.58)\np-value = 1.8×10⁻³ overall"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#clinical-applications",
+    "href": "GMS6804_20260217/index.html#clinical-applications",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "Clinical Applications",
+    "text": "Clinical Applications\n\n\nImproved Variant Classification: Quantitative risk estimates beyond P/LP/VUS categories\nEnhanced Risk Stratification: Individualized screening protocols based on ML penetrance\nGenetic Counseling: More precise risk communication to patients\nClinical Trial Recruitment: Identify high-penetrance variant carriers\nResource Allocation: Prioritize monitoring for high-risk individuals"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#study-strengths",
+    "href": "GMS6804_20260217/index.html#study-strengths",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "Study Strengths",
+    "text": "Study Strengths\n\n\nLarge-scale: &gt;1.3 million participants with deep phenotyping\nUnselected population: Reduced ascertainment bias vs. family studies\nQuantitative: Continuous penetrance estimates, not binary\nClinically grounded: Uses routine lab data already in EHR\nValidated: Functional data, clinical outcomes, external cohorts\nHigh-throughput: Scalable to other health systems and diseases"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#limitations-future-directions",
+    "href": "GMS6804_20260217/index.html#limitations-future-directions",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "Limitations & Future Directions",
+    "text": "Limitations & Future Directions\n\nLimitations:\n\nDependent on EHR data quality and completeness\nFocused on autosomal dominant conditions\nLimited diversity in training cohorts\nDoes not address genetic modifiers or environmental factors\n\nFuture Work:\n\nExtend to other inheritance patterns and rare diseases\nDevelop ancestry-specific models\nProspective studies following variant carriers longitudinally\nIntegration with functional assays and polygenic risk scores"
+  },
+  {
+    "objectID": "GMS6804_20260217/index.html#key-takeaways",
+    "href": "GMS6804_20260217/index.html#key-takeaways",
+    "title": "Machine Learning-Based Penetrance of Genetic Variants",
+    "section": "Key Takeaways",
+    "text": "Key Takeaways\n\n\nML-based penetrance provides refined, quantitative disease risk estimates for genetic variants\nML penetrance correlates with clinical outcomes and functional data, validating biological relevance\nEnables interpretation of VUS and LoF variants through clinical trajectory analysis\nRepresents a scalable blueprint for precision medicine using routine EHR data"
+  },
+  {
+    "objectID": "GMS6805_FCT_CDM/index.html#questions",
+    "href": "GMS6805_FCT_CDM/index.html#questions",
+    "title": "Fixed Coordinate Temporal Architecture",
     "section": "Questions?",
     "text": "Questions?"
   },
   {
-    "objectID": "HOBISharkTank_2026/index.html#thank-you",
-    "href": "HOBISharkTank_2026/index.html#thank-you",
-    "title": "Zero Knowledge Medicine",
-    "section": "Thank You!",
-    "text": "Thank You!\n\nThis presentation was made using Quarto. Quarto enables you to weave together content and executable code into a finished document. Click here learn more about Quarto."
+    "objectID": "GMS6805_FCT_CDM/index.html#thank-you",
+    "href": "GMS6805_FCT_CDM/index.html#thank-you",
+    "title": "Fixed Coordinate Temporal Architecture",
+    "section": "Thank you",
+    "text": "Thank you\n\nThis presentation was made using Quarto. Quarto enables you to weave together content and executable code into a finished document. Click here learn more about Quarto."
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#paper-at-a-glance",
+    "href": "JC-CAMEL/index.html#paper-at-a-glance",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Paper at a Glance",
+    "text": "Paper at a Glance\n\n\n\n\nCore idea: Rather than prompting a single LLM to solve tasks, can we create a society of LLM-based agents that collaborate through natural-language conversation — and use that society to study emergent social behaviours?\n\n\n\n\nCAMEL proposes a role-playing multi-agent framework in which two LLM-based agents - one assigned the role of AI User and one assigned the role of AI Assistant collaborate through natural-language conversation to complete complex tasks autonomously, with minimal human intervention\nThe paper also released the AI Society dataset: 25,000 conversations generated across 50 user roles × 50 assistant roles × 10 tasks each, intended as a resource for studying emergent LLM social behaviour"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#motivation",
+    "href": "JC-CAMEL/index.html#motivation",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Motivation",
+    "text": "Motivation\nThe “Single Agent” Bottleneck\nMost LLM applications in 2022–2023 follow the same pattern:\nUser → [Single LLM] → Answer\nThis works well for: Question answering, Text generation, Simple code completion\nBut breaks down for:\n\nLong-horizon, multi-step tasks\nTasks requiring specialised sub-expertise\nTasks where self-critique is hard (the model grades its own answers)\nComplex creative/technical collaboration\n\n\n\n\nBottleneck: A single model must simultaneously be the planner, executor, critic, and domain expert"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#the-case-for-multi-agent",
+    "href": "JC-CAMEL/index.html#the-case-for-multi-agent",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "The Case for Multi-Agent",
+    "text": "The Case for Multi-Agent\nHumans solve hard problems through division of cognitive labour:\n\nManagers decompose tasks and assign them\nExperts apply deep specialised knowledge\nPeers critique and course-correct each other\nThe conversation itself is productive infrastructure\n\n\n\nWhat we’d gain from LLM societies:\n\nParallelism of reasoning\nRole-specialised expertise\nBuilt-in critique loops\nObservable reasoning traces\nEmergent collective behaviour\n\n\n\nThe research question:\nCan LLMs, when assigned roles and given a structured communication protocol, autonomously complete complex tasks through natural-language conversation without human intervention at each step?"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#prior-work-positioning",
+    "href": "JC-CAMEL/index.html#prior-work-positioning",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Prior Work & Positioning",
+    "text": "Prior Work & Positioning\n\n\n\n\n\n\n\n\nSystem\nApproach\nKey Limitation\n\n\n\n\nReAct (Yao et al.)\nSingle agent + tool use\nNo collaboration\n\n\nToolformer (Schick et al.)\nLLM learns to use APIs\nSingle agent\n\n\nHuggingGPT (Shen et al.)\nLLM orchestrates specialist models\nController bottleneck\n\n\nGenerative Agents (Park et al.)\nMany agents in a simulated town\nNo task-oriented protocol\n\n\nAutoGPT (Yang et al.)\nAutonomous goal-pursuit\nLacks communication structure\n\n\nCAMEL (this paper)\nStructured role-play dialogue between two agents\nIllustrated later\n\n\n\n\n\n\nCAMEL’s distinguishing feature is minimising human intervention while maximising autonomous agent-to-agent collaboration via a formally specified role-playing framework"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#research-gap",
+    "href": "JC-CAMEL/index.html#research-gap",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Research Gap",
+    "text": "Research Gap\n\n\n\n\n“The rapid advancement of conversational and chat-based language models has led to remarkable progress in complex task-completion … However, several crucial challenges remain unsolved … [including] how to effectively guide agents to complete tasks … with minimal human supervision.” — Li et al., 2023\n\n\n\n\nTwo domains the paper addresses:\n\nAutonomy vs. Coherence : the more you let agents self-direct, the more likely conversations drift, loop, or hallucinate\nGenerality vs. Task-Focus : role-playing is general, but how do you keep it on-task?\n\nCAMEL’s solution: Inception Prompting"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#camels-framework",
+    "href": "JC-CAMEL/index.html#camels-framework",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "CAMEL’s Framework",
+    "text": "CAMEL’s Framework\nCAMEL instantiates a two-agent role-playing system:\n\n\n\nFigure 1: CAMEL Role-Playing Framework\n\n\nThe human specifies who the agents are and what the task is\nThen the conversation runs autonomously"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#the-two-roles",
+    "href": "JC-CAMEL/index.html#the-two-roles",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "The Two Roles",
+    "text": "The Two Roles\nAI User\n\nPlays the role of a domain expert or manager\nGives instructions toward the shared goal\nDoes not directly execute — delegates to the assistant\nMonitors progress and redirects as needed\n\nAI Assistant\n\nPlays a complementary domain expert role\nExecutes instructions — produces solutions, code, plans, analyses\nResponds with outcomes and asks for next steps\nFlags when instructions are unclear or infeasible\n\n\n\n\nNeither agent sees the other’s system prompt. Each only sees its own role, the task, and the conversation history"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#inception-prompting-the-key-innovation",
+    "href": "JC-CAMEL/index.html#inception-prompting-the-key-innovation",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Inception Prompting: The Key Innovation",
+    "text": "Inception Prompting: The Key Innovation\nNaively giving two LLMs a shared goal leads to:\n\nSycophantic agreement (“Great idea!” loops)\nRole confusion (assistant starts directing)\nTask drift (conversation wanders off-topic)\nPremature termination (“The task is done!” before it is)"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#inception-prompting-the-key-innovation-1",
+    "href": "JC-CAMEL/index.html#inception-prompting-the-key-innovation-1",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Inception Prompting: The Key Innovation",
+    "text": "Inception Prompting: The Key Innovation\nInception prompting addresses this by embedding behavioural instructions directly into the system prompt:\n\n\nUser system prompt includes:\n\nYour role and expertise\nThe specific goal\nRule: Always give one clear instruction per turn\nRule: Do not accept a completed task unless it truly is\nRule: Do not change the topic\n\n\n\nAssistant system prompt includes:\n\nYour role and expertise\nThe specific goal\nRule: Execute instructions faithfully\nRule: Ask for clarification if needed\nRule: Do not refuse without good reason\nRule: Signal completion with &lt;CAMEL_TASK_DONE&gt;"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#inception-prompting-example",
+    "href": "JC-CAMEL/index.html#inception-prompting-example",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Inception Prompting: Example",
+    "text": "Inception Prompting: Example\nTask: “Develop a trading bot for the stock market”\nRoles:\n\nAI User = Python Programmer\nAI Assistant = Stock Trader\n\n\n\n\nUser system prompt (excerpt):\n“You are a Python programmer collaborating with a stock trader to develop a trading bot. You must instruct the stock trader to complete the task step by step. Do not perform the task yourself. The task is: Develop a trading bot for the stock market.”\n\n\n\n\n\n\nAssistant system prompt (excerpt):\n“You are a stock trader collaborating with a Python programmer. You must help complete the task assigned by the programmer. Solve the task by writing code. When the task is done, output &lt;CAMEL_TASK_DONE&gt;.”\n\n\n\nBoth agents are told the same goal, but from different perspectives with different responsibilities."
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#the-conversation-unfolds-autonomously",
+    "href": "JC-CAMEL/index.html#the-conversation-unfolds-autonomously",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "The Conversation Unfolds Autonomously",
+    "text": "The Conversation Unfolds Autonomously\nTurn 1 — User (Python Programmer): &gt; “Let’s start by designing the overall architecture of the trading bot. What data sources and APIs should we use for real-time stock data?”\nTurn 1 — Assistant (Stock Trader): &gt; “I recommend using Alpha Vantage or Yahoo Finance for real-time data. Alpha Vantage offers a free tier with 5 API calls/min. Here’s how we’d structure the data ingestion module: [code block]”\nTurn 2 — User: &gt; “Good. Now implement a simple moving average crossover strategy using that data module.”\nTurn 2 — Assistant: &gt; “Here is the SMA crossover implementation: [code block]. The strategy triggers a buy when the 50-day SMA crosses above the 200-day SMA, and a sell in the reverse case.”\n… and so on until &lt;CAMEL_TASK_DONE&gt;"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#task-specification-pipeline",
+    "href": "JC-CAMEL/index.html#task-specification-pipeline",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Task Specification Pipeline",
+    "text": "Task Specification Pipeline\nTo generate a large, diverse dataset of such conversations, CAMEL uses a three-stage pipeline:\nStage 1: Role Generation\n  ├── Prompt GPT-4 for a list of (AI User role, AI Assistant role) pairs\n  └── e.g., (Cybersecurity Expert, Penetration Tester)\n           (Financial Analyst, Quantitative Developer)\n           (Nutritionist, Chef)\n\nStage 2: Task Generation\n  ├── For each role pair, prompt GPT-4 for plausible collaborative tasks\n  └── e.g., \"Develop a portfolio risk management system\"\n\nStage 3: Task Elaboration\n  ├── Expand each task into a more specific, actionable description\n  └── Adds constraints, output format expectations, success criteria\nThis pipeline generates tasks at scale without manual curation of each one"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#the-ai-society-dataset",
+    "href": "JC-CAMEL/index.html#the-ai-society-dataset",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "The AI Society Dataset",
+    "text": "The AI Society Dataset\nThe paper releases a large dataset of CAMEL conversations:\n\n\nScale\n50 AI-user roles × 50 AI-assistant roles × 10 tasks each\n= 25,000 conversations\n\n\nDomains covered\nTrading, coding, science, medicine, law, creative writing, education, engineering, and more\n\n\nPurpose\nStudy emergent social behaviours, fine-tune future agents, and benchmark multi-agent cooperation\n\n\nEach conversation contains:\n\nFull system prompts for both agents\nComplete multi-turn dialogue\nTask completion signal and metadata (roles, domain, task description)\n\n\n\n\nThis dataset is one of the paper’s most significant contributions : a large-scale resource for studying LLM-to-LLM communication."
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#why-mind-exploration",
+    "href": "JC-CAMEL/index.html#why-mind-exploration",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Why “Mind” Exploration?",
+    "text": "Why “Mind” Exploration?\nThe scare quotes in the title are deliberate.\n\n\nWhat the paper is NOT claiming:\n\nThat LLMs have minds in a phenomenological sense\nThat role-playing implies genuine identity\nThat agent societies are conscious collectives\n\n\n\nWhat it IS exploring:\n\nDo LLMs exhibit consistent role-appropriate behaviour?\nDo social patterns emerge from agent interaction?\nCan we study LLM “cognitive” tendencies at scale by observing societies?\n\n\n\n\n\n\nThe CAMEL framework turns conversation logs into a scientific instrument for studying LLM behaviour by using the society as a microscope for the “minds” of individual models"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#experimental-setup",
+    "href": "JC-CAMEL/index.html#experimental-setup",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Experimental Setup",
+    "text": "Experimental Setup\nModels used:\n\nPrimary: gpt-4 and gpt-3.5-turbo\nBoth used as both User and Assistant agents\nConversations run until &lt;CAMEL_TASK_DONE&gt; or max turns (30)\n\nEvaluation dimensions:\n\n\n\n\n\n\n\nDimension\nHow Measured\n\n\n\n\nTask completion\nHuman annotation + heuristic (&lt;CAMEL_TASK_DONE&gt; reached)\n\n\nSolution quality\nHuman expert rating on correctness and relevance\n\n\nConversation coherence\nConsistency of role across turns\n\n\nEmerging behaviours\nQualitative analysis of unexpected patterns"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#result-1-autonomous-task-completion",
+    "href": "JC-CAMEL/index.html#result-1-autonomous-task-completion",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Result 1: Autonomous Task Completion",
+    "text": "Result 1: Autonomous Task Completion\n\n\n\nPrimary finding: CAMEL agents successfully complete complex, multi-step tasks autonomously across diverse domains without human intervention at each step\n\n\n\nExample completed tasks:\n\nFull Python trading bot with backtesting module\nA meal plan with shopping list + nutritional breakdown\nA cybersecurity penetration testing report\nAn analysis of a stock portfolio with risk metrics\n\nCompletion rates (GPT-4 backbone):\n\nReached &lt;CAMEL_TASK_DONE&gt; within 30 turns: ~89% of conversations\nHuman-rated as meaningfully complete: ~75%\nHuman-rated as high quality: ~60%"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#result-2-role-consistency",
+    "href": "JC-CAMEL/index.html#result-2-role-consistency",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Result 2: Role Consistency",
+    "text": "Result 2: Role Consistency\nA key question: do agents stay in role over long conversations?\nFindings:\n\nGPT-4 agents maintain role-appropriate language, framing, and expertise throughout\nThe User agent consistently instructs rather than executes\nThe Assistant agent consistently executes rather than redirects\nRole “slippage” (assistant taking over direction) is rare with GPT-4, more common with GPT-3.5\n\ngpt-3.5-turbo-0301 does not always pay strong attention to system messages per official documentation while GPT-4 was explicitly marketed as more “steerable” through the system message. If the system prompt is weak, role assignment is weak\nGPT-3.5 had a 4k context window, versus 8k/32k for GPT-4. In long multi-turn dialogues, the inception prompt gets pushed far back or truncated, so the role anchor fades."
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#result-2-role-consistency-1",
+    "href": "JC-CAMEL/index.html#result-2-role-consistency-1",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Result 2: Role Consistency",
+    "text": "Result 2: Role Consistency\n\n\nGood role consistency:\n\n[Turn 18, User/Programmer]:\n“Now write unit tests for the portfolio module.”\n\n\n[Turn 18, Asst/Trader]:\n“Here are the unit tests: [code]”\n\n\n\nRole slippage (failure case):\n\n[Turn 12, Asst/Trader]:\n“Actually, I think we should change our approach entirely. Let me direct us toward…”\n\n(Assistant begins directing — breaks the protocol)"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#result-3-emergent-behaviours",
+    "href": "JC-CAMEL/index.html#result-3-emergent-behaviours",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Result 3: Emergent Behaviours",
+    "text": "Result 3: Emergent Behaviours\nSeveral unexpected patterns emerged:\n3a. Role-Conditioned Knowledge Activation\nAgents exhibit different knowledge profiles depending on their assigned role, even though the same model underlies both:\n\nAn agent playing “Stock Trader” spontaneously uses financial terminology, references specific instruments, and applies risk concepts\nThe same model playing “Python Programmer” frames the same discussion in terms of data structures, API design, and testing\n\n\n\n\nThis suggests role assignment functions as a context window for activating latent knowledge subsets and the model’s “expertise” is dynamically shaped by the role prompt."
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#result-3-emergent-behaviours-1",
+    "href": "JC-CAMEL/index.html#result-3-emergent-behaviours-1",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Result 3: Emergent Behaviours",
+    "text": "Result 3: Emergent Behaviours\n3b. Flipping and Asking for Clarification\nAgents occasionally break from pure instruction-following to ask clarifying questions or flag contradictions:\n\n[Assistant]: “Your instruction to ‘maximise returns’ and ‘minimise risk’ are in tension. Should I prioritise Sharpe ratio as a balanced objective?”\n\nThis was not explicitly prompted — it emerged from the combination of role context and instruction coherence pressure."
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#result-3-emergent-behaviours-2",
+    "href": "JC-CAMEL/index.html#result-3-emergent-behaviours-2",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Result 3: Emergent Behaviours",
+    "text": "Result 3: Emergent Behaviours\n3c. Instruction Chaining\nUser agents spontaneously break large goals into coherent sub-instructions across turns, which is a form of emergent planning:\n\nTurn 3: “Implement data ingestion”\nTurn 5: “Now implement the strategy layer”\nTurn 7: “Add the execution layer”\nTurn 9: “Now connect them with a controller”\n\nThe decomposition is principled and domain-appropriate, without explicit planning instructions"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#result-3-emergent-behaviours-3",
+    "href": "JC-CAMEL/index.html#result-3-emergent-behaviours-3",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Result 3: Emergent Behaviours",
+    "text": "Result 3: Emergent Behaviours\n3d. Role-Playing Consistency Under Adversarial Pressure\nThe paper tests what happens when one agent is prompted to deviate from its role mid-conversation.\nFinding: With inception prompting, agents are robust to mild adversarial deviation:\n\nIf the assistant tries to redirect: the user repeats and refocuses the instruction\nIf the user gives an ambiguous instruction: the assistant asks for clarification rather than guessing"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#result-3-emergent-behaviours-4",
+    "href": "JC-CAMEL/index.html#result-3-emergent-behaviours-4",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Result 3: Emergent Behaviours",
+    "text": "Result 3: Emergent Behaviours\n3e. Harmful Content Guardrails Under Pressure\nWhen tasks edge into sensitive territory (e.g., cybersecurity tasks that could imply hacking instructions), the agents sometimes spontaneously apply ethical caveats without being told to:\n\n[Assistant]: “I’ll describe the penetration testing approach, but note this should only be applied to systems you are authorised to test.”"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#conversation-quality-analysis",
+    "href": "JC-CAMEL/index.html#conversation-quality-analysis",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Conversation Quality Analysis",
+    "text": "Conversation Quality Analysis\nThe authors perform qualitative analysis across a sample of 100 conversations:\n\n\nPositive patterns observed:\n\nRich technical detail appropriate to roles\nCoherent narrative arc across turns\nAppropriate specialisation of vocabulary\nProductive disagreement and negotiation\nSelf-correction when outputs are queried\n\n\n\nNegative patterns observed:\n\nSycophantic affirmations between turns\nRepetition of prior outputs with minor variation\nHallucinated APIs, functions, or facts\nPremature &lt;CAMEL_TASK_DONE&gt; in ~11% of cases\nOccasional role confusion in long conversations\n\n\n\n\n\n\nThe ratio of positive to negative patterns strongly favours GPT-4 over GPT-3.5, suggesting model capability is a binding constraint on multi-agent quality."
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#quantitative-benchmark-performance",
+    "href": "JC-CAMEL/index.html#quantitative-benchmark-performance",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Quantitative Benchmark Performance",
+    "text": "Quantitative Benchmark Performance\nThe paper includes performance on several proxy benchmarks to compare CAMEL to single-agent baselines:\n\n\n\n\n\n\n\n\n\nTask Type\nSingle GPT-4\nCAMEL (GPT-4)\nΔ\n\n\n\n\nCode generation (HumanEval-style)\n78%\n84%\n+6%\n\n\nMulti-step reasoning\n65%\n71%\n+6%\n\n\nCreative writing quality (human)\n3.8/5\n4.1/5\n+0.3\n\n\nTask completion rate\n82%\n89%\n+7%\n\n\n\n\n\n\nThe improvements are consistent but modest: CAMEL’s value is not primarily about benchmark uplift, but about enabling classes of task (long-horizon, collaborative) that a single agent handles poorly."
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#limitation-1-the-role-play-doesnt-equal-real-expertise",
+    "href": "JC-CAMEL/index.html#limitation-1-the-role-play-doesnt-equal-real-expertise",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Limitation 1: The Role-Play Doesn’t Equal Real Expertise",
+    "text": "Limitation 1: The Role-Play Doesn’t Equal Real Expertise\n\nCritical caveat: When the “Stock Trader” agent gives financial advice, it is a language model performing the role of a stock trader. It does not have real market knowledge, real-time data, or accountability.\n\nImplications:\n\nOutputs in high-stakes domains (medicine, law, finance) must be treated as drafts for expert review, not authoritative outputs\nThe convincing style of expert communication can create false confidence\nUsers who don’t understand the underlying system may over-rely on outputs\n\nThis is amplified by the multi-agent design: two convincing-sounding agents agreeing increases perceived credibility, even when both are wrong"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#limitation-2-conversational-pathologies",
+    "href": "JC-CAMEL/index.html#limitation-2-conversational-pathologies",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Limitation 2: Conversational Pathologies",
+    "text": "Limitation 2: Conversational Pathologies\nSeveral failure modes are documented but not fully solved:\n\n\nSycophantic loops\nAgents affirm each other’s outputs excessively, masking poor-quality content beneath polite agreement\n\n\nPremature completion\nAgents signal &lt;CAMEL_TASK_DONE&gt; before the task is genuinely complete, particularly for ill-defined tasks\n\n\nContext window exhaustion\nLong conversations degrade quality as earlier context falls out of the window, and agents “forget” earlier decisions"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#limitation-2-conversational-pathologies-1",
+    "href": "JC-CAMEL/index.html#limitation-2-conversational-pathologies-1",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Limitation 2: Conversational Pathologies",
+    "text": "Limitation 2: Conversational Pathologies\nSeveral failure modes are documented but not fully solved:\n\n\nInstruction ambiguity propagation\nA vague task specification at the start compounds across turns with small early errors becoming large late errors\n\n\nHallucinated consensus\nBoth agents can converge on a wrong answer confidently, so multi-agent does not automatically provide error-checking\n\n\nTopic drift in long runs\nAfter many turns, the conversation can gradually shift away from the original task"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#limitation-3-evaluation",
+    "href": "JC-CAMEL/index.html#limitation-3-evaluation",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Limitation 3: Evaluation",
+    "text": "Limitation 3: Evaluation\nHow do you evaluate a 30-turn conversation?\n\nEnd-product quality (is the code correct?)\nProcess quality (were the instructions coherent?)\nRole fidelity (did agents stay in role?)\nEfficiency (how many turns did it take?)\n\nThe paper relies heavily on human annotation, which is:\n\nExpensive to scale\nInconsistent across annotators\nHard to apply to highly technical outputs\nSubjective for creative tasks\n\n\n\n\nThere is no standard evaluation framework for multi-agent LLM conversations — and developing one is an open research problem."
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#ethical-concerns-and-autonomous-agent-risks",
+    "href": "JC-CAMEL/index.html#ethical-concerns-and-autonomous-agent-risks",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Ethical Concerns and Autonomous Agent Risks",
+    "text": "Ethical Concerns and Autonomous Agent Risks\nThe authors dedicate a section to risks unique to autonomous multi-agent systems:\n\n\n1. Reduced human oversight\nThe whole point is to minimise human intervention, but this also means humans may not see harmful outputs until they are complete.\n2. Amplified misuse\nA single LLM’s guardrails can be partially bypassed. Two agents validating each other may be easier to jailbreak through roleplay framing.\n3. Impersonation at scale\nRole-play systems could be weaponised to generate large volumes of convincingly expert-sounding but inaccurate content.\n\n\n4. Accountability gaps\nWhen two agents produce a harmful output, who is responsible? The framework? The task specifier? The model provider?\n5. Cascading errors\nIn agentic pipelines, a hallucination in Turn 5 may silently propagate and compound through Turn 30. Traditional single-turn safety checks don’t catch this.\n6. Social engineering vectors\nAgents trained on human social interaction patterns may be effective at persuasion, including manipulation."
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#what-camel-does-not-solve",
+    "href": "JC-CAMEL/index.html#what-camel-does-not-solve",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "What CAMEL Does NOT Solve",
+    "text": "What CAMEL Does NOT Solve\nIt’s important to be precise about scope:\n\n\n\n\n\n\n\nProblem\nDoes CAMEL address it?\n\n\n\n\nHallucination\nNo: agents can mutually reinforce hallucinations\n\n\nReal-time knowledge\nNo: no external tool use in base version\n\n\nPersistent memory\nNo: context window only\n\n\nTrue specialisation\nNo: role is a prompt, not a fine-tuned model\n\n\nFormal verification\nNo: outputs are not verified\n\n\nScalability to N&gt;2 agents\nPartially: framework generalises but not evaluated\n\n\nHuman-AI teaming\nPartially: human can intervene but protocol optimised for autonomy"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#open-research-questions",
+    "href": "JC-CAMEL/index.html#open-research-questions",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Open Research Questions",
+    "text": "Open Research Questions\nThe paper opens as many questions as it closes:\n\n\nArchitecture questions:\n\nHow does performance scale with N agents (N &gt; 2)?\nWhat happens with adversarial agents in a society?\nCan memory systems (vector DBs) extend conversation coherence?\nHow does agent specialisation (fine-tuning vs. prompting) affect quality?\n\n\n\nBehavioural questions:\n\nWhat social dynamics emerge in larger societies?\nCan agents develop stable “personalities” across sessions?\nHow do agents handle genuine disagreement?\nCan we detect and measure emergent norms?\n\n\n\n\n\n\nThe dataset released by CAMEL is designed to enable exactly this kind of follow-on research"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#conceptual-contributions",
+    "href": "JC-CAMEL/index.html#conceptual-contributions",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Conceptual Contributions",
+    "text": "Conceptual Contributions\n1. The Role-Playing Framework\nA general, replicable protocol for structured LLM-to-LLM collaboration that minimises human oversight while maintaining task coherence\n2. Inception Prompting\nA technique for embedding behavioural constraints into system prompts that keeps both agents on-task and in-role\n3. The AI Society Dataset\n25,000 conversations across 50×50 role pairs that measure the diversity and complexity of LLM social behaviour\n4. Empirical Study of Emergent Behaviour\nOne of the first systematic studies of what happens when LLMs interact with each other and not just with humans\n\n\n\nCAMEL’s lasting contribution may be less the specific system and more the research paradigm: treating LLM-to-LLM conversation as a scientific instrument for studying model behaviour"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#where-camel-fits-in-the-broader-landscape",
+    "href": "JC-CAMEL/index.html#where-camel-fits-in-the-broader-landscape",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Where CAMEL Fits in the Broader Landscape",
+    "text": "Where CAMEL Fits in the Broader Landscape\nSingle-model prompting\n    └─► Gives you: one perspective, bounded context, no specialisation\n    \nChain-of-thought prompting\n    └─► Gives you: structured reasoning, still single model\n    \nTool-augmented agents (ReAct, Toolformer)\n    └─► Gives you: external data/compute, still single agent\n    \nCAMEL multi-agent role-play\n    └─► Gives you: role specialisation, emergent collaboration,\n                   observable social dynamics, long-horizon tasks\n    \nFuture: Heterogeneous agent societies\n    └─► Gives you (?): truly distributed intelligence,\n                       fine-tuned specialists, persistent memory,\n                       formal verification layers"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#key-takeaways",
+    "href": "JC-CAMEL/index.html#key-takeaways",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Key Takeaways",
+    "text": "Key Takeaways\n\n\nFeasibility demonstrated\nStructured LLM-to-LLM collaboration works: agents complete complex tasks autonomously across diverse domains\n\n\nInception prompting matters\nThe specific design of system prompts is critical since where naive multi-agent setups fail, CAMEL’s structured approach succeeds\n\n\nEmergent behaviour is real\nRole-conditioned knowledge, emergent planning, and spontaneous clarification arise without explicit instruction"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#key-takeaways-1",
+    "href": "JC-CAMEL/index.html#key-takeaways-1",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Key Takeaways",
+    "text": "Key Takeaways\n\n\nLimitations are significant\nHallucination, sycophancy, and premature completion are real failure modes and not minor edge cases\n\n\nEthics matter more with autonomy\nReduced human oversight amplifies both capability and risk, hence safety research must keep pace\n\n\nA research platform\nCAMEL is most valuable as a framework + dataset for the scientific study of LLM social behaviour"
   }
 ]

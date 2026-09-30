@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<link href="../photos/Piyush.png" rel="icon" type="image/png">
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.37">
+
+  <meta name="author" content="Piyush Chaudhari">
+  <title>Piyush Chaudhari – CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../site_libs/revealjs/dist/theme/quarto-40bd93afa796619ed5fa4e27c6870335.css">
+  <link href="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <style>
+  #title-slide .quarto-title-author-name,
+  #title-slide .quarto-title-affiliation,
+  #title-slide .date,
+  #title-slide .subtitle {
+    color: #1A1A1A;
+  }
+  </style>
+<meta name="twitter:title" content="CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society – Piyush Chaudhari">
+<meta name="twitter:description" content="Li et al., 2023">
+<meta name="twitter:creator" content="@iampiyushvc">
+<meta name="twitter:card" content="summary">
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" data-background-color="#F4F2EC" class="quarto-title-block center">
+  <h1 class="title">CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society</h1>
+  <p class="subtitle">Li et al., 2023</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Piyush Chaudhari 
+</div>
+        <p class="quarto-title-affiliation">
+            Journal Club
+          </p>
+    </div>
+</div>
+
+</section>
+<section id="paper-at-a-glance" class="slide level2">
+<h2>Paper at a Glance</h2>
+<!-- **Guohao Li · Hasan Anil · Sotiris Triantafillou · Dario Amodei · et al.**\
+*King Abdullah University of Science and Technology (KAUST), 2023* -->
+<div class="callout callout-none no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p><strong>Core idea:</strong> Rather than prompting a single LLM to solve tasks, can we create a <em>society</em> of LLM-based agents that collaborate through natural-language conversation — and use that society to study emergent social behaviours?</p>
+</div>
+</div>
+</div>
+<ul>
+<li><p>CAMEL proposes a role-playing multi-agent framework in which two LLM-based agents - one assigned the role of <strong>AI User</strong> and one assigned the role of <strong>AI Assistant</strong> collaborate through natural-language conversation to complete complex tasks autonomously, with minimal human intervention</p></li>
+<li><p>The paper also released the <strong>AI Society dataset</strong>: 25,000 conversations generated across 50 user roles × 50 assistant roles × 10 tasks each, intended as a resource for studying emergent LLM social behaviour</p></li>
+</ul>
+<!-- ------------------------------------------------------------------------
+
+## Motivation
+
+### The Single-Agent Bottleneck
+
+- Most LLM applications route a single model through a single turn or a simple chain
+- This works well for bounded tasks (QA, text generation, simple code) but fails for:
+
+  - Long-horizon, multi-step tasks
+  - Tasks requiring simultaneous specialisation in multiple domains
+  - Tasks where self-critique is unreliable (the model judges its own outputs)
+
+### Why Multi-Agent?
+
+- Human teams solve hard problems through division of cognitive labour - *managers* decompose tasks, *experts* apply deep knowledge, *peers* critique each other
+- *CAMEL* asks whether LLMs can replicate this structure through structured dialogue
+
+---
+
+## The Core Research Question
+
+> Can LLMs, when assigned roles and given a structured communication protocol, autonomously complete complex tasks through natural-language conversation without human intervention at each step? -->
+</section>
+<section id="motivation" class="slide level2">
+<h2>Motivation</h2>
+<h3 id="the-single-agent-bottleneck">The “Single Agent” Bottleneck</h3>
+<p>Most LLM applications in 2022–2023 follow the same pattern:</p>
+<p><code>User</code> → <code>[Single LLM]</code> → <code>Answer</code></p>
+<p><strong>This works well for:</strong> <em>Question answering</em>, <em>Text generation</em>, <em>Simple code completion</em></p>
+<p><strong>But breaks down for:</strong></p>
+<ul>
+<li>Long-horizon, multi-step tasks</li>
+<li>Tasks requiring specialised sub-expertise</li>
+<li>Tasks where self-critique is hard (the model grades its own answers)</li>
+<li>Complex creative/technical collaboration</li>
+</ul>
+<div class="callout callout-none no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p><strong>Bottleneck:</strong> A single model must simultaneously be the planner, executor, critic, and domain expert</p>
+</div>
+</div>
+</div>
+</section>
+<section id="the-case-for-multi-agent" class="slide level2">
+<h2>The Case for Multi-Agent</h2>
+<p>Humans solve hard problems through <em>division of cognitive labour</em>:</p>
+<ul>
+<li>Managers decompose tasks and assign them</li>
+<li>Experts apply deep specialised knowledge</li>
+<li>Peers critique and course-correct each other</li>
+<li>The <em>conversation</em> itself is productive infrastructure</li>
+</ul>
+<div class="two-col">
+<div>
+<p><strong>What we’d gain from LLM societies:</strong></p>
+<ul>
+<li>Parallelism of reasoning</li>
+<li>Role-specialised expertise</li>
+<li>Built-in critique loops</li>
+<li>Observable reasoning traces</li>
+<li>Emergent collective behaviour</li>
+</ul>
+</div>
+<div>
+<p><strong>The research question:</strong></p>
+<p>Can LLMs, when assigned <em>roles</em> and given a structured <em>communication protocol</em>, autonomously complete complex tasks through natural-language conversation <strong>without human intervention at each step?</strong></p>
+</div>
+</div>
+</section>
+<section id="prior-work-positioning" class="slide level2">
+<h2>Prior Work &amp; Positioning</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>System</th>
+<th>Approach</th>
+<th>Key Limitation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>ReAct</strong> (Yao et al.)</td>
+<td>Single agent + tool use</td>
+<td>No collaboration</td>
+</tr>
+<tr class="even">
+<td><strong>Toolformer</strong> (Schick et al.)</td>
+<td>LLM learns to use APIs</td>
+<td>Single agent</td>
+</tr>
+<tr class="odd">
+<td><strong>HuggingGPT</strong> (Shen et al.)</td>
+<td>LLM orchestrates specialist models</td>
+<td>Controller bottleneck</td>
+</tr>
+<tr class="even">
+<td><strong>Generative Agents</strong> (Park et al.)</td>
+<td>Many agents in a simulated town</td>
+<td>No task-oriented protocol</td>
+</tr>
+<tr class="odd">
+<td><strong>AutoGPT</strong> (Yang et al.)</td>
+<td>Autonomous goal-pursuit</td>
+<td>Lacks communication structure</td>
+</tr>
+<tr class="even">
+<td><strong>CAMEL (this paper)</strong></td>
+<td>Structured role-play dialogue between two agents</td>
+<td><strong>Illustrated later</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-none no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>CAMEL’s distinguishing feature is <strong>minimising human intervention</strong> while <strong>maximising autonomous agent-to-agent collaboration</strong> via a formally specified role-playing framework</p>
+</div>
+</div>
+</div>
+</section>
+<section id="research-gap" class="slide level2">
+<h2>Research Gap</h2>
+<div class="callout callout-none no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<blockquote>
+<p><em>“The rapid advancement of conversational and chat-based language models has led to remarkable progress in complex task-completion … However, several crucial challenges remain unsolved … [including] how to effectively guide agents to complete tasks … with minimal human supervision.”</em> — Li et al., 2023</p>
+</blockquote>
+</div>
+</div>
+</div>
+<p>Two domains the paper addresses:</p>
+<ol type="1">
+<li><strong>Autonomy vs.&nbsp;Coherence</strong> : the more you let agents self-direct, the more likely conversations drift, loop, or hallucinate</li>
+<li><strong>Generality vs.&nbsp;Task-Focus</strong> : role-playing is general, but how do you keep it on-task?</li>
+</ol>
+<p>CAMEL’s solution: <strong>Inception Prompting</strong></p>
+</section>
+<section id="camels-framework" class="slide level2">
+<h2>CAMEL’s Framework</h2>
+<p>CAMEL instantiates a <strong>two-agent role-playing system</strong>:</p>
+<!-- ```         
+┌─────────────────────────────────────────────────────────────────┐
+│                        CAMEL Society                           │
+│                                                                 │
+│   ┌──────────────┐   natural language   ┌──────────────────┐   │
+│   │   AI USER    │◄────────────────────►│   AI ASSISTANT   │   │
+│   │  (role: X)   │   multi-turn chat    │    (role: Y)      │   │
+│   └──────────────┘                      └──────────────────┘   │
+│          ▲                                       ▲              │
+│          │  inception prompt                     │ inception    │
+│          │  (user role + task)                   │ prompt       │
+│          │                                       │ (assistant   │
+│   ┌──────┴────────────────────────────────────────┴──────┐      │
+│   │               Human / Task Specifier                  │      │
+│   │   (sets roles, goal — then steps back)                │      │
+│   └────────────────────────────────────────────────────────┘     │
+└─────────────────────────────────────────────────────────────────┘
+``` -->
+<center>
+<p><a href="https://arxiv.org/html/2303.17760v2/pipeline.png" class="lightbox" data-gallery="figures"><img data-src="https://arxiv.org/html/2303.17760v2/pipeline.png" style="width:50.0%"></a></p>
+<p>Figure 1: CAMEL Role-Playing Framework</p>
+</center>
+<ul>
+<li><p>The human specifies <strong>who</strong> the agents are and <strong>what</strong> the task is</p></li>
+<li><p>Then the conversation runs <strong>autonomously</strong></p></li>
+</ul>
+</section>
+<section id="the-two-roles" class="slide level2">
+<h2>The Two Roles</h2>
+<h3 id="ai-user">AI User</h3>
+<ul>
+<li>Plays the role of a domain expert or manager</li>
+<li><strong>Gives instructions</strong> toward the shared goal</li>
+<li>Does <strong>not</strong> directly execute — delegates to the assistant</li>
+<li>Monitors progress and redirects as needed</li>
+</ul>
+<h3 id="ai-assistant">AI Assistant</h3>
+<ul>
+<li>Plays a complementary domain expert role</li>
+<li><strong>Executes instructions</strong> — produces solutions, code, plans, analyses</li>
+<li>Responds with outcomes and asks for next steps</li>
+<li>Flags when instructions are unclear or infeasible</li>
+</ul>
+<div class="callout callout-none no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>Neither agent sees the other’s system prompt. Each only sees its own role, the task, and the conversation history</p>
+</div>
+</div>
+</div>
+</section>
+<section id="inception-prompting-the-key-innovation" class="slide level2">
+<h2>Inception Prompting: The Key Innovation</h2>
+<p><strong>Naively giving two LLMs a shared goal leads to:</strong></p>
+<ul>
+<li>Sycophantic agreement (<em>“Great idea!” loops</em>)</li>
+<li>Role confusion (<em>assistant starts directing</em>)</li>
+<li>Task drift (<em>conversation wanders off-topic</em>)</li>
+<li>Premature termination (<em>“The task is done!” before it is</em>)</li>
+</ul>
+</section>
+<section id="inception-prompting-the-key-innovation-1" class="slide level2">
+<h2>Inception Prompting: The Key Innovation</h2>
+<p><strong>Inception prompting</strong> addresses this by embedding behavioural instructions <em>directly into the system prompt</em>:</p>
+<div class="two-col">
+<div>
+<p><strong>User system prompt includes:</strong></p>
+<ul>
+<li>Your role and expertise</li>
+<li>The specific goal</li>
+<li>Rule: <em>Always give one clear instruction per turn</em></li>
+<li>Rule: <em>Do not accept a completed task unless it truly is</em></li>
+<li>Rule: <em>Do not change the topic</em></li>
+</ul>
+</div>
+<div>
+<p><strong>Assistant system prompt includes:</strong></p>
+<ul>
+<li>Your role and expertise</li>
+<li>The specific goal</li>
+<li>Rule: <em>Execute instructions faithfully</em></li>
+<li>Rule: <em>Ask for clarification if needed</em></li>
+<li>Rule: <em>Do not refuse without good reason</em></li>
+<li>Rule: <em>Signal completion with</em> <code>&lt;CAMEL_TASK_DONE&gt;</code></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="inception-prompting-example" class="slide level2">
+<h2>Inception Prompting: Example</h2>
+<p><strong>Task:</strong> “Develop a trading bot for the stock market”<br>
+<strong>Roles:</strong></p>
+<ul>
+<li>AI User = Python Programmer</li>
+<li>AI Assistant = Stock Trader</li>
+</ul>
+<div class="callout callout-none no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p><strong>User system prompt (excerpt):</strong><br>
+<em>“You are a Python programmer collaborating with a stock trader to develop a trading bot. You must instruct the stock trader to complete the task step by step. Do not perform the task yourself. The task is: Develop a trading bot for the stock market.”</em></p>
+</div>
+</div>
+</div>
+<div class="callout callout-none no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p><strong>Assistant system prompt (excerpt):</strong><br>
+<em>“You are a stock trader collaborating with a Python programmer. You must help complete the task assigned by the programmer. Solve the task by writing code. When the task is done, output</em> <code>&lt;CAMEL_TASK_DONE&gt;</code><em>.”</em></p>
+</div>
+</div>
+</div>
+<p>Both agents are told the <strong>same goal</strong>, but from <strong>different perspectives</strong> with <strong>different responsibilities</strong>.</p>
+</section>
+<section id="the-conversation-unfolds-autonomously" class="slide level2">
+<h2>The Conversation Unfolds Autonomously</h2>
+<p><strong>Turn 1 — User (Python Programmer):</strong> &gt; <em>“Let’s start by designing the overall architecture of the trading bot. What data sources and APIs should we use for real-time stock data?”</em></p>
+<p><strong>Turn 1 — Assistant (Stock Trader):</strong> &gt; <em>“I recommend using Alpha Vantage or Yahoo Finance for real-time data. Alpha Vantage offers a free tier with 5 API calls/min. Here’s how we’d structure the data ingestion module: [code block]”</em></p>
+<p><strong>Turn 2 — User:</strong> &gt; <em>“Good. Now implement a simple moving average crossover strategy using that data module.”</em></p>
+<p><strong>Turn 2 — Assistant:</strong> &gt; <em>“Here is the SMA crossover implementation: [code block]. The strategy triggers a buy when the 50-day SMA crosses above the 200-day SMA, and a sell in the reverse case.”</em></p>
+<p><em>… and so on until <code>&lt;CAMEL_TASK_DONE&gt;</code></em></p>
+</section>
+<section id="task-specification-pipeline" class="slide level2">
+<h2>Task Specification Pipeline</h2>
+<p>To generate a large, diverse dataset of such conversations, CAMEL uses a <strong>three-stage pipeline</strong>:</p>
+<pre><code>Stage 1: Role Generation
+  ├── Prompt GPT-4 for a list of (AI User role, AI Assistant role) pairs
+  └── e.g., (Cybersecurity Expert, Penetration Tester)
+           (Financial Analyst, Quantitative Developer)
+           (Nutritionist, Chef)
+
+Stage 2: Task Generation
+  ├── For each role pair, prompt GPT-4 for plausible collaborative tasks
+  └── e.g., "Develop a portfolio risk management system"
+
+Stage 3: Task Elaboration
+  ├── Expand each task into a more specific, actionable description
+  └── Adds constraints, output format expectations, success criteria</code></pre>
+<p>This pipeline generates tasks <strong>at scale</strong> without manual curation of each one</p>
+</section>
+<section id="the-ai-society-dataset" class="slide level2">
+<h2>The AI Society Dataset</h2>
+<p>The paper releases a large dataset of CAMEL conversations:</p>
+<div class="three-col">
+<div class="card">
+<p><strong>Scale</strong></p>
+<p>50 AI-user roles × 50 AI-assistant roles × 10 tasks each</p>
+<p>= <strong>25,000 conversations</strong></p>
+</div>
+<div class="card">
+<p><strong>Domains covered</strong></p>
+<p>Trading, coding, science, medicine, law, creative writing, education, engineering, and more</p>
+</div>
+<div class="card">
+<p><strong>Purpose</strong></p>
+<p>Study emergent social behaviours, fine-tune future agents, and benchmark multi-agent cooperation</p>
+</div>
+</div>
+<p>Each conversation contains:</p>
+<ul>
+<li>Full system prompts for both agents</li>
+<li>Complete multi-turn dialogue</li>
+<li>Task completion signal and metadata (roles, domain, task description)</li>
+</ul>
+<div class="callout callout-none no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>This dataset is one of the paper’s most significant contributions : a large-scale resource for studying LLM-to-LLM communication.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="why-mind-exploration" class="slide level2">
+<h2>Why “Mind” Exploration?</h2>
+<p>The scare quotes in the title are deliberate.</p>
+<div class="two-col">
+<div>
+<p><strong>What the paper is NOT claiming:</strong></p>
+<ul>
+<li>That LLMs have minds in a phenomenological sense</li>
+<li>That role-playing implies genuine identity</li>
+<li>That agent societies are conscious collectives</li>
+</ul>
+</div>
+<div>
+<p><strong>What it IS exploring:</strong></p>
+<ul>
+<li>Do LLMs exhibit <em>consistent</em> role-appropriate behaviour?</li>
+<li>Do <em>social</em> patterns emerge from agent interaction?</li>
+<li>Can we study LLM “cognitive” tendencies at scale by observing societies?</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-none no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>The CAMEL framework turns conversation logs into a <strong>scientific instrument</strong> for studying LLM behaviour by using the society as a microscope for the “minds” of individual models</p>
+</div>
+</div>
+</div>
+<!-- # Part 3: Experiments & Results {background-color="#0E0E0F"} -->
+</section>
+<section id="experimental-setup" class="slide level2">
+<h2>Experimental Setup</h2>
+<p><strong>Models used:</strong></p>
+<ul>
+<li>Primary: <code>gpt-4</code> and <code>gpt-3.5-turbo</code></li>
+<li>Both used as both User and Assistant agents</li>
+<li>Conversations run until <code>&lt;CAMEL_TASK_DONE&gt;</code> or max turns (30)</li>
+</ul>
+<p><strong>Evaluation dimensions:</strong></p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Dimension</th>
+<th>How Measured</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Task completion</td>
+<td>Human annotation + heuristic (<code>&lt;CAMEL_TASK_DONE&gt;</code> reached)</td>
+</tr>
+<tr class="even">
+<td>Solution quality</td>
+<td>Human expert rating on correctness and relevance</td>
+</tr>
+<tr class="odd">
+<td>Conversation coherence</td>
+<td>Consistency of role across turns</td>
+</tr>
+<tr class="even">
+<td>Emerging behaviours</td>
+<td>Qualitative analysis of unexpected patterns</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="result-1-autonomous-task-completion" class="slide level2">
+<h2>Result 1: Autonomous Task Completion</h2>
+<div class="callout callout-none no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>Primary finding: <strong>CAMEL agents successfully complete complex, multi-step tasks autonomously</strong> across diverse domains without human intervention at each step</p>
+</div>
+</div>
+</div>
+<p>Example completed tasks:</p>
+<ul>
+<li>Full Python trading bot with backtesting module</li>
+<li>A meal plan with shopping list + nutritional breakdown</li>
+<li>A cybersecurity penetration testing report</li>
+<li>An analysis of a stock portfolio with risk metrics</li>
+</ul>
+<p><strong>Completion rates (GPT-4 backbone):</strong></p>
+<ul>
+<li>Reached <code>&lt;CAMEL_TASK_DONE&gt;</code> within 30 turns: ~<strong>89%</strong> of conversations</li>
+<li>Human-rated as meaningfully complete: ~<strong>75%</strong></li>
+<li>Human-rated as high quality: ~<strong>60%</strong></li>
+</ul>
+</section>
+<section id="result-2-role-consistency" class="slide level2">
+<h2>Result 2: Role Consistency</h2>
+<p>A key question: do agents <em>stay in role</em> over long conversations?</p>
+<p><strong>Findings:</strong></p>
+<ul>
+<li>GPT-4 agents maintain role-appropriate language, framing, and expertise throughout</li>
+<li>The User agent consistently <em>instructs</em> rather than executes</li>
+<li>The Assistant agent consistently <em>executes</em> rather than redirects</li>
+<li>Role “slippage” (assistant taking over direction) is rare with GPT-4, more common with GPT-3.5
+<ul>
+<li><code>gpt-3.5-turbo-0301</code> does not always pay strong attention to system messages per official documentation while GPT-4 was explicitly marketed as more “steerable” through the system message. If the system prompt is weak, role assignment is weak</li>
+<li>GPT-3.5 had a 4k context window, versus 8k/32k for GPT-4. In long multi-turn dialogues, the inception prompt gets pushed far back or truncated, so the role anchor fades.</li>
+</ul></li>
+</ul>
+</section>
+<section id="result-2-role-consistency-1" class="slide level2">
+<h2>Result 2: Role Consistency</h2>
+<div class="two-col">
+<div>
+<p><strong>Good role consistency:</strong></p>
+<blockquote>
+<p><em>[Turn 18, User/Programmer]:</em><br>
+“Now write unit tests for the portfolio module.”</p>
+</blockquote>
+<blockquote>
+<p><em>[Turn 18, Asst/Trader]:</em><br>
+“Here are the unit tests: [code]”</p>
+</blockquote>
+</div>
+<div>
+<p><strong>Role slippage (failure case):</strong></p>
+<blockquote>
+<p><em>[Turn 12, Asst/Trader]:</em><br>
+“Actually, I think we should change our approach entirely. Let me direct us toward…”</p>
+</blockquote>
+<p><em>(Assistant begins directing — breaks the protocol)</em></p>
+</div>
+</div>
+</section>
+<section id="result-3-emergent-behaviours" class="slide level2">
+<h2>Result 3: Emergent Behaviours</h2>
+<p>Several unexpected patterns emerged:</p>
+<p><strong>3a. Role-Conditioned Knowledge Activation</strong></p>
+<p>Agents exhibit <strong>different knowledge profiles</strong> depending on their assigned role, even though the same model underlies both:</p>
+<ul>
+<li>An agent playing “Stock Trader” spontaneously uses financial terminology, references specific instruments, and applies risk concepts</li>
+<li>The same model playing “Python Programmer” frames the same discussion in terms of data structures, API design, and testing</li>
+</ul>
+<div class="callout callout-none no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>This suggests role assignment functions as a <strong>context window for activating latent knowledge subsets</strong> and the model’s “expertise” is dynamically shaped by the role prompt.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="result-3-emergent-behaviours-1" class="slide level2">
+<h2>Result 3: Emergent Behaviours</h2>
+<p><strong>3b. Flipping and Asking for Clarification</strong></p>
+<p>Agents occasionally break from pure instruction-following to <strong>ask clarifying questions</strong> or <strong>flag contradictions</strong>:</p>
+<blockquote>
+<p><em>[Assistant]:</em> “Your instruction to ‘maximise returns’ and ‘minimise risk’ are in tension. Should I prioritise Sharpe ratio as a balanced objective?”</p>
+</blockquote>
+<p>This was <strong>not explicitly prompted</strong> — it emerged from the combination of role context and instruction coherence pressure.</p>
+</section>
+<section id="result-3-emergent-behaviours-2" class="slide level2">
+<h2>Result 3: Emergent Behaviours</h2>
+<p><strong>3c. Instruction Chaining</strong></p>
+<p>User agents spontaneously break large goals into coherent sub-instructions across turns, which is a form of <strong>emergent planning</strong>:</p>
+<blockquote>
+<p>Turn 3: “Implement data ingestion”<br>
+Turn 5: “Now implement the strategy layer”<br>
+Turn 7: “Add the execution layer”<br>
+Turn 9: “Now connect them with a controller”</p>
+</blockquote>
+<p>The decomposition is principled and domain-appropriate, without explicit planning instructions</p>
+</section>
+<section id="result-3-emergent-behaviours-3" class="slide level2">
+<h2>Result 3: Emergent Behaviours</h2>
+<p><strong>3d. Role-Playing Consistency Under Adversarial Pressure</strong></p>
+<p>The paper tests what happens when one agent is prompted to deviate from its role mid-conversation.</p>
+<p><strong>Finding:</strong> With inception prompting, agents are <strong>robust to mild adversarial deviation</strong>:</p>
+<ul>
+<li>If the assistant tries to redirect: the user repeats and refocuses the instruction</li>
+<li>If the user gives an ambiguous instruction: the assistant asks for clarification rather than guessing</li>
+</ul>
+</section>
+<section id="result-3-emergent-behaviours-4" class="slide level2">
+<h2>Result 3: Emergent Behaviours</h2>
+<p><strong>3e. Harmful Content Guardrails Under Pressure</strong></p>
+<p>When tasks edge into sensitive territory (e.g., cybersecurity tasks that could imply hacking instructions), the agents sometimes <strong>spontaneously apply ethical caveats</strong> without being told to:</p>
+<blockquote>
+<p><em>[Assistant]:</em> “I’ll describe the penetration testing approach, but note this should only be applied to systems you are authorised to test.”</p>
+</blockquote>
+</section>
+<section id="conversation-quality-analysis" class="slide level2">
+<h2>Conversation Quality Analysis</h2>
+<p>The authors perform qualitative analysis across a sample of 100 conversations:</p>
+<div class="two-col">
+<div>
+<p><strong>Positive patterns observed:</strong></p>
+<ul>
+<li>Rich technical detail appropriate to roles</li>
+<li>Coherent narrative arc across turns</li>
+<li>Appropriate specialisation of vocabulary</li>
+<li>Productive disagreement and negotiation</li>
+<li>Self-correction when outputs are queried</li>
+</ul>
+</div>
+<div>
+<p><strong>Negative patterns observed:</strong></p>
+<ul>
+<li>Sycophantic affirmations between turns</li>
+<li>Repetition of prior outputs with minor variation</li>
+<li>Hallucinated APIs, functions, or facts</li>
+<li>Premature <code>&lt;CAMEL_TASK_DONE&gt;</code> in ~11% of cases</li>
+<li>Occasional role confusion in long conversations</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-none no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>The ratio of positive to negative patterns strongly favours GPT-4 over GPT-3.5, suggesting <strong>model capability is a binding constraint</strong> on multi-agent quality.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="quantitative-benchmark-performance" class="slide level2">
+<h2>Quantitative Benchmark Performance</h2>
+<p>The paper includes performance on several proxy benchmarks to compare CAMEL to single-agent baselines:</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 20%">
+<col style="width: 21%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task Type</th>
+<th>Single GPT-4</th>
+<th>CAMEL (GPT-4)</th>
+<th>Δ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Code generation (HumanEval-style)</td>
+<td>78%</td>
+<td>84%</td>
+<td>+6%</td>
+</tr>
+<tr class="even">
+<td>Multi-step reasoning</td>
+<td>65%</td>
+<td>71%</td>
+<td>+6%</td>
+</tr>
+<tr class="odd">
+<td>Creative writing quality (human)</td>
+<td>3.8/5</td>
+<td>4.1/5</td>
+<td>+0.3</td>
+</tr>
+<tr class="even">
+<td>Task completion rate</td>
+<td>82%</td>
+<td>89%</td>
+<td>+7%</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-none no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>The improvements are <strong>consistent but modest</strong>: CAMEL’s value is not primarily about benchmark uplift, but about enabling <em>classes of task</em> (long-horizon, collaborative) that a single agent handles poorly.</p>
+</div>
+</div>
+</div>
+<!-- ------------------------------------------------------------------------
+
+# Part 4: Limitations, Ethics & Open Questions {background-color="#0E0E0F"} -->
+</section>
+<section id="limitation-1-the-role-play-doesnt-equal-real-expertise" class="slide level2">
+<h2>Limitation 1: The Role-Play Doesn’t Equal Real Expertise</h2>
+<div class="callout-red">
+<p><strong>Critical caveat:</strong> When the “Stock Trader” agent gives financial advice, it is a <em>language model performing the role of a stock trader</em>. It does not have real market knowledge, real-time data, or accountability.</p>
+</div>
+<p><strong>Implications:</strong></p>
+<ul>
+<li>Outputs in high-stakes domains (medicine, law, finance) must be treated as <strong>drafts for expert review</strong>, not authoritative outputs</li>
+<li>The convincing <em>style</em> of expert communication can create false confidence</li>
+<li>Users who don’t understand the underlying system may over-rely on outputs</li>
+</ul>
+<p>This is amplified by the multi-agent design: <strong>two convincing-sounding agents agreeing increases perceived credibility</strong>, even when both are wrong</p>
+</section>
+<section id="limitation-2-conversational-pathologies" class="slide level2">
+<h2>Limitation 2: Conversational Pathologies</h2>
+<p>Several failure modes are documented but not fully solved:</p>
+<div class="three-col">
+<div class="card">
+<p><strong>Sycophantic loops</strong></p>
+<p>Agents affirm each other’s outputs excessively, masking poor-quality content beneath polite agreement</p>
+</div>
+<div class="card">
+<p><strong>Premature completion</strong></p>
+<p>Agents signal <code>&lt;CAMEL_TASK_DONE&gt;</code> before the task is genuinely complete, particularly for ill-defined tasks</p>
+</div>
+<div class="card">
+<p><strong>Context window exhaustion</strong></p>
+<p>Long conversations degrade quality as earlier context falls out of the window, and agents “forget” earlier decisions</p>
+</div>
+</div>
+</section>
+<section id="limitation-2-conversational-pathologies-1" class="slide level2">
+<h2>Limitation 2: Conversational Pathologies</h2>
+<p>Several failure modes are documented but not fully solved:</p>
+<div class="three-col">
+<div class="card">
+<p><strong>Instruction ambiguity propagation</strong></p>
+<p>A vague task specification at the start compounds across turns with small early errors becoming large late errors</p>
+</div>
+<div class="card">
+<p><strong>Hallucinated consensus</strong></p>
+<p>Both agents can converge on a wrong answer confidently, so multi-agent does not automatically provide error-checking</p>
+</div>
+<div class="card">
+<p><strong>Topic drift in long runs</strong></p>
+<p>After many turns, the conversation can gradually shift away from the original task</p>
+</div>
+</div>
+</section>
+<section id="limitation-3-evaluation" class="slide level2">
+<h2>Limitation 3: Evaluation</h2>
+<p><strong>How do you evaluate a 30-turn conversation?</strong></p>
+<ul>
+<li>End-product quality (<strong>is the code correct?</strong>)</li>
+<li>Process quality (<strong>were the instructions coherent?</strong>)</li>
+<li>Role fidelity (<strong>did agents stay in role?</strong>)</li>
+<li>Efficiency (<strong>how many turns did it take?</strong>)</li>
+</ul>
+<p>The paper relies heavily on <strong>human annotation</strong>, which is:</p>
+<ul>
+<li>Expensive to scale</li>
+<li>Inconsistent across annotators</li>
+<li>Hard to apply to highly technical outputs</li>
+<li>Subjective for creative tasks</li>
+</ul>
+<div class="callout callout-none no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>There is no standard evaluation framework for multi-agent LLM conversations — and developing one is an open research problem.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="ethical-concerns-and-autonomous-agent-risks" class="slide level2">
+<h2>Ethical Concerns and Autonomous Agent Risks</h2>
+<p>The authors dedicate a section to risks unique to autonomous multi-agent systems:</p>
+<div class="two-col">
+<div>
+<p><strong>1. Reduced human oversight</strong></p>
+<p>The whole point is to minimise human intervention, but this also means humans may not see harmful outputs until they are complete.</p>
+<p><strong>2. Amplified misuse</strong></p>
+<p>A single LLM’s guardrails can be partially bypassed. Two agents validating each other may be <em>easier</em> to jailbreak through roleplay framing.</p>
+<p><strong>3. Impersonation at scale</strong></p>
+<p>Role-play systems could be weaponised to generate large volumes of convincingly expert-sounding but inaccurate content.</p>
+</div>
+<div>
+<p><strong>4. Accountability gaps</strong></p>
+<p>When two agents produce a harmful output, who is responsible? The framework? The task specifier? The model provider?</p>
+<p><strong>5. Cascading errors</strong></p>
+<p>In agentic pipelines, a hallucination in Turn 5 may silently propagate and compound through Turn 30. Traditional single-turn safety checks don’t catch this.</p>
+<p><strong>6. Social engineering vectors</strong></p>
+<p>Agents trained on human social interaction patterns may be effective at persuasion, including manipulation.</p>
+</div>
+</div>
+</section>
+<section id="what-camel-does-not-solve" class="slide level2">
+<h2>What CAMEL Does NOT Solve</h2>
+<p>It’s important to be precise about scope:</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Problem</th>
+<th>Does CAMEL address it?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Hallucination</td>
+<td><strong>No</strong>: agents can mutually reinforce hallucinations</td>
+</tr>
+<tr class="even">
+<td>Real-time knowledge</td>
+<td><strong>No</strong>: no external tool use in base version</td>
+</tr>
+<tr class="odd">
+<td>Persistent memory</td>
+<td><strong>No</strong>: context window only</td>
+</tr>
+<tr class="even">
+<td>True specialisation</td>
+<td><strong>No</strong>: role is a prompt, not a fine-tuned model</td>
+</tr>
+<tr class="odd">
+<td>Formal verification</td>
+<td><strong>No</strong>: outputs are not verified</td>
+</tr>
+<tr class="even">
+<td>Scalability to N&gt;2 agents</td>
+<td><strong>Partially</strong>: framework generalises but not evaluated</td>
+</tr>
+<tr class="odd">
+<td>Human-AI teaming</td>
+<td><strong>Partially</strong>: human can intervene but protocol optimised for autonomy</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="open-research-questions" class="slide level2">
+<h2>Open Research Questions</h2>
+<p>The paper opens as many questions as it closes:</p>
+<div class="two-col">
+<div>
+<p><strong>Architecture questions:</strong></p>
+<ul>
+<li>How does performance scale with N agents (N &gt; 2)?</li>
+<li>What happens with <em>adversarial</em> agents in a society?</li>
+<li>Can memory systems (vector DBs) extend conversation coherence?</li>
+<li>How does agent specialisation (fine-tuning vs.&nbsp;prompting) affect quality?</li>
+</ul>
+</div>
+<div>
+<p><strong>Behavioural questions:</strong></p>
+<ul>
+<li>What social dynamics emerge in larger societies?</li>
+<li>Can agents develop stable “personalities” across sessions?</li>
+<li>How do agents handle genuine disagreement?</li>
+<li>Can we detect and measure emergent norms?</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-none no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>The dataset released by CAMEL is designed to enable exactly this kind of follow-on research <!-- — it is as much a **research infrastructure** as a system. --></p>
+</div>
+</div>
+</div>
+<!-- ------------------------------------------------------------------------
+
+# Synthesis & Discussion {background-color="#0E0E0F"} -->
+</section>
+<section id="conceptual-contributions" class="slide level2">
+<h2>Conceptual Contributions</h2>
+<p><strong>1. The Role-Playing Framework</strong><br>
+A general, replicable protocol for structured LLM-to-LLM collaboration that minimises human oversight while maintaining task coherence</p>
+<p><strong>2. Inception Prompting</strong><br>
+A technique for embedding behavioural constraints into system prompts that keeps both agents on-task and in-role</p>
+<p><strong>3. The AI Society Dataset</strong><br>
+25,000 conversations across 50×50 role pairs that measure the diversity and complexity of LLM social behaviour</p>
+<p><strong>4. Empirical Study of Emergent Behaviour</strong><br>
+One of the first systematic studies of what happens when LLMs interact with each other and not just with humans</p>
+<div class="callout callout-none no-icon callout-style-simple">
+<div class="callout-body">
+<div class="callout-content">
+<p>CAMEL’s lasting contribution may be less the specific system and more the <strong>research paradigm</strong>: treating LLM-to-LLM conversation as a scientific instrument for studying model behaviour</p>
+</div>
+</div>
+</div>
+</section>
+<section id="where-camel-fits-in-the-broader-landscape" class="slide level2">
+<h2>Where CAMEL Fits in the Broader Landscape</h2>
+<pre><code>Single-model prompting
+    └─► Gives you: one perspective, bounded context, no specialisation
+    
+Chain-of-thought prompting
+    └─► Gives you: structured reasoning, still single model
+    
+Tool-augmented agents (ReAct, Toolformer)
+    └─► Gives you: external data/compute, still single agent
+    
+CAMEL multi-agent role-play
+    └─► Gives you: role specialisation, emergent collaboration,
+                   observable social dynamics, long-horizon tasks
+    
+Future: Heterogeneous agent societies
+    └─► Gives you (?): truly distributed intelligence,
+                       fine-tuned specialists, persistent memory,
+                       formal verification layers</code></pre>
+<!-- ------------------------------------------------------------------------
+
+## Discussion Questions
+
+1.  **Role vs. expertise:** When a "Doctor" agent gives medical advice, does the role framing create real risk? How should deployed multi-agent systems be disclosed to end users?
+
+2.  **Mutual hallucination:** If two agents can reinforce each other's errors, is multi-agent collaboration *more* dangerous than single-agent in high-stakes domains?
+
+3.  **The evaluation problem:** What would a principled evaluation framework for multi-agent LLM conversations look like? What dimensions matter most?
+
+4.  **Inception prompting limits:** Inception prompting keeps agents on-task, but at the cost of rigidity. How would you design a framework that's both flexible and reliable?
+
+5.  **Scaling to societies:** What research is needed before we can meaningfully study LLM societies of N \> 2 agents? What new phenomena might emerge? -->
+</section>
+<section id="key-takeaways" class="slide level2">
+<h2>Key Takeaways</h2>
+<div class="three-col">
+<div class="card">
+<p><strong>Feasibility demonstrated</strong></p>
+<p>Structured LLM-to-LLM collaboration works: agents complete complex tasks autonomously across diverse domains</p>
+</div>
+<div class="card">
+<p><strong>Inception prompting matters</strong></p>
+<p>The specific design of system prompts is critical since where naive multi-agent setups fail, CAMEL’s structured approach succeeds</p>
+</div>
+<div class="card">
+<p><strong>Emergent behaviour is real</strong></p>
+<p>Role-conditioned knowledge, emergent planning, and spontaneous clarification arise without explicit instruction</p>
+</div>
+</div>
+</section>
+<section id="key-takeaways-1" class="slide level2">
+<h2>Key Takeaways</h2>
+<div class="three-col">
+<div class="card">
+<p><strong>Limitations are significant</strong></p>
+<p>Hallucination, sycophancy, and premature completion are real failure modes and not minor edge cases</p>
+</div>
+<div class="card">
+<p><strong>Ethics matter more with autonomy</strong></p>
+<p>Reduced human oversight amplifies both capability <em>and</em> risk, hence safety research must keep pace</p>
+</div>
+<div class="card">
+<p><strong>A research platform</strong></p>
+<p>CAMEL is most valuable as a framework + dataset for the scientific study of LLM social behaviour</p>
+</div>
+</div>
+<!-- ------------------------------------------------------------------------
+
+## Further Reading
+
+**This paper:**\
+Li et al. (2023). *CAMEL: Communicative Agents for "Mind" Exploration of Large Language Model Society.* arXiv:2303.17760
+
+**Multi-agent predecessors:**\
+Park et al. (2023). *Generative Agents: Interactive Simulacra of Human Behavior.* arXiv:2304.03442
+
+**Agent tool use:**\
+Yao et al. (2022). *ReAct: Synergizing Reasoning and Acting in Language Models.* arXiv:2210.03629
+
+**Autonomous agents:**\
+Wang et al. (2023). *A Survey on Large Language Model based Autonomous Agents.* arXiv:2308.11432
+
+**Safety in multi-agent:**\
+Perez et al. (2022). *Ignore Previous Prompt: Attack Techniques for Language Models.* arXiv:2211.09527
+
+**Role-play & identity in LLMs:**\
+Shanahan et al. (2023). *Role Play with Large Language Models.* Nature, 623.
+
+------------------------------------------------------------------------
+
+# Thank You {background-color="#0E0E0F"}
+
+**CAMEL: Communicative Agents for "Mind" Exploration of Large Language Model Society**
+
+*Li et al. (2023) · arXiv:2303.17760*
+
+::: callout
+Questions & Discussion
+:::
+
+*Slides built with [Quarto](https://quarto.org) + RevealJS* -->
+
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="../../photos/Piyush.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p><a href="https://arxiv.org/abs/2303.17760">CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society</a></p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 8.0e-2,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp("https:\/\/pc-piyush\.github\.io\/presentations");
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+    (function() {
+      let previousOnload = window.onload;
+      window.onload = () => {
+        if (previousOnload) {
+          previousOnload();
+        }
+        lightboxQuarto.on('slide_before_load', (data) => {
+          const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+          const href = trigger.getAttribute('href');
+          if (href !== null) {
+            const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+            if (imgEl !== null) {
+              const srcAttr = imgEl.getAttribute("src");
+              if (srcAttr && srcAttr.startsWith("data:")) {
+                slideConfig.href = srcAttr;
+              }
+            }
+          } 
+        });
+      
+        lightboxQuarto.on('slide_after_load', (data) => {
+          const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(slideNode);
+          }
+        });
+      
+      };
+      
+    })();
+              </script>
+    
+
+</body></html>
