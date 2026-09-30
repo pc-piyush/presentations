@@ -1,0 +1,198 @@
+/*-- scss:defaults --*/
+
+// Layered on top of ../html/uf.scss — layout helpers for the CAMEL deck,
+// recoloured to the ../html/dfb.scss palette (German flag inspired).
+// Rules below override uf.scss's orange/blue so the whole deck follows it.
+
+$camel-black:  #0E0E0F;
+$camel-white:  #FAFAF7;
+$camel-gold:   #FFCE00;
+$camel-red:    #D6001C;
+$camel-ink:    #1A1A1A;
+$camel-paper:  #F4F2EC;
+$camel-border: #e3e0d6;
+
+$body-bg:    $camel-paper;
+$body-color: $camel-ink;
+$link-color: $camel-red;
+$presentation-heading-color: $camel-black;
+$code-block-bg: $camel-ink;
+$code-color: $camel-white;
+
+// 80% of reveal.js's 40px default; all em-based sizes scale with it.
+$presentation-font-size-root: 28px;
+
+/*-- scss:rules --*/
+
+// ---------------------------------------------------------------------------
+// Base palette overrides for uf.scss
+// ---------------------------------------------------------------------------
+.reveal .slides {
+  color: $camel-ink;
+}
+
+.reveal h1, .reveal h3, .reveal h4 {
+  color: $camel-black;
+}
+
+.reveal h2 {
+  color: $camel-black;
+  border-bottom: 2px solid $camel-red;
+  padding-bottom: 0.2em;
+}
+
+.reveal a {
+  color: $camel-red;
+  &:hover {
+    color: $camel-gold;
+  }
+}
+
+.reveal strong {
+  color: $camel-red;
+}
+
+.reveal blockquote {
+  border-left: 5px solid $camel-red;
+  background: rgba($camel-border, 0.6);
+  color: $camel-ink;
+}
+
+.reveal pre code {
+  background-color: $camel-ink;
+  color: $camel-white;
+}
+
+.reveal table thead {
+  background-color: $camel-black;
+  color: $camel-white;
+}
+.reveal table tbody tr:nth-child(even) {
+  background-color: rgba($camel-border, 0.6);
+}
+
+.reveal .slide-number {
+  background-color: $camel-red;
+  color: $camel-white;
+}
+
+.reveal .footer {
+  color: $camel-ink;
+}
+
+.reveal .panel-tabset .nav-link.active {
+  color: $camel-red;
+  border-color: $camel-red;
+}
+.reveal .progress {
+  color: $camel-red;
+}
+
+.reveal ::selection {
+  background: $camel-gold;
+  color: $camel-black;
+}
+
+// Title, section and quote slides: black background with the tri-colour
+// stripe from dfb.scss's navbar
+.reveal .backgrounds .slide-background:first-child,
+.reveal .slide-background.title-slide,
+.reveal section.uf-section,
+.reveal section.uf-quote {
+  background: $camel-black;
+}
+
+.reveal .slides section.title-slide,
+.reveal .title-slide {
+  h1.title,
+  p.subtitle {
+    color: $camel-white;
+  }
+  h1.title {
+    border-bottom: 6px solid $camel-black;
+    border-image: linear-gradient(to right, $camel-white 0 33%, $camel-red 33% 66%, $camel-gold 66% 100%) 1;
+    padding-bottom: 0.2em;
+  }
+  .quarto-title-author-name,
+  .quarto-title-affiliation,
+  .date {
+    color: #d9d9d4;
+  }
+}
+
+// "# Part N" section slides (rendered as section.title-slide.level1)
+.reveal section.title-slide.level1 h1 {
+  color: $camel-white;
+  display: inline-block;
+  border-bottom: 6px solid $camel-black;
+  border-image: linear-gradient(to right, $camel-white 0 33%, $camel-red 33% 66%, $camel-gold 66% 100%) 1;
+  padding-bottom: 0.2em;
+}
+
+.reveal section.uf-section h1,
+.reveal section.uf-section h2 {
+  color: $camel-white;
+}
+.reveal section.uf-section h1 em,
+.reveal section.uf-section h2 em,
+.reveal section.uf-quote blockquote em {
+  font-style: normal;
+  color: $camel-gold;
+}
+
+// ---------------------------------------------------------------------------
+// Highlight boxes (plain divs, not Quarto callout blocks)
+// ---------------------------------------------------------------------------
+.reveal .callout {
+  background: rgba($camel-gold, 0.15);
+  border-left: 5px solid $camel-gold;
+  padding: 0.5em 0.9em;
+  border-radius: 4px;
+  margin: 0.5em 0;
+}
+
+.reveal .callout-red {
+  background: rgba($camel-red, 0.08);
+  border-left: 5px solid $camel-red;
+  padding: 0.5em 0.9em;
+  border-radius: 4px;
+  margin: 0.5em 0;
+}
+
+// Grid layouts
+.reveal .two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.4em;
+}
+
+.reveal .three-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1em;
+}
+
+// Cards rotate gold / red / black top borders, like dfb.scss's listing cards
+.reveal .card {
+  background: $camel-white;
+  border: 1px solid $camel-border;
+  border-top: 4px solid $camel-gold;
+  border-radius: 6px;
+  padding: 0.6em 0.9em;
+}
+.reveal .card:nth-child(3n+2) { border-top-color: $camel-red; }
+.reveal .card:nth-child(3n+3) { border-top-color: $camel-black; }
+
+// Density tweaks carried over from the original deck
+.reveal table {
+  font-size: 0.8em;
+}
+
+.reveal code {
+  font-size: 0.78em;
+  color: $camel-red;
+}
+
+.reveal ul li {
+  margin-bottom: 0.3em;
+}

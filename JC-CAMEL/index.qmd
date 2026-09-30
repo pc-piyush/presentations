@@ -1,0 +1,919 @@
+---
+title: "CAMEL: Communicative Agents for \"Mind\" Exploration of Large Language Model Society"
+subtitle: "Li et al., 2023"
+author: "Piyush Chaudhari"
+institute: "Journal Club"
+brand: ../brand/_brand.yml
+categories: ["Journal Club"]
+format:
+  revealjs:
+    theme: camel.scss
+    # theme : dracula
+    slide-number: c/t
+    progress: true
+    chalkboard: true
+    menu: true
+    # controls: true
+    hash: true
+    transition: none
+    background-transition: none
+    width: 1280
+    height: 720
+    margin: 0.08
+    logo: "../photos/Piyush.png"
+    footer: "[CAMEL: Communicative Agents for \"Mind\" Exploration of Large Language Model Society](https://arxiv.org/abs/2303.17760)"
+    title-slide-attributes:
+      data-background-color: "#F4F2EC"
+    include-in-header:
+      text: |
+        <style>
+        #title-slide .quarto-title-author-name,
+        #title-slide .quarto-title-affiliation,
+        #title-slide .date,
+        #title-slide .subtitle {
+          color: #1A1A1A;
+        }
+        </style>
+    embed-resources: false
+    incremental: false
+---
+
+## Paper at a Glance
+
+```{=html}
+<!-- **Guohao Li · Hasan Anil · Sotiris Triantafillou · Dario Amodei · et al.**\
+*King Abdullah University of Science and Technology (KAUST), 2023* -->
+```
+
+::: callout
+**Core idea:** Rather than prompting a single LLM to solve tasks, can we create a *society* of LLM-based agents that collaborate through natural-language conversation — and use that society to study emergent social behaviours?
+:::
+
+- CAMEL proposes a role-playing multi-agent framework in which two LLM-based agents - one assigned the role of **AI User** and one assigned the role of **AI Assistant** collaborate through natural-language conversation to complete complex tasks autonomously, with minimal human intervention
+
+- The paper also released the **AI Society dataset**: 25,000 conversations generated across 50 user roles × 50 assistant roles × 10 tasks each, intended as a resource for studying emergent LLM social behaviour
+
+```{=html}
+<!-- ------------------------------------------------------------------------
+
+## Motivation
+
+### The Single-Agent Bottleneck
+
+- Most LLM applications route a single model through a single turn or a simple chain
+- This works well for bounded tasks (QA, text generation, simple code) but fails for:
+
+  - Long-horizon, multi-step tasks
+  - Tasks requiring simultaneous specialisation in multiple domains
+  - Tasks where self-critique is unreliable (the model judges its own outputs)
+
+### Why Multi-Agent?
+
+- Human teams solve hard problems through division of cognitive labour - *managers* decompose tasks, *experts* apply deep knowledge, *peers* critique each other
+- *CAMEL* asks whether LLMs can replicate this structure through structured dialogue
+
+---
+
+## The Core Research Question
+
+> Can LLMs, when assigned roles and given a structured communication protocol, autonomously complete complex tasks through natural-language conversation without human intervention at each step? -->
+```
+
+------------------------------------------------------------------------
+
+## Motivation
+
+### The "Single Agent" Bottleneck
+
+Most LLM applications in 2022–2023 follow the same pattern:
+
+`User` → `[Single LLM]` → `Answer`
+
+**This works well for:** *Question answering*, *Text generation*, *Simple code completion*
+
+**But breaks down for:**
+
+- Long-horizon, multi-step tasks
+- Tasks requiring specialised sub-expertise
+- Tasks where self-critique is hard (the model grades its own answers)
+- Complex creative/technical collaboration
+
+::: callout
+**Bottleneck:** A single model must simultaneously be the planner, executor, critic, and domain expert
+:::
+
+------------------------------------------------------------------------
+
+## The Case for Multi-Agent
+
+Humans solve hard problems through *division of cognitive labour*:
+
+- Managers decompose tasks and assign them
+- Experts apply deep specialised knowledge
+- Peers critique and course-correct each other
+- The *conversation* itself is productive infrastructure
+
+::::: two-col
+::: {}
+**What we'd gain from LLM societies:**
+
+- Parallelism of reasoning
+- Role-specialised expertise
+- Built-in critique loops
+- Observable reasoning traces
+- Emergent collective behaviour
+:::
+
+::: {}
+**The research question:**
+
+Can LLMs, when assigned *roles* and given a structured *communication protocol*, autonomously complete complex tasks through natural-language conversation **without human intervention at each step?**
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## Prior Work & Positioning
+
+| System | Approach | Key Limitation |
+|------------------------|------------------------|------------------------|
+| **ReAct** (Yao et al.) | Single agent + tool use | No collaboration |
+| **Toolformer** (Schick et al.) | LLM learns to use APIs | Single agent |
+| **HuggingGPT** (Shen et al.) | LLM orchestrates specialist models | Controller bottleneck |
+| **Generative Agents** (Park et al.) | Many agents in a simulated town | No task-oriented protocol |
+| **AutoGPT** (Yang et al.) | Autonomous goal-pursuit | Lacks communication structure |
+| **CAMEL (this paper)** | Structured role-play dialogue between two agents | **Illustrated later** |
+
+::: callout
+CAMEL's distinguishing feature is **minimising human intervention** while **maximising autonomous agent-to-agent collaboration** via a formally specified role-playing framework
+:::
+
+------------------------------------------------------------------------
+
+## Research Gap
+
+::: callout
+> *"The rapid advancement of conversational and chat-based language models has led to remarkable progress in complex task-completion ... However, several crucial challenges remain unsolved ... \[including\] how to effectively guide agents to complete tasks ... with minimal human supervision."* — Li et al., 2023
+:::
+
+Two domains the paper addresses:
+
+1.  **Autonomy vs. Coherence** : the more you let agents self-direct, the more likely conversations drift, loop, or hallucinate
+2.  **Generality vs. Task-Focus** : role-playing is general, but how do you keep it on-task?
+
+CAMEL's solution: **Inception Prompting**
+
+------------------------------------------------------------------------
+
+## CAMEL's Framework
+
+CAMEL instantiates a **two-agent role-playing system**:
+
+````{=html}
+<!-- ```         
+┌─────────────────────────────────────────────────────────────────┐
+│                        CAMEL Society                           │
+│                                                                 │
+│   ┌──────────────┐   natural language   ┌──────────────────┐   │
+│   │   AI USER    │◄────────────────────►│   AI ASSISTANT   │   │
+│   │  (role: X)   │   multi-turn chat    │    (role: Y)      │   │
+│   └──────────────┘                      └──────────────────┘   │
+│          ▲                                       ▲              │
+│          │  inception prompt                     │ inception    │
+│          │  (user role + task)                   │ prompt       │
+│          │                                       │ (assistant   │
+│   ┌──────┴────────────────────────────────────────┴──────┐      │
+│   │               Human / Task Specifier                  │      │
+│   │   (sets roles, goal — then steps back)                │      │
+│   └────────────────────────────────────────────────────────┘     │
+└─────────────────────────────────────────────────────────────────┘
+``` -->
+````
+
+<center>
+
+![](https://arxiv.org/html/2303.17760v2/pipeline.png){.lightbox group="figures" width="50%"}
+
+Figure 1: CAMEL Role-Playing Framework
+
+</center>
+
+- The human specifies **who** the agents are and **what** the task is
+
+- Then the conversation runs **autonomously**
+
+------------------------------------------------------------------------
+
+## The Two Roles
+
+### AI User
+
+- Plays the role of a domain expert or manager
+- **Gives instructions** toward the shared goal
+- Does **not** directly execute — delegates to the assistant
+- Monitors progress and redirects as needed
+
+### AI Assistant
+
+- Plays a complementary domain expert role
+- **Executes instructions** — produces solutions, code, plans, analyses
+- Responds with outcomes and asks for next steps
+- Flags when instructions are unclear or infeasible
+
+::: callout
+Neither agent sees the other's system prompt. Each only sees its own role, the task, and the conversation history
+:::
+
+------------------------------------------------------------------------
+
+## Inception Prompting: The Key Innovation
+
+**Naively giving two LLMs a shared goal leads to:**
+
+- Sycophantic agreement (*"Great idea!" loops*)
+- Role confusion (*assistant starts directing*)
+- Task drift (*conversation wanders off-topic*)
+- Premature termination (*"The task is done!" before it is*)
+
+------------------------------------------------------------------------
+
+## Inception Prompting: The Key Innovation
+
+**Inception prompting** addresses this by embedding behavioural instructions *directly into the system prompt*:
+
+::::: two-col
+::: {}
+**User system prompt includes:**
+
+- Your role and expertise
+- The specific goal
+- Rule: *Always give one clear instruction per turn*
+- Rule: *Do not accept a completed task unless it truly is*
+- Rule: *Do not change the topic*
+:::
+
+::: {}
+**Assistant system prompt includes:**
+
+- Your role and expertise
+- The specific goal
+- Rule: *Execute instructions faithfully*
+- Rule: *Ask for clarification if needed*
+- Rule: *Do not refuse without good reason*
+- Rule: *Signal completion with* `<CAMEL_TASK_DONE>`
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## Inception Prompting: Example
+
+**Task:** "Develop a trading bot for the stock market"\
+**Roles:**
+
+- AI User = Python Programmer
+- AI Assistant = Stock Trader
+
+::: callout
+**User system prompt (excerpt):**\
+*"You are a Python programmer collaborating with a stock trader to develop a trading bot. You must instruct the stock trader to complete the task step by step. Do not perform the task yourself. The task is: Develop a trading bot for the stock market."*
+:::
+
+::: callout
+**Assistant system prompt (excerpt):**\
+*"You are a stock trader collaborating with a Python programmer. You must help complete the task assigned by the programmer. Solve the task by writing code. When the task is done, output* `<CAMEL_TASK_DONE>`*."*
+:::
+
+Both agents are told the **same goal**, but from **different perspectives** with **different responsibilities**.
+
+------------------------------------------------------------------------
+
+## The Conversation Unfolds Autonomously
+
+**Turn 1 — User (Python Programmer):** \> *"Let's start by designing the overall architecture of the trading bot. What data sources and APIs should we use for real-time stock data?"*
+
+**Turn 1 — Assistant (Stock Trader):** \> *"I recommend using Alpha Vantage or Yahoo Finance for real-time data. Alpha Vantage offers a free tier with 5 API calls/min. Here's how we'd structure the data ingestion module: \[code block\]"*
+
+**Turn 2 — User:** \> *"Good. Now implement a simple moving average crossover strategy using that data module."*
+
+**Turn 2 — Assistant:** \> *"Here is the SMA crossover implementation: \[code block\]. The strategy triggers a buy when the 50-day SMA crosses above the 200-day SMA, and a sell in the reverse case."*
+
+*... and so on until `<CAMEL_TASK_DONE>`*
+
+------------------------------------------------------------------------
+
+## Task Specification Pipeline
+
+To generate a large, diverse dataset of such conversations, CAMEL uses a **three-stage pipeline**:
+
+```         
+Stage 1: Role Generation
+  ├── Prompt GPT-4 for a list of (AI User role, AI Assistant role) pairs
+  └── e.g., (Cybersecurity Expert, Penetration Tester)
+           (Financial Analyst, Quantitative Developer)
+           (Nutritionist, Chef)
+
+Stage 2: Task Generation
+  ├── For each role pair, prompt GPT-4 for plausible collaborative tasks
+  └── e.g., "Develop a portfolio risk management system"
+
+Stage 3: Task Elaboration
+  ├── Expand each task into a more specific, actionable description
+  └── Adds constraints, output format expectations, success criteria
+```
+
+This pipeline generates tasks **at scale** without manual curation of each one
+
+------------------------------------------------------------------------
+
+## The AI Society Dataset
+
+The paper releases a large dataset of CAMEL conversations:
+
+:::::: three-col
+::: card
+**Scale**
+
+50 AI-user roles × 50 AI-assistant roles × 10 tasks each
+
+= **25,000 conversations**
+:::
+
+::: card
+**Domains covered**
+
+Trading, coding, science, medicine, law, creative writing, education, engineering, and more
+:::
+
+::: card
+**Purpose**
+
+Study emergent social behaviours, fine-tune future agents, and benchmark multi-agent cooperation
+:::
+::::::
+
+Each conversation contains:
+
+- Full system prompts for both agents
+- Complete multi-turn dialogue
+- Task completion signal and metadata (roles, domain, task description)
+
+::: callout
+This dataset is one of the paper's most significant contributions : a large-scale resource for studying LLM-to-LLM communication.
+:::
+
+------------------------------------------------------------------------
+
+## Why "Mind" Exploration?
+
+The scare quotes in the title are deliberate.
+
+::::: two-col
+::: {}
+**What the paper is NOT claiming:**
+
+- That LLMs have minds in a phenomenological sense
+- That role-playing implies genuine identity
+- That agent societies are conscious collectives
+:::
+
+::: {}
+**What it IS exploring:**
+
+- Do LLMs exhibit *consistent* role-appropriate behaviour?
+- Do *social* patterns emerge from agent interaction?
+- Can we study LLM "cognitive" tendencies at scale by observing societies?
+:::
+:::::
+
+::: callout
+The CAMEL framework turns conversation logs into a **scientific instrument** for studying LLM behaviour by using the society as a microscope for the "minds" of individual models
+:::
+
+<!-- # Part 3: Experiments & Results {background-color="#0E0E0F"} -->
+
+------------------------------------------------------------------------
+
+## Experimental Setup
+
+**Models used:**
+
+- Primary: `gpt-4` and `gpt-3.5-turbo`
+- Both used as both User and Assistant agents
+- Conversations run until `<CAMEL_TASK_DONE>` or max turns (30)
+
+**Evaluation dimensions:**
+
+| Dimension | How Measured |
+|------------------------------------|------------------------------------|
+| Task completion | Human annotation + heuristic (`<CAMEL_TASK_DONE>` reached) |
+| Solution quality | Human expert rating on correctness and relevance |
+| Conversation coherence | Consistency of role across turns |
+| Emerging behaviours | Qualitative analysis of unexpected patterns |
+
+------------------------------------------------------------------------
+
+## Result 1: Autonomous Task Completion
+
+::: callout
+Primary finding: **CAMEL agents successfully complete complex, multi-step tasks autonomously** across diverse domains without human intervention at each step
+:::
+
+Example completed tasks:
+
+- Full Python trading bot with backtesting module
+- A meal plan with shopping list + nutritional breakdown
+- A cybersecurity penetration testing report
+- An analysis of a stock portfolio with risk metrics
+
+**Completion rates (GPT-4 backbone):**
+
+- Reached `<CAMEL_TASK_DONE>` within 30 turns: \~**89%** of conversations
+- Human-rated as meaningfully complete: \~**75%**
+- Human-rated as high quality: \~**60%**
+
+------------------------------------------------------------------------
+
+## Result 2: Role Consistency
+
+A key question: do agents *stay in role* over long conversations?
+
+**Findings:**
+
+- GPT-4 agents maintain role-appropriate language, framing, and expertise throughout
+- The User agent consistently *instructs* rather than executes
+- The Assistant agent consistently *executes* rather than redirects
+- Role "slippage" (assistant taking over direction) is rare with GPT-4, more common with GPT-3.5
+  - `gpt-3.5-turbo-0301` does not always pay strong attention to system messages per official documentation while GPT-4 was explicitly marketed as more "steerable" through the system message. If the system prompt is weak, role assignment is weak
+  - GPT-3.5 had a 4k context window, versus 8k/32k for GPT-4. In long multi-turn dialogues, the inception prompt gets pushed far back or truncated, so the role anchor fades.
+
+------------------------------------------------------------------------
+
+## Result 2: Role Consistency
+
+::::: two-col
+::: {}
+**Good role consistency:**
+
+> *\[Turn 18, User/Programmer\]:*\
+> "Now write unit tests for the portfolio module."
+
+> *\[Turn 18, Asst/Trader\]:*\
+> "Here are the unit tests: \[code\]"
+:::
+
+::: {}
+**Role slippage (failure case):**
+
+> *\[Turn 12, Asst/Trader\]:*\
+> "Actually, I think we should change our approach entirely. Let me direct us toward..."
+
+*(Assistant begins directing — breaks the protocol)*
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## Result 3: Emergent Behaviours
+
+Several unexpected patterns emerged:
+
+**3a. Role-Conditioned Knowledge Activation**
+
+Agents exhibit **different knowledge profiles** depending on their assigned role, even though the same model underlies both:
+
+- An agent playing "Stock Trader" spontaneously uses financial terminology, references specific instruments, and applies risk concepts
+- The same model playing "Python Programmer" frames the same discussion in terms of data structures, API design, and testing
+
+::: callout
+This suggests role assignment functions as a **context window for activating latent knowledge subsets** and the model's "expertise" is dynamically shaped by the role prompt.
+:::
+
+------------------------------------------------------------------------
+
+## Result 3: Emergent Behaviours
+
+**3b. Flipping and Asking for Clarification**
+
+Agents occasionally break from pure instruction-following to **ask clarifying questions** or **flag contradictions**:
+
+> *\[Assistant\]:* "Your instruction to 'maximise returns' and 'minimise risk' are in tension. Should I prioritise Sharpe ratio as a balanced objective?"
+
+This was **not explicitly prompted** — it emerged from the combination of role context and instruction coherence pressure.
+
+------------------------------------------------------------------------
+
+## Result 3: Emergent Behaviours
+
+**3c. Instruction Chaining**
+
+User agents spontaneously break large goals into coherent sub-instructions across turns, which is a form of **emergent planning**:
+
+> Turn 3: "Implement data ingestion"\
+> Turn 5: "Now implement the strategy layer"\
+> Turn 7: "Add the execution layer"\
+> Turn 9: "Now connect them with a controller"
+
+The decomposition is principled and domain-appropriate, without explicit planning instructions
+
+------------------------------------------------------------------------
+
+## Result 3: Emergent Behaviours
+
+**3d. Role-Playing Consistency Under Adversarial Pressure**
+
+The paper tests what happens when one agent is prompted to deviate from its role mid-conversation.
+
+**Finding:** With inception prompting, agents are **robust to mild adversarial deviation**:
+
+- If the assistant tries to redirect: the user repeats and refocuses the instruction
+- If the user gives an ambiguous instruction: the assistant asks for clarification rather than guessing
+
+------------------------------------------------------------------------
+
+## Result 3: Emergent Behaviours
+
+**3e. Harmful Content Guardrails Under Pressure**
+
+When tasks edge into sensitive territory (e.g., cybersecurity tasks that could imply hacking instructions), the agents sometimes **spontaneously apply ethical caveats** without being told to:
+
+> *\[Assistant\]:* "I'll describe the penetration testing approach, but note this should only be applied to systems you are authorised to test."
+
+------------------------------------------------------------------------
+
+## Conversation Quality Analysis
+
+The authors perform qualitative analysis across a sample of 100 conversations:
+
+::::: two-col
+::: {}
+**Positive patterns observed:**
+
+- Rich technical detail appropriate to roles
+- Coherent narrative arc across turns
+- Appropriate specialisation of vocabulary
+- Productive disagreement and negotiation
+- Self-correction when outputs are queried
+:::
+
+::: {}
+**Negative patterns observed:**
+
+- Sycophantic affirmations between turns
+- Repetition of prior outputs with minor variation
+- Hallucinated APIs, functions, or facts
+- Premature `<CAMEL_TASK_DONE>` in \~11% of cases
+- Occasional role confusion in long conversations
+:::
+:::::
+
+::: callout
+The ratio of positive to negative patterns strongly favours GPT-4 over GPT-3.5, suggesting **model capability is a binding constraint** on multi-agent quality.
+:::
+
+------------------------------------------------------------------------
+
+## Quantitative Benchmark Performance
+
+The paper includes performance on several proxy benchmarks to compare CAMEL to single-agent baselines:
+
+| Task Type                         | Single GPT-4 | CAMEL (GPT-4) | Δ    |
+|-----------------------------------|--------------|---------------|------|
+| Code generation (HumanEval-style) | 78%          | 84%           | +6%  |
+| Multi-step reasoning              | 65%          | 71%           | +6%  |
+| Creative writing quality (human)  | 3.8/5        | 4.1/5         | +0.3 |
+| Task completion rate              | 82%          | 89%           | +7%  |
+
+::: callout
+The improvements are **consistent but modest**: CAMEL's value is not primarily about benchmark uplift, but about enabling *classes of task* (long-horizon, collaborative) that a single agent handles poorly.
+:::
+
+```{=html}
+<!-- ------------------------------------------------------------------------
+
+# Part 4: Limitations, Ethics & Open Questions {background-color="#0E0E0F"} -->
+```
+
+------------------------------------------------------------------------
+
+## Limitation 1: The Role-Play Doesn't Equal Real Expertise
+
+::: callout-red
+**Critical caveat:** When the "Stock Trader" agent gives financial advice, it is a *language model performing the role of a stock trader*. It does not have real market knowledge, real-time data, or accountability.
+:::
+
+**Implications:**
+
+- Outputs in high-stakes domains (medicine, law, finance) must be treated as **drafts for expert review**, not authoritative outputs
+- The convincing *style* of expert communication can create false confidence
+- Users who don't understand the underlying system may over-rely on outputs
+
+This is amplified by the multi-agent design: **two convincing-sounding agents agreeing increases perceived credibility**, even when both are wrong
+
+------------------------------------------------------------------------
+
+## Limitation 2: Conversational Pathologies
+
+Several failure modes are documented but not fully solved:
+
+:::::: three-col
+::: card
+**Sycophantic loops**
+
+Agents affirm each other's outputs excessively, masking poor-quality content beneath polite agreement
+:::
+
+::: card
+**Premature completion**
+
+Agents signal `<CAMEL_TASK_DONE>` before the task is genuinely complete, particularly for ill-defined tasks
+:::
+
+::: card
+**Context window exhaustion**
+
+Long conversations degrade quality as earlier context falls out of the window, and agents "forget" earlier decisions
+:::
+::::::
+
+------------------------------------------------------------------------
+
+## Limitation 2: Conversational Pathologies
+
+Several failure modes are documented but not fully solved:
+
+:::::: three-col
+::: card
+**Instruction ambiguity propagation**
+
+A vague task specification at the start compounds across turns with small early errors becoming large late errors
+:::
+
+::: card
+**Hallucinated consensus**
+
+Both agents can converge on a wrong answer confidently, so multi-agent does not automatically provide error-checking
+:::
+
+::: card
+**Topic drift in long runs**
+
+After many turns, the conversation can gradually shift away from the original task
+:::
+::::::
+
+------------------------------------------------------------------------
+
+## Limitation 3: Evaluation
+
+**How do you evaluate a 30-turn conversation?**
+
+- End-product quality (**is the code correct?**)
+- Process quality (**were the instructions coherent?**)
+- Role fidelity (**did agents stay in role?**)
+- Efficiency (**how many turns did it take?**)
+
+The paper relies heavily on **human annotation**, which is:
+
+- Expensive to scale
+- Inconsistent across annotators
+- Hard to apply to highly technical outputs
+- Subjective for creative tasks
+
+::: callout
+There is no standard evaluation framework for multi-agent LLM conversations — and developing one is an open research problem.
+:::
+
+------------------------------------------------------------------------
+
+## Ethical Concerns and Autonomous Agent Risks
+
+The authors dedicate a section to risks unique to autonomous multi-agent systems:
+
+::::: two-col
+::: {}
+**1. Reduced human oversight**
+
+The whole point is to minimise human intervention, but this also means humans may not see harmful outputs until they are complete.
+
+**2. Amplified misuse**
+
+A single LLM's guardrails can be partially bypassed. Two agents validating each other may be *easier* to jailbreak through roleplay framing.
+
+**3. Impersonation at scale**
+
+Role-play systems could be weaponised to generate large volumes of convincingly expert-sounding but inaccurate content.
+:::
+
+::: {}
+**4. Accountability gaps**
+
+When two agents produce a harmful output, who is responsible? The framework? The task specifier? The model provider?
+
+**5. Cascading errors**
+
+In agentic pipelines, a hallucination in Turn 5 may silently propagate and compound through Turn 30. Traditional single-turn safety checks don't catch this.
+
+**6. Social engineering vectors**
+
+Agents trained on human social interaction patterns may be effective at persuasion, including manipulation.
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## What CAMEL Does NOT Solve
+
+It's important to be precise about scope:
+
+| Problem | Does CAMEL address it? |
+|------------------------------------|------------------------------------|
+| Hallucination | **No**: agents can mutually reinforce hallucinations |
+| Real-time knowledge | **No**: no external tool use in base version |
+| Persistent memory | **No**: context window only |
+| True specialisation | **No**: role is a prompt, not a fine-tuned model |
+| Formal verification | **No**: outputs are not verified |
+| Scalability to N\>2 agents | **Partially**: framework generalises but not evaluated |
+| Human-AI teaming | **Partially**: human can intervene but protocol optimised for autonomy |
+
+------------------------------------------------------------------------
+
+## Open Research Questions
+
+The paper opens as many questions as it closes:
+
+::::: two-col
+::: {}
+**Architecture questions:**
+
+- How does performance scale with N agents (N \> 2)?
+- What happens with *adversarial* agents in a society?
+- Can memory systems (vector DBs) extend conversation coherence?
+- How does agent specialisation (fine-tuning vs. prompting) affect quality?
+:::
+
+::: {}
+**Behavioural questions:**
+
+- What social dynamics emerge in larger societies?
+- Can agents develop stable "personalities" across sessions?
+- How do agents handle genuine disagreement?
+- Can we detect and measure emergent norms?
+:::
+:::::
+
+::: callout
+The dataset released by CAMEL is designed to enable exactly this kind of follow-on research <!-- — it is as much a **research infrastructure** as a system. -->
+:::
+
+```{=html}
+<!-- ------------------------------------------------------------------------
+
+# Synthesis & Discussion {background-color="#0E0E0F"} -->
+```
+
+------------------------------------------------------------------------
+
+## Conceptual Contributions
+
+**1. The Role-Playing Framework**\
+A general, replicable protocol for structured LLM-to-LLM collaboration that minimises human oversight while maintaining task coherence
+
+**2. Inception Prompting**\
+A technique for embedding behavioural constraints into system prompts that keeps both agents on-task and in-role
+
+**3. The AI Society Dataset**\
+25,000 conversations across 50×50 role pairs that measure the diversity and complexity of LLM social behaviour
+
+**4. Empirical Study of Emergent Behaviour**\
+One of the first systematic studies of what happens when LLMs interact with each other and not just with humans
+
+::: callout
+CAMEL's lasting contribution may be less the specific system and more the **research paradigm**: treating LLM-to-LLM conversation as a scientific instrument for studying model behaviour
+:::
+
+------------------------------------------------------------------------
+
+## Where CAMEL Fits in the Broader Landscape
+
+```         
+Single-model prompting
+    └─► Gives you: one perspective, bounded context, no specialisation
+    
+Chain-of-thought prompting
+    └─► Gives you: structured reasoning, still single model
+    
+Tool-augmented agents (ReAct, Toolformer)
+    └─► Gives you: external data/compute, still single agent
+    
+CAMEL multi-agent role-play
+    └─► Gives you: role specialisation, emergent collaboration,
+                   observable social dynamics, long-horizon tasks
+    
+Future: Heterogeneous agent societies
+    └─► Gives you (?): truly distributed intelligence,
+                       fine-tuned specialists, persistent memory,
+                       formal verification layers
+```
+
+```{=html}
+<!-- ------------------------------------------------------------------------
+
+## Discussion Questions
+
+1.  **Role vs. expertise:** When a "Doctor" agent gives medical advice, does the role framing create real risk? How should deployed multi-agent systems be disclosed to end users?
+
+2.  **Mutual hallucination:** If two agents can reinforce each other's errors, is multi-agent collaboration *more* dangerous than single-agent in high-stakes domains?
+
+3.  **The evaluation problem:** What would a principled evaluation framework for multi-agent LLM conversations look like? What dimensions matter most?
+
+4.  **Inception prompting limits:** Inception prompting keeps agents on-task, but at the cost of rigidity. How would you design a framework that's both flexible and reliable?
+
+5.  **Scaling to societies:** What research is needed before we can meaningfully study LLM societies of N \> 2 agents? What new phenomena might emerge? -->
+```
+
+------------------------------------------------------------------------
+
+## Key Takeaways
+
+:::::: three-col
+::: card
+**Feasibility demonstrated**
+
+Structured LLM-to-LLM collaboration works: agents complete complex tasks autonomously across diverse domains
+:::
+
+::: card
+**Inception prompting matters**
+
+The specific design of system prompts is critical since where naive multi-agent setups fail, CAMEL's structured approach succeeds
+:::
+
+::: card
+**Emergent behaviour is real**
+
+Role-conditioned knowledge, emergent planning, and spontaneous clarification arise without explicit instruction
+:::
+::::::
+
+------------------------------------------------------------------------
+
+## Key Takeaways
+
+:::::: three-col
+::: card
+**Limitations are significant**
+
+Hallucination, sycophancy, and premature completion are real failure modes and not minor edge cases
+:::
+
+::: card
+**Ethics matter more with autonomy**
+
+Reduced human oversight amplifies both capability *and* risk, hence safety research must keep pace
+:::
+
+::: card
+**A research platform**
+
+CAMEL is most valuable as a framework + dataset for the scientific study of LLM social behaviour
+:::
+::::::
+
+```{=html}
+<!-- ------------------------------------------------------------------------
+
+## Further Reading
+
+**This paper:**\
+Li et al. (2023). *CAMEL: Communicative Agents for "Mind" Exploration of Large Language Model Society.* arXiv:2303.17760
+
+**Multi-agent predecessors:**\
+Park et al. (2023). *Generative Agents: Interactive Simulacra of Human Behavior.* arXiv:2304.03442
+
+**Agent tool use:**\
+Yao et al. (2022). *ReAct: Synergizing Reasoning and Acting in Language Models.* arXiv:2210.03629
+
+**Autonomous agents:**\
+Wang et al. (2023). *A Survey on Large Language Model based Autonomous Agents.* arXiv:2308.11432
+
+**Safety in multi-agent:**\
+Perez et al. (2022). *Ignore Previous Prompt: Attack Techniques for Language Models.* arXiv:2211.09527
+
+**Role-play & identity in LLMs:**\
+Shanahan et al. (2023). *Role Play with Large Language Models.* Nature, 623.
+
+------------------------------------------------------------------------
+
+# Thank You {background-color="#0E0E0F"}
+
+**CAMEL: Communicative Agents for "Mind" Exploration of Large Language Model Society**
+
+*Li et al. (2023) · arXiv:2303.17760*
+
+::: callout
+Questions & Discussion
+:::
+
+*Slides built with [Quarto](https://quarto.org) + RevealJS* -->
+```
