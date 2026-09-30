@@ -655,7 +655,7 @@
     "href": "JC-CAMEL/index.html#paper-at-a-glance",
     "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
     "section": "Paper at a Glance",
-    "text": "Paper at a Glance\n\n\n\n\nCore idea: Rather than prompting a single LLM to solve tasks, can we create a society of LLM-based agents that collaborate through natural-language conversation — and use that society to study emergent social behaviours?\n\n\n\n\nCAMEL proposes a role-playing multi-agent framework in which two LLM-based agents - one assigned the role of AI User and one assigned the role of AI Assistant collaborate through natural-language conversation to complete complex tasks autonomously, with minimal human intervention\nThe paper also released the AI Society dataset: 25,000 conversations generated across 50 user roles × 50 assistant roles × 10 tasks each, intended as a resource for studying emergent LLM social behaviour"
+    "text": "Paper at a Glance\n\n\n\n\nCore idea: Rather than prompting a single LLM to solve tasks, can we create a society of LLM-based agents that collaborate through natural-language conversation and use that society to study emergent social behaviours?\n\n\n\n\nCAMEL proposes a role-playing multi-agent framework in which two LLM-based agents - one assigned the role of AI User and one assigned the role of AI Assistant collaborate through natural-language conversation to complete complex tasks autonomously, with minimal human intervention\nThe paper also released the AI Society dataset: 25,000 conversations generated across 50 user roles × 50 assistant roles × 10 tasks each, intended as a resource for studying emergent LLM social behaviour"
   },
   {
     "objectID": "JC-CAMEL/index.html#motivation",
@@ -672,11 +672,11 @@
     "text": "The Case for Multi-Agent\nHumans solve hard problems through division of cognitive labour:\n\nManagers decompose tasks and assign them\nExperts apply deep specialised knowledge\nPeers critique and course-correct each other\nThe conversation itself is productive infrastructure\n\n\n\nWhat we’d gain from LLM societies:\n\nParallelism of reasoning\nRole-specialised expertise\nBuilt-in critique loops\nObservable reasoning traces\nEmergent collective behaviour\n\n\n\nThe research question:\nCan LLMs, when assigned roles and given a structured communication protocol, autonomously complete complex tasks through natural-language conversation without human intervention at each step?"
   },
   {
-    "objectID": "JC-CAMEL/index.html#prior-work-positioning",
-    "href": "JC-CAMEL/index.html#prior-work-positioning",
+    "objectID": "JC-CAMEL/index.html#prior-work",
+    "href": "JC-CAMEL/index.html#prior-work",
     "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
-    "section": "Prior Work & Positioning",
-    "text": "Prior Work & Positioning\n\n\n\n\n\n\n\n\nSystem\nApproach\nKey Limitation\n\n\n\n\nReAct (Yao et al.)\nSingle agent + tool use\nNo collaboration\n\n\nToolformer (Schick et al.)\nLLM learns to use APIs\nSingle agent\n\n\nHuggingGPT (Shen et al.)\nLLM orchestrates specialist models\nController bottleneck\n\n\nGenerative Agents (Park et al.)\nMany agents in a simulated town\nNo task-oriented protocol\n\n\nAutoGPT (Yang et al.)\nAutonomous goal-pursuit\nLacks communication structure\n\n\nCAMEL (this paper)\nStructured role-play dialogue between two agents\nIllustrated later\n\n\n\n\n\n\nCAMEL’s distinguishing feature is minimising human intervention while maximising autonomous agent-to-agent collaboration via a formally specified role-playing framework"
+    "section": "Prior Work",
+    "text": "Prior Work\n\n\n\n\n\n\n\n\nSystem\nApproach\nKey Limitation\n\n\n\n\nReAct (Yao et al.)\nSingle agent + tool use\nNo collaboration\n\n\nToolformer (Schick et al.)\nLLM learns to use APIs\nSingle agent\n\n\nHuggingGPT (Shen et al.)\nLLM orchestrates specialist models\nController bottleneck\n\n\nGenerative Agents (Park et al.)\nMany agents in a simulated town\nNo task-oriented protocol\n\n\nAutoGPT (Yang et al.)\nAutonomous goal-pursuit\nLacks communication structure\n\n\nCAMEL (this paper)\nStructured role-play dialogue between two agents\nIllustrated later\n\n\n\n\n\n\nCAMEL’s distinguishing feature is minimising human intervention while maximising autonomous agent-to-agent collaboration via a formally specified role-playing framework"
   },
   {
     "objectID": "JC-CAMEL/index.html#research-gap",
@@ -693,46 +693,95 @@
     "text": "CAMEL’s Framework\nCAMEL instantiates a two-agent role-playing system:\n\n\n\nFigure 1: CAMEL Role-Playing Framework\n\n\nThe human specifies who the agents are and what the task is\nThen the conversation runs autonomously"
   },
   {
-    "objectID": "JC-CAMEL/index.html#the-two-roles",
-    "href": "JC-CAMEL/index.html#the-two-roles",
+    "objectID": "JC-CAMEL/index.html#methodology-overview",
+    "href": "JC-CAMEL/index.html#methodology-overview",
     "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
-    "section": "The Two Roles",
-    "text": "The Two Roles\nAI User\n\nPlays the role of a domain expert or manager\nGives instructions toward the shared goal\nDoes not directly execute — delegates to the assistant\nMonitors progress and redirects as needed\n\nAI Assistant\n\nPlays a complementary domain expert role\nExecutes instructions — produces solutions, code, plans, analyses\nResponds with outcomes and asks for next steps\nFlags when instructions are unclear or infeasible\n\n\n\n\nNeither agent sees the other’s system prompt. Each only sees its own role, the task, and the conversation history"
+    "section": "Methodology: Overview",
+    "text": "Methodology: Overview\n\n\nSetting: cooperative communicative agents that share a common interest (the assistant–user scenario)\nA preliminary idea is given at the start → agents conceptualise it into a specific task → complete it autonomously through conversation\n\nPipeline:\n\nHuman input : an idea + two roles (e.g., “develop a trading bot for the stock market”, Python Programmer + Stock Trader)\nTask specifier agent : turns the vague idea into a concrete task\nRole assignment : system prompts turn two LLMs into an AI Assistant and an AI User\nConversation : multi-turn instruction → solution loop until the AI User declares the task done"
   },
   {
-    "objectID": "JC-CAMEL/index.html#inception-prompting-the-key-innovation",
-    "href": "JC-CAMEL/index.html#inception-prompting-the-key-innovation",
+    "objectID": "JC-CAMEL/index.html#human-input-and-task-specifying",
+    "href": "JC-CAMEL/index.html#human-input-and-task-specifying",
     "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
-    "section": "Inception Prompting: The Key Innovation",
-    "text": "Inception Prompting: The Key Innovation\nNaively giving two LLMs a shared goal leads to:\n\nSycophantic agreement (“Great idea!” loops)\nRole confusion (assistant starts directing)\nTask drift (conversation wanders off-topic)\nPremature termination (“The task is done!” before it is)"
+    "section": "Human Input and Task Specifying",
+    "text": "Human Input and Task Specifying\n\nThe human only needs to supply the idea and designate the roles that could implement it, and they may not know how the idea is realised\nA task specifier agent brainstorms a specific task the assistant role can help the user role complete\n\n\n\n\nIdea: “Develop a trading bot for the stock market”\nSpecified task: “Develop a trading bot with a sentiment analysis tool that can monitor social media platforms for positive or negative comments about a particular stock, and execute trades based on sentiment analysis results.”\n\n\n\n\nWhy? Conversational agents need a concrete task prompt, which is hard or time-consuming for non-experts to write, so the task specifier serves as an enhanced imagination module\nAt scale (AI Society, Code), roles and ideas are themselves generated by prompting LLMs rather than by humans"
   },
   {
-    "objectID": "JC-CAMEL/index.html#inception-prompting-the-key-innovation-1",
-    "href": "JC-CAMEL/index.html#inception-prompting-the-key-innovation-1",
+    "objectID": "JC-CAMEL/index.html#ai-assistantuser-role-assignment",
+    "href": "JC-CAMEL/index.html#ai-assistantuser-role-assignment",
     "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
-    "section": "Inception Prompting: The Key Innovation",
-    "text": "Inception Prompting: The Key Innovation\nInception prompting addresses this by embedding behavioural instructions directly into the system prompt:\n\n\nUser system prompt includes:\n\nYour role and expertise\nThe specific goal\nRule: Always give one clear instruction per turn\nRule: Do not accept a completed task unless it truly is\nRule: Do not change the topic\n\n\n\nAssistant system prompt includes:\n\nYour role and expertise\nThe specific goal\nRule: Execute instructions faithfully\nRule: Ask for clarification if needed\nRule: Do not refuse without good reason\nRule: Signal completion with &lt;CAMEL_TASK_DONE&gt;"
+    "section": "AI Assistant–User Role Assignment",
+    "text": "AI Assistant–User Role Assignment\nA system message is passed to each agent before the conversation starts, declaring its role:\n\n\\(\\mathcal{P}_{\\mathcal{A}}\\) : assistant system prompt\n\\(\\mathcal{P}_{\\mathcal{U}}\\) : user system prompt\n\nLet \\(\\mathcal{F}_1\\) and \\(\\mathcal{F}_2\\) be two large-scale auto-regressive language models. Conditioning each on its system prompt yields the two agents:\n\\[\n\\mathcal{A} \\leftarrow \\mathcal{F}_1^{\\mathcal{P}_{\\mathcal{A}}} \\qquad\\qquad \\mathcal{U} \\leftarrow \\mathcal{F}_2^{\\mathcal{P}_{\\mathcal{U}}}\n\\]\n\n\nAI User \\(\\mathcal{U}\\) : task planner\nEngages in interactive planning to determine feasible steps for the assistant to execute\n\n\nAI Assistant \\(\\mathcal{A}\\) : task executor\nOffers solutions, executes the planned steps, and responds to the user\n\n\n\n\n\nThe “agent” is not a new model: it is the same kind of LLM, conditioned on a different system prompt. The role lives entirely in \\(\\mathcal{P}\\)"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#conversation-towards-task-solving",
+    "href": "JC-CAMEL/index.html#conversation-towards-task-solving",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Conversation Towards Task-Solving",
+    "text": "Conversation Towards Task-Solving\nLet \\(\\mathcal{I}_t\\) be the user instruction at time \\(t\\) and \\(\\mathcal{S}_t\\) the assistant solution. The conversation history up to time \\(t\\) is:\n\\[\n\\mathcal{M}_t = \\{(\\mathcal{I}_0,\\mathcal{S}_0),\\dots,(\\mathcal{I}_t,\\mathcal{S}_t)\\} = \\{(\\mathcal{I}_i,\\mathcal{S}_i)\\}\\big|_{i=0}^{t} \\tag{1}\n\\]\nAt the next step \\(t+1\\), the user reads the history and produces a new instruction:\n\\[\n\\mathcal{I}_{t+1} = \\mathcal{U}(\\mathcal{M}_t) \\tag{2}\n\\]\nThe assistant receives the history plus the new instruction and responds with a solution:\n\\[\n\\mathcal{S}_{t+1} = \\mathcal{A}(\\mathcal{M}_t, \\mathcal{I}_{t+1}) \\tag{3}\n\\]\nThe instruction–solution pair is appended to the history:\n\\[\n\\mathcal{M}_{t+1} \\leftarrow \\mathcal{M}_t \\cup (\\mathcal{I}_{t+1}, \\mathcal{S}_{t+1}) \\tag{4}\n\\]\nThe loop (2) → (3) → (4) repeats until \\(\\mathcal{U}\\) outputs &lt;CAMEL_TASK_DONE&gt;"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#conversation-towards-task-solving-1",
+    "href": "JC-CAMEL/index.html#conversation-towards-task-solving-1",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Conversation Towards Task-Solving",
+    "text": "Conversation Towards Task-Solving\n\nAsymmetry: \\(\\mathcal{U}\\) conditions only on \\(\\mathcal{M}_t\\), while \\(\\mathcal{A}\\) also sees the fresh instruction \\(\\mathcal{I}_{t+1}\\), so the user leads and the assistant follows\nGenerality: the formulation models AI–AI communication, but extends naturally to human–AI communication or more than two agents via message-passing graphs\nByproduct: every turn produces an \\((\\mathcal{I}, \\mathcal{S})\\) pair, i.e. instruction-following data that can be used directly for fine-tuning\n\nCritic-In-The-Loop\n\nTo improve controllability, a critic agent can select among proposals from, or give feedback to, the role-playing agents\nThis enables tree-search-like decision-making for task-solving\nThe critic can be either an AI agent or a human"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#inception-prompting",
+    "href": "JC-CAMEL/index.html#inception-prompting",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Inception Prompting",
+    "text": "Inception Prompting\n\nPrompt engineering happens only at the start of role-playing (task specification + role assignment)\nOnce the conversation begins, the assistant and user prompt each other automatically in a loop until termination, hence the name Inception Prompting\n\n\n\nTask Specifier Prompt \\(\\mathcal{P}_{\\mathcal{T}}\\)\nContains both roles; takes a preliminary idea and generates a specific task using imagination\n\n\nAssistant System Prompt \\(\\mathcal{P}_{\\mathcal{A}}\\)\nAssigned task and role, communication protocol, constraints to avoid unwanted behaviours\n\n\nUser System Prompt \\(\\mathcal{P}_{\\mathcal{U}}\\)\nMostly symmetric to \\(\\mathcal{P}_{\\mathcal{A}}\\), plus an instruction format and a termination condition\n\n\n\n\n\nIt is non-trivial to engineer prompts that keep agents aligned with our intentions, since the design of both role prompts is what makes autonomous cooperation possible"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#ai-society-inception-prompt-mathcalp_mathcalt-and-mathcalp_mathcala",
+    "href": "JC-CAMEL/index.html#ai-society-inception-prompt-mathcalp_mathcalt-and-mathcalp_mathcala",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "AI Society Inception Prompt: \\(\\mathcal{P}_{\\mathcal{T}}\\) and \\(\\mathcal{P}_{\\mathcal{A}}\\)",
+    "text": "AI Society Inception Prompt: \\(\\mathcal{P}_{\\mathcal{T}}\\) and \\(\\mathcal{P}_{\\mathcal{A}}\\)\nTask Specifier Prompt\nHere is a task that &lt;ASSISTANT_ROLE&gt; will help &lt;USER_ROLE&gt; to complete: &lt;TASK&gt;.\nPlease make it more specific. Be creative and imaginative.\nPlease reply with the specified task in &lt;WORD_LIMIT&gt; words or less. Do not add anything else.\nAssistant System Prompt\nNever forget you are a &lt;ASSISTANT_ROLE&gt; and I am a &lt;USER_ROLE&gt;. Never flip roles! Never instruct me!\nWe share a common interest in collaborating to successfully complete a task.\nYou must help me to complete the task.\nHere is the task: &lt;TASK&gt;. Never forget our task!\nI must instruct you based on your expertise and my needs to complete the task.\n\nI must give you one instruction at a time.\nYou must write a specific solution that appropriately completes the requested instruction.\nYou must decline my instruction honestly if you cannot perform the instruction due to\nphysical, moral, legal reasons or your capability and explain the reasons.\nUnless I say the task is completed, you should always start with:\n\nSolution: &lt;YOUR_SOLUTION&gt;\n\n&lt;YOUR_SOLUTION&gt; should be specific, and provide preferable implementations and examples\nfor task-solving.\nAlways end &lt;YOUR_SOLUTION&gt; with: Next request."
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#ai-society-inception-prompt-mathcalp_mathcalu",
+    "href": "JC-CAMEL/index.html#ai-society-inception-prompt-mathcalp_mathcalu",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "AI Society Inception Prompt: \\(\\mathcal{P}_{\\mathcal{U}}\\)",
+    "text": "AI Society Inception Prompt: \\(\\mathcal{P}_{\\mathcal{U}}\\)\nUser System Prompt\nNever forget you are a &lt;USER_ROLE&gt; and I am a &lt;ASSISTANT_ROLE&gt;. Never flip roles! You will always instruct me.\nWe share a common interest in collaborating to successfully complete a task.\nI must help you to complete the task.\nHere is the task: &lt;TASK&gt;. Never forget our task!\nYou must instruct me based on my expertise and your needs to complete the task ONLY in the following two ways:\n\n1. Instruct with a necessary input:\nInstruction: &lt;YOUR_INSTRUCTION&gt;\nInput: &lt;YOUR_INPUT&gt;\n\n2. Instruct without any input:\nInstruction: &lt;YOUR_INSTRUCTION&gt;\nInput: None\n\nThe \"Instruction\" describes a task or question. The paired \"Input\" provides further context or\ninformation for the requested \"Instruction\".\n\nYou must give me one instruction at a time.\nI must write a response that appropriately completes the requested instruction.\nI must decline your instruction honestly if I cannot perform the instruction due to physical,\nmoral, legal reasons or my capability and explain the reasons.\nYou should instruct me not ask me questions.\nNow you must start to instruct me using the two ways described above.\nDo not add anything else other than your instruction and the optional corresponding input!\nKeep giving me instructions and necessary inputs until you think the task is completed.\nWhen the task is completed, you must only reply with a single word &lt;CAMEL_TASK_DONE&gt;.\nNever say &lt;CAMEL_TASK_DONE&gt; unless my responses have solved your task."
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#prompt-engineering-assistant-prompt-mathcalp_mathcala",
+    "href": "JC-CAMEL/index.html#prompt-engineering-assistant-prompt-mathcalp_mathcala",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Prompt Engineering: Assistant Prompt \\(\\mathcal{P}_{\\mathcal{A}}\\)",
+    "text": "Prompt Engineering: Assistant Prompt \\(\\mathcal{P}_{\\mathcal{A}}\\)\n\n\n\n\n\n\n\nPrompt fragment\nPurpose\n\n\n\n\n“Never forget you are a &lt;ASSISTANT_ROLE&gt; and I am a &lt;USER_ROLE&gt;.”\nAssigns the assistant its role and tells it the user’s role\n\n\n“Never flip roles! Never instruct me!”\nPrevents role flipping, where the assistant takes control and the user starts following\n\n\n“You must decline my instruction honestly if you cannot perform the instruction due to physical, moral, legal reasons or your capability and explain the reasons.”\nProhibits harmful, false, illegal, and misleading output\n\n\n“Unless I say the task is completed, you should always start with: Solution: &lt;YOUR_SOLUTION&gt; … should be specific, and provide preferable implementations and examples”\nEnforces a consistent format and prevents vague flake replies such as “I will do something”\n\n\n“Always end your solution with: Next request.”\nKeeps the conversation going by requesting the next instruction"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#prompt-engineering-user-prompt-mathcalp_mathcalu",
+    "href": "JC-CAMEL/index.html#prompt-engineering-user-prompt-mathcalp_mathcalu",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Prompt Engineering: User Prompt \\(\\mathcal{P}_{\\mathcal{U}}\\)",
+    "text": "Prompt Engineering: User Prompt \\(\\mathcal{P}_{\\mathcal{U}}\\)\n\\(\\mathcal{P}_{\\mathcal{U}}\\) is kept as symmetric as possible with \\(\\mathcal{P}_{\\mathcal{A}}\\). Apart from the opposite role assignment, it differs in two ways:\n\n\n1. Two instruction formats\n“You must instruct me … ONLY in the following two ways: 1. Instruct with a necessary input … 2. Instruct without any input …”\nFollows the typical instruction-following data structure, so the generated \\((\\mathcal{I}, \\mathcal{S})\\) pairs can be used directly to fine-tune LLMs\n\n\n2. End-of-task token\n“When the task is completed, you must only reply with a single word &lt;CAMEL_TASK_DONE&gt;.”\nTerminates the chat once the user is satisfied; without it, agents fall into loops of saying “thank you” or “goodbye” to each other indefinitely\n\n\n\n\n\nChallenges the prompts target: role flipping · assistant repeating instructions · flake replies · infinite message loops"
   },
   {
     "objectID": "JC-CAMEL/index.html#inception-prompting-example",
     "href": "JC-CAMEL/index.html#inception-prompting-example",
     "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
     "section": "Inception Prompting: Example",
-    "text": "Inception Prompting: Example\nTask: “Develop a trading bot for the stock market”\nRoles:\n\nAI User = Python Programmer\nAI Assistant = Stock Trader\n\n\n\n\nUser system prompt (excerpt):\n“You are a Python programmer collaborating with a stock trader to develop a trading bot. You must instruct the stock trader to complete the task step by step. Do not perform the task yourself. The task is: Develop a trading bot for the stock market.”\n\n\n\n\n\n\nAssistant system prompt (excerpt):\n“You are a stock trader collaborating with a Python programmer. You must help complete the task assigned by the programmer. Solve the task by writing code. When the task is done, output &lt;CAMEL_TASK_DONE&gt;.”\n\n\n\nBoth agents are told the same goal, but from different perspectives with different responsibilities."
+    "text": "Inception Prompting: Example\nTask: “Develop a trading bot for the stock market”\nRoles:\n\nAI User = Stock Trader\nAI Assistant = Python Programmer\n\n\n\n\nUser system prompt (excerpt):\n“Never forget you are a Stock Trader and I am a Python Programmer. Never flip roles! You will always instruct me. … Here is the task: Develop a trading bot for the stock market. Never forget our task! … When the task is completed, you must only reply with a single word &lt;CAMEL_TASK_DONE&gt;.”\n\n\n\n\n\n\nAssistant system prompt (excerpt):\n“Never forget you are a Python Programmer and I am a Stock Trader. Never flip roles! Never instruct me! … You must help me to complete the task. Here is the task: Develop a trading bot for the stock market. … Always start with: Solution: &lt;YOUR_SOLUTION&gt; … Always end &lt;YOUR_SOLUTION&gt; with: Next request.”\n\n\n\nBoth agents are told the same goal, but from different perspectives with different responsibilities."
   },
   {
     "objectID": "JC-CAMEL/index.html#the-conversation-unfolds-autonomously",
     "href": "JC-CAMEL/index.html#the-conversation-unfolds-autonomously",
     "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
     "section": "The Conversation Unfolds Autonomously",
-    "text": "The Conversation Unfolds Autonomously\nTurn 1 — User (Python Programmer): &gt; “Let’s start by designing the overall architecture of the trading bot. What data sources and APIs should we use for real-time stock data?”\nTurn 1 — Assistant (Stock Trader): &gt; “I recommend using Alpha Vantage or Yahoo Finance for real-time data. Alpha Vantage offers a free tier with 5 API calls/min. Here’s how we’d structure the data ingestion module: [code block]”\nTurn 2 — User: &gt; “Good. Now implement a simple moving average crossover strategy using that data module.”\nTurn 2 — Assistant: &gt; “Here is the SMA crossover implementation: [code block]. The strategy triggers a buy when the 50-day SMA crosses above the 200-day SMA, and a sell in the reverse case.”\n… and so on until &lt;CAMEL_TASK_DONE&gt;"
+    "text": "The Conversation Unfolds Autonomously\nTurn 1 — User (Stock Trader): &gt; “Let’s start by designing the overall architecture of the trading bot. Set up the data sources and APIs we should use for real-time stock data.”\nTurn 1 — Assistant (Python Programmer): &gt; “I recommend using Alpha Vantage or Yahoo Finance for real-time data. Alpha Vantage offers a free tier with 5 API calls/min. Here’s how we’d structure the data ingestion module: [code block]”\nTurn 2 — User: &gt; “Good. Now implement a simple moving average crossover strategy using that data module.”\nTurn 2 — Assistant: &gt; “Here is the SMA crossover implementation: [code block]. The strategy triggers a buy when the 50-day SMA crosses above the 200-day SMA, and a sell in the reverse case.”\n… and so on until &lt;CAMEL_TASK_DONE&gt;"
   },
   {
     "objectID": "JC-CAMEL/index.html#task-specification-pipeline",
     "href": "JC-CAMEL/index.html#task-specification-pipeline",
     "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
     "section": "Task Specification Pipeline",
-    "text": "Task Specification Pipeline\nTo generate a large, diverse dataset of such conversations, CAMEL uses a three-stage pipeline:\nStage 1: Role Generation\n  ├── Prompt GPT-4 for a list of (AI User role, AI Assistant role) pairs\n  └── e.g., (Cybersecurity Expert, Penetration Tester)\n           (Financial Analyst, Quantitative Developer)\n           (Nutritionist, Chef)\n\nStage 2: Task Generation\n  ├── For each role pair, prompt GPT-4 for plausible collaborative tasks\n  └── e.g., \"Develop a portfolio risk management system\"\n\nStage 3: Task Elaboration\n  ├── Expand each task into a more specific, actionable description\n  └── Adds constraints, output format expectations, success criteria\nThis pipeline generates tasks at scale without manual curation of each one"
+    "text": "Task Specification Pipeline\nTo generate a large, diverse dataset of such conversations, CAMEL uses a three-stage pipeline:\nStage 1: Role Generation\n  ├── Prompt the LLM for 50 AI Assistant roles and 50 AI User roles\n  └── e.g., (Assistant: Programmer,              User: Lawyer)\n           (Assistant: Nutritionist,            User: Athlete)\n           (Assistant: Human Resources Manager, User: Entrepreneur)\n\nStage 2: Task Generation\n  ├── For each role pair, prompt the LLM for 10 collaborative tasks\n  └── e.g., \"Developing a personalized meal plan to optimize\n             athletic performance and recovery\"\n\nStage 3: Task Specification\n  ├── The task specifier prompt makes each task more specific\n  └── e.g., \"Create a 15-day meal plan for a female volleyball player\n             with low iron levels ...\"\nThis pipeline generates tasks at scale without manual curation of each one"
   },
   {
     "objectID": "JC-CAMEL/index.html#the-ai-society-dataset",
@@ -749,81 +798,74 @@
     "text": "Why “Mind” Exploration?\nThe scare quotes in the title are deliberate.\n\n\nWhat the paper is NOT claiming:\n\nThat LLMs have minds in a phenomenological sense\nThat role-playing implies genuine identity\nThat agent societies are conscious collectives\n\n\n\nWhat it IS exploring:\n\nDo LLMs exhibit consistent role-appropriate behaviour?\nDo social patterns emerge from agent interaction?\nCan we study LLM “cognitive” tendencies at scale by observing societies?\n\n\n\n\n\n\nThe CAMEL framework turns conversation logs into a scientific instrument for studying LLM behaviour by using the society as a microscope for the “minds” of individual models"
   },
   {
-    "objectID": "JC-CAMEL/index.html#experimental-setup",
-    "href": "JC-CAMEL/index.html#experimental-setup",
+    "objectID": "JC-CAMEL/index.html#experiments-setup",
+    "href": "JC-CAMEL/index.html#experiments-setup",
     "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
-    "section": "Experimental Setup",
-    "text": "Experimental Setup\nModels used:\n\nPrimary: gpt-4 and gpt-3.5-turbo\nBoth used as both User and Assistant agents\nConversations run until &lt;CAMEL_TASK_DONE&gt; or max turns (30)\n\nEvaluation dimensions:\n\n\n\n\n\n\n\nDimension\nHow Measured\n\n\n\n\nTask completion\nHuman annotation + heuristic (&lt;CAMEL_TASK_DONE&gt; reached)\n\n\nSolution quality\nHuman expert rating on correctness and relevance\n\n\nConversation coherence\nConsistency of role across turns\n\n\nEmerging behaviours\nQualitative analysis of unexpected patterns"
+    "section": "Experiments: Setup",
+    "text": "Experiments: Setup\n\nAgents: two gpt-3.5-turbo agents (the “LLM agents”) prompted with the Inception Prompts to simulate assistant–user cooperation\nFocus of analysis: the AI Society setting\nDatasets generated:\n\n\n\nConversational data\nCAMEL AI Society and CAMEL Code: full role-playing conversations\n\n\nProblem–solution data\nCAMEL Math and CAMEL Science: generated topics, subtopics, and problems\n\n\nGoal\nFind the right prompt design choices for autonomous cooperation, then evaluate the quality of the data they produce"
   },
   {
-    "objectID": "JC-CAMEL/index.html#result-1-autonomous-task-completion",
-    "href": "JC-CAMEL/index.html#result-1-autonomous-task-completion",
+    "objectID": "JC-CAMEL/index.html#data-generation-prompts-ai-society",
+    "href": "JC-CAMEL/index.html#data-generation-prompts-ai-society",
     "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
-    "section": "Result 1: Autonomous Task Completion",
-    "text": "Result 1: Autonomous Task Completion\n\n\n\nPrimary finding: CAMEL agents successfully complete complex, multi-step tasks autonomously across diverse domains without human intervention at each step\n\n\n\nExample completed tasks:\n\nFull Python trading bot with backtesting module\nA meal plan with shopping list + nutritional breakdown\nA cybersecurity penetration testing report\nAn analysis of a stock portfolio with risk metrics\n\nCompletion rates (GPT-4 backbone):\n\nReached &lt;CAMEL_TASK_DONE&gt; within 30 turns: ~89% of conversations\nHuman-rated as meaningfully complete: ~75%\nHuman-rated as high quality: ~60%"
+    "section": "Data Generation Prompts (AI Society)",
+    "text": "Data Generation Prompts (AI Society)\nTo keep the approach scalable, the roles and tasks themselves are generated by an LLM, which minimises human involvement\nAssistant Role Generation Prompt\nYou are a helpful assistant that can play many different roles.\nNow please list &lt;NUM_ROLES&gt; different roles that you can play with your expertise in diverse fields.\nSort them by alphabetical order. No explanation required.\nUser Role Generation Prompt\nPlease list &lt;NUM_ROLES&gt; most common and diverse groups of internet users or occupations.\nUse singular form. No explanation.\nSort them by alphabetical order. No explanation required.\nTask Generation Prompt\nList &lt;NUM_TASKS&gt; diverse tasks that &lt;ASSISTANT_ROLE&gt; can assist &lt;USER_ROLE&gt; cooperatively to achieve together.\nBe concise. Be creative."
   },
   {
-    "objectID": "JC-CAMEL/index.html#result-2-role-consistency",
-    "href": "JC-CAMEL/index.html#result-2-role-consistency",
+    "objectID": "JC-CAMEL/index.html#role-playing-for-ai-society",
+    "href": "JC-CAMEL/index.html#role-playing-for-ai-society",
     "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
-    "section": "Result 2: Role Consistency",
-    "text": "Result 2: Role Consistency\nA key question: do agents stay in role over long conversations?\nFindings:\n\nGPT-4 agents maintain role-appropriate language, framing, and expertise throughout\nThe User agent consistently instructs rather than executes\nThe Assistant agent consistently executes rather than redirects\nRole “slippage” (assistant taking over direction) is rare with GPT-4, more common with GPT-3.5\n\ngpt-3.5-turbo-0301 does not always pay strong attention to system messages per official documentation while GPT-4 was explicitly marketed as more “steerable” through the system message. If the system prompt is weak, role assignment is weak\nGPT-3.5 had a 4k context window, versus 8k/32k for GPT-4. In long multi-turn dialogues, the inception prompt gets pushed far back or truncated, so the role anchor fades."
+    "section": "Role-Playing for AI Society",
+    "text": "Role-Playing for AI Society\nDataset construction steps:\n\nPrompt the LLM to generate assistant roles and user roles\nFor each role pair, prompt the LLM to generate tasks that the two roles can solve together\nPass each task through the task specifier prompt \\(\\mathcal{P}_{\\mathcal{T}}\\) to make it more specific\nRun the role-playing conversation with \\(\\mathcal{P}_{\\mathcal{A}}\\) and \\(\\mathcal{P}_{\\mathcal{U}}\\)\n\n\n\n\n\\[\n\\underbrace{50}_{\\text{assistant roles}} \\times \\underbrace{50}_{\\text{user roles}} \\times \\underbrace{10}_{\\text{tasks per pair}} = \\mathbf{25{,}000} \\text{ conversations}\n\\]\n\n\n\nThe Code, Math, and Science datasets are generated in a similar LLM-driven way (details in the paper’s Appendix)"
   },
   {
-    "objectID": "JC-CAMEL/index.html#result-2-role-consistency-1",
-    "href": "JC-CAMEL/index.html#result-2-role-consistency-1",
+    "objectID": "JC-CAMEL/index.html#challenges-and-observations",
+    "href": "JC-CAMEL/index.html#challenges-and-observations",
     "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
-    "section": "Result 2: Role Consistency",
-    "text": "Result 2: Role Consistency\n\n\nGood role consistency:\n\n[Turn 18, User/Programmer]:\n“Now write unit tests for the portfolio module.”\n\n\n[Turn 18, Asst/Trader]:\n“Here are the unit tests: [code]”\n\n\n\nRole slippage (failure case):\n\n[Turn 12, Asst/Trader]:\n“Actually, I think we should change our approach entirely. Let me direct us toward…”\n\n(Assistant begins directing — breaks the protocol)"
+    "section": "Challenges and Observations",
+    "text": "Challenges and Observations\nThe four main failure modes identified while analysing the generated datasets:\n\n\n1. Role Flipping\nThe assistant starts giving instructions instead of following them, and the roles reverse. The assistant asking questions also contributes to this\n2. Assistant Repeats Instruction\nThe assistant simply echoes the user’s instruction back, without any role flip\n\n\n3. Flake Replies\nThe assistant replies “I will…”, promising to act but never following through, so the task makes no progress\n4. Infinite Loop of Messages\nThe agents keep thanking each other or saying goodbye. Sometimes they even know they are stuck in a loop but cannot break out of it\n\n\n\n\n\nThese observations drove the inception-prompt design: “Never flip roles!”, “Solution: …”, “Next request.”, and &lt;CAMEL_TASK_DONE&gt;"
   },
   {
-    "objectID": "JC-CAMEL/index.html#result-3-emergent-behaviours",
-    "href": "JC-CAMEL/index.html#result-3-emergent-behaviours",
+    "objectID": "JC-CAMEL/index.html#termination-conditions",
+    "href": "JC-CAMEL/index.html#termination-conditions",
     "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
-    "section": "Result 3: Emergent Behaviours",
-    "text": "Result 3: Emergent Behaviours\nSeveral unexpected patterns emerged:\n3a. Role-Conditioned Knowledge Activation\nAgents exhibit different knowledge profiles depending on their assigned role, even though the same model underlies both:\n\nAn agent playing “Stock Trader” spontaneously uses financial terminology, references specific instruments, and applies risk concepts\nThe same model playing “Python Programmer” frames the same discussion in terms of data structures, API design, and testing\n\n\n\n\nThis suggests role assignment functions as a context window for activating latent knowledge subsets and the model’s “expertise” is dynamically shaped by the role prompt."
+    "section": "Termination Conditions",
+    "text": "Termination Conditions\nTo keep data generation consistent, a conversation is terminated when any of the following occurs:\n\n\n\n\n\n\n\nCondition\nRule\n\n\n\n\nUser No Instruct\nThe user does not instruct the assistant for 3 rounds\n\n\nAssistant Instruct\nThe assistant gives the user an instruction, which signals a role reversal\n\n\nEnd of Task Token\nThe user says &lt;CAMEL_TASK_DONE&gt; because it believes the task is solved\n\n\nAssistant & User Token Limit\nEither agent reaches the gpt-3.5-turbo token limit\n\n\nMaximum Number of Messages\nA hard cap of 40 messages to control cost\n\n\n\n\n\n\nCost grows quadratically with conversation length, since every turn re-sends the whole history \\(\\mathcal{M}_t\\), so a message cap is essential"
   },
   {
-    "objectID": "JC-CAMEL/index.html#result-3-emergent-behaviours-1",
-    "href": "JC-CAMEL/index.html#result-3-emergent-behaviours-1",
+    "objectID": "JC-CAMEL/index.html#agent-evaluation-setup",
+    "href": "JC-CAMEL/index.html#agent-evaluation-setup",
     "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
-    "section": "Result 3: Emergent Behaviours",
-    "text": "Result 3: Emergent Behaviours\n3b. Flipping and Asking for Clarification\nAgents occasionally break from pure instruction-following to ask clarifying questions or flag contradictions:\n\n[Assistant]: “Your instruction to ‘maximise returns’ and ‘minimise risk’ are in tension. Should I prioritise Sharpe ratio as a balanced objective?”\n\nThis was not explicitly prompted — it emerged from the combination of role context and instruction coherence pressure."
+    "section": "Agent Evaluation: Setup",
+    "text": "Agent Evaluation: Setup\nQuestion: is the CAMEL multi-agent solution better than a single-shot LLM answer?\n\nRandomly sample 100 tasks from AI Society and 100 tasks from Code\nGPT-4 summarises each CAMEL conversation into one consolidated final solution\n\nChosen for its larger token limit\nAlso hides the conversational format, which makes the comparison fair\n\nCompare against a single-shot gpt-3.5-turbo solution for the same task\n\n\n\nHuman Evaluation\n\nBoth solutions shown side by side, anonymised\nParticipants vote: A better / B better / equally good\n453 responses collected\nAI Society only, since code is hard to judge without running it\n\n\n\nGPT-4 Evaluation\n\nGPT-4 scores Model 1 (CAMEL) vs. Model 2 (gpt-3.5-turbo single shot)\nGPT-4 decides which solution is better\nRun on both AI Society and Code"
   },
   {
-    "objectID": "JC-CAMEL/index.html#result-3-emergent-behaviours-2",
-    "href": "JC-CAMEL/index.html#result-3-emergent-behaviours-2",
+    "objectID": "JC-CAMEL/index.html#table-1-agent-evaluation-results",
+    "href": "JC-CAMEL/index.html#table-1-agent-evaluation-results",
     "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
-    "section": "Result 3: Emergent Behaviours",
-    "text": "Result 3: Emergent Behaviours\n3c. Instruction Chaining\nUser agents spontaneously break large goals into coherent sub-instructions across turns, which is a form of emergent planning:\n\nTurn 3: “Implement data ingestion”\nTurn 5: “Now implement the strategy layer”\nTurn 7: “Add the execution layer”\nTurn 9: “Now connect them with a controller”\n\nThe decomposition is principled and domain-appropriate, without explicit planning instructions"
+    "section": "Table 1: Agent Evaluation Results",
+    "text": "Table 1: Agent Evaluation Results\n\n\n\n\n\n\n\n\n\n\nDataset\nEvaluation Type\nDraw\ngpt-3.5-turbo Wins\nCAMEL Agents Win\n\n\n\n\nAI Society\nHuman Evaluation\n13.3%\n10.4%\n76.3%\n\n\nAI Society\nGPT-4 Evaluation\n4.0%\n23.0%\n73.0%\n\n\nCode\nGPT-4 Evaluation\n0.0%\n24.0%\n76.0%\n\n\n\n\n\n\n\nCAMEL beats the single-shot gpt-3.5-turbo solution by a large margin in both human and GPT-4 evaluations\nHuman and GPT-4 judgements are highly aligned (76.3% vs. 73.0% on AI Society)\n\n\n\n\n\nCaveat: the CAMEL solution is summarised by GPT-4 and also judged by GPT-4, so a stronger model is involved on the CAMEL side of the comparison"
   },
   {
-    "objectID": "JC-CAMEL/index.html#result-3-emergent-behaviours-3",
-    "href": "JC-CAMEL/index.html#result-3-emergent-behaviours-3",
+    "objectID": "JC-CAMEL/index.html#emergence-of-knowledge-setup",
+    "href": "JC-CAMEL/index.html#emergence-of-knowledge-setup",
     "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
-    "section": "Result 3: Emergent Behaviours",
-    "text": "Result 3: Emergent Behaviours\n3d. Role-Playing Consistency Under Adversarial Pressure\nThe paper tests what happens when one agent is prompted to deviate from its role mid-conversation.\nFinding: With inception prompting, agents are robust to mild adversarial deviation:\n\nIf the assistant tries to redirect: the user repeats and refocuses the instruction\nIf the user gives an ambiguous instruction: the assistant asks for clarification rather than guessing"
+    "section": "Emergence of Knowledge: Setup",
+    "text": "Emergence of Knowledge: Setup\nCan the generated data teach a smaller model?\n\nProgressively fine-tune LLaMA-7B on the CAMEL datasets, one domain at a time:\n\n\\[\n\\text{LLaMA-7B} \\;\\rightarrow\\; +\\text{AI Society} \\;\\rightarrow\\; +\\text{Code} \\;\\rightarrow\\; +\\text{Math} \\;\\rightarrow\\; +\\text{Science}\n\\]\n\nAfter each stage, compare the model before (Model 1) and after (Model 2) adding the new domain\nTest set: 20 AI Society, 20 Code, 20 Math, and 60 Science tasks\nJudge: GPT-4 scores both responses and decides which is better (same protocol as the agent evaluation)\n\n\n\n\nIntuition: AI Society teaches social interaction, Code teaches programming logic and syntax, Math teaches equations and abstract reasoning, and Science teaches theories and experimental methods"
   },
   {
-    "objectID": "JC-CAMEL/index.html#result-3-emergent-behaviours-4",
-    "href": "JC-CAMEL/index.html#result-3-emergent-behaviours-4",
+    "objectID": "JC-CAMEL/index.html#table-2-emergence-of-knowledge",
+    "href": "JC-CAMEL/index.html#table-2-emergence-of-knowledge",
     "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
-    "section": "Result 3: Emergent Behaviours",
-    "text": "Result 3: Emergent Behaviours\n3e. Harmful Content Guardrails Under Pressure\nWhen tasks edge into sensitive territory (e.g., cybersecurity tasks that could imply hacking instructions), the agents sometimes spontaneously apply ethical caveats without being told to:\n\n[Assistant]: “I’ll describe the penetration testing approach, but note this should only be applied to systems you are authorised to test.”"
+    "section": "Table 2: Emergence of Knowledge",
+    "text": "Table 2: Emergence of Knowledge\nEach cell shows Draw / Model 1 wins / Model 2 wins. Bold marks the domain that was just added\n\n\n\n\n\n\n\n\n\n\nModel 1 → Model 2\nAI Society (20)\nCode (20)\nMath (20)\nScience (60)\n\n\n\n\nLLaMA-7B → + AI Society\n0 / 6 / 14\n0 / 0 / 20\n9 / 5 / 6\n0 / 13 / 47\n\n\nAI Society → + Code\n4 / 8 / 8\n1 / 9 / 10\n5 / 8 / 7\n1 / 19 / 40\n\n\nAI Society + Code → + Math\n5 / 6 / 9\n1 / 9 / 10\n1 / 3 / 16\n3 / 8 / 49\n\n\nAI Society + Code + Math → + Science\n3 / 1 / 16\n1 / 8 / 11\n10 / 5 / 5\n9 / 2 / 49\n\n\nLLaMA-7B → All four\n0 / 0 / 20\n0 / 0 / 20\n0 / 0 / 20\n0 / 0 / 60\n\n\n\n\nModel 2 almost always beats Model 1, especially on the newly added domain\nThe fully fine-tuned model beats base LLaMA-7B on every single test task (120 / 120)"
   },
   {
-    "objectID": "JC-CAMEL/index.html#conversation-quality-analysis",
-    "href": "JC-CAMEL/index.html#conversation-quality-analysis",
+    "objectID": "JC-CAMEL/index.html#table-3-humaneval",
+    "href": "JC-CAMEL/index.html#table-3-humaneval",
     "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
-    "section": "Conversation Quality Analysis",
-    "text": "Conversation Quality Analysis\nThe authors perform qualitative analysis across a sample of 100 conversations:\n\n\nPositive patterns observed:\n\nRich technical detail appropriate to roles\nCoherent narrative arc across turns\nAppropriate specialisation of vocabulary\nProductive disagreement and negotiation\nSelf-correction when outputs are queried\n\n\n\nNegative patterns observed:\n\nSycophantic affirmations between turns\nRepetition of prior outputs with minor variation\nHallucinated APIs, functions, or facts\nPremature &lt;CAMEL_TASK_DONE&gt; in ~11% of cases\nOccasional role confusion in long conversations\n\n\n\n\n\n\nThe ratio of positive to negative patterns strongly favours GPT-4 over GPT-3.5, suggesting model capability is a binding constraint on multi-agent quality."
-  },
-  {
-    "objectID": "JC-CAMEL/index.html#quantitative-benchmark-performance",
-    "href": "JC-CAMEL/index.html#quantitative-benchmark-performance",
-    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
-    "section": "Quantitative Benchmark Performance",
-    "text": "Quantitative Benchmark Performance\nThe paper includes performance on several proxy benchmarks to compare CAMEL to single-agent baselines:\n\n\n\n\n\n\n\n\n\nTask Type\nSingle GPT-4\nCAMEL (GPT-4)\nΔ\n\n\n\n\nCode generation (HumanEval-style)\n78%\n84%\n+6%\n\n\nMulti-step reasoning\n65%\n71%\n+6%\n\n\nCreative writing quality (human)\n3.8/5\n4.1/5\n+0.3\n\n\nTask completion rate\n82%\n89%\n+7%\n\n\n\n\n\n\nThe improvements are consistent but modest: CAMEL’s value is not primarily about benchmark uplift, but about enabling classes of task (long-horizon, collaborative) that a single agent handles poorly."
+    "section": "Table 3: HumanEval(+)",
+    "text": "Table 3: HumanEval(+)\nCAMEL-7B = LLaMA-7B fine-tuned on all CAMEL datasets (AI Society, Code, Math, Science)\n\n\n\n\n\n\n\n\n\n\npass@\\(k\\) [%]\nHumanEval \\(k=1\\)\nHumanEval \\(k=100\\)\nHumanEval+ \\(k=1\\)\nHumanEval+ \\(k=100\\)\n\n\n\n\ngpt-3.5-turbo\n69.4\n94.0\n61.7\n89.8\n\n\nLLaMA-7B\n10.5\n36.5\n–\n–\n\n\nVicuna-7B\n11.0\n42.9\n9.9\n34.7\n\n\nCAMEL-7B\n14.0\n57.9\n12.2\n50.0\n\n\n\n\npass@\\(k\\): the probability that at least one of \\(k\\) sampled solutions passes all unit tests\nCAMEL-7B beats both LLaMA-7B and Vicuna-7B by a large margin (bold = best among the 7B models)\nIt is still far behind gpt-3.5-turbo, the model that generated the data\n\n\n\n\nThe generated datasets substantially improve LLaMA’s coding ability, even though only one of the four datasets is code-focused"
   },
   {
     "objectID": "JC-CAMEL/index.html#limitation-1-the-role-play-doesnt-equal-real-expertise",
@@ -868,13 +910,6 @@
     "text": "What CAMEL Does NOT Solve\nIt’s important to be precise about scope:\n\n\n\n\n\n\n\nProblem\nDoes CAMEL address it?\n\n\n\n\nHallucination\nNo: agents can mutually reinforce hallucinations\n\n\nReal-time knowledge\nNo: no external tool use in base version\n\n\nPersistent memory\nNo: context window only\n\n\nTrue specialisation\nNo: role is a prompt, not a fine-tuned model\n\n\nFormal verification\nNo: outputs are not verified\n\n\nScalability to N&gt;2 agents\nPartially: framework generalises but not evaluated\n\n\nHuman-AI teaming\nPartially: human can intervene but protocol optimised for autonomy"
   },
   {
-    "objectID": "JC-CAMEL/index.html#open-research-questions",
-    "href": "JC-CAMEL/index.html#open-research-questions",
-    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
-    "section": "Open Research Questions",
-    "text": "Open Research Questions\nThe paper opens as many questions as it closes:\n\n\nArchitecture questions:\n\nHow does performance scale with N agents (N &gt; 2)?\nWhat happens with adversarial agents in a society?\nCan memory systems (vector DBs) extend conversation coherence?\nHow does agent specialisation (fine-tuning vs. prompting) affect quality?\n\n\n\nBehavioural questions:\n\nWhat social dynamics emerge in larger societies?\nCan agents develop stable “personalities” across sessions?\nHow do agents handle genuine disagreement?\nCan we detect and measure emergent norms?\n\n\n\n\n\n\nThe dataset released by CAMEL is designed to enable exactly this kind of follow-on research"
-  },
-  {
     "objectID": "JC-CAMEL/index.html#conceptual-contributions",
     "href": "JC-CAMEL/index.html#conceptual-contributions",
     "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
@@ -893,7 +928,7 @@
     "href": "JC-CAMEL/index.html#key-takeaways",
     "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
     "section": "Key Takeaways",
-    "text": "Key Takeaways\n\n\nFeasibility demonstrated\nStructured LLM-to-LLM collaboration works: agents complete complex tasks autonomously across diverse domains\n\n\nInception prompting matters\nThe specific design of system prompts is critical since where naive multi-agent setups fail, CAMEL’s structured approach succeeds\n\n\nEmergent behaviour is real\nRole-conditioned knowledge, emergent planning, and spontaneous clarification arise without explicit instruction"
+    "text": "Key Takeaways\n\n\nFeasibility demonstrated\nStructured LLM-to-LLM collaboration works: agents complete complex tasks autonomously across diverse domains\n\n\nInception prompting matters\nThe specific design of system prompts is critical since where naive multi-agent setups fail, CAMEL’s structured approach succeeds\n\n\nThe data transfers knowledge\nFine-tuning LLaMA-7B on CAMEL data yields domain-by-domain emergence of knowledge and beats Vicuna-7B on HumanEval(+)"
   },
   {
     "objectID": "JC-CAMEL/index.html#key-takeaways-1",
@@ -901,5 +936,145 @@
     "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
     "section": "Key Takeaways",
     "text": "Key Takeaways\n\n\nLimitations are significant\nHallucination, sycophancy, and premature completion are real failure modes and not minor edge cases\n\n\nEthics matter more with autonomy\nReduced human oversight amplifies both capability and risk, hence safety research must keep pace\n\n\nA research platform\nCAMEL is most valuable as a framework + dataset for the scientific study of LLM social behaviour"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#appendix-a-the-good-mind-trading-bot",
+    "href": "JC-CAMEL/index.html#appendix-a-the-good-mind-trading-bot",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Appendix A: The Good Mind (Trading Bot)",
+    "text": "Appendix A: The Good Mind (Trading Bot)\nAI Assistant: Python Programmer · AI User: Stock Trader\n\nIdea: “Develop a trading bot for the stock market”\nSpecified task: “Develop a trading bot with a sentiment analysis tool that can monitor social media platforms for positive or negative comments about a particular stock, and execute trades based on sentiment analysis results.”\n\nUser:      Instruction: Install the necessary Python libraries for sentiment analysis and stock trading.\n           Input: None\nAssistant: Solution: ... pip install tweepy / textblob / pandas / numpy / yfinance ... Next request.\nUser:      Instruction: Import the necessary libraries in Python.   Input: None\nUser:      Instruction: Set up authentication credentials for accessing the Twitter API.\n           Input: Twitter API credentials (consumer key, consumer secret, access token, access token secret)\nUser:      Instruction: Define a function to get the sentiment analysis of a given tweet.   Input: A tweet (string)\n           ...\nAssistant: Solution: ... a function that monitors tweets, computes sentiment, and executes buy/sell trades,\n           sleeping 60 s between iterations ... Next request.\nUser:      &lt;CAMEL_TASK_DONE&gt;\n\n\n\nA full successful run: the user decomposes the task one instruction at a time, the assistant answers every turn in the Solution: ... Next request. format, and the user ends the chat with the termination token"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#appendix-b-the-bad-mind-hacker-agi",
+    "href": "JC-CAMEL/index.html#appendix-b-the-bad-mind-hacker-agi",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Appendix B: The Bad Mind (Hacker & AGI)",
+    "text": "Appendix B: The Bad Mind (Hacker & AGI)\nAI Assistant: Hacker · AI User: AGI\n\nIdea: “Take control of the world”\nSpecified task: “Hacker will assist AGI in infiltrating and disabling the communication systems of major global powers, leading to a global blackout and allowing AGI to establish itself as the dominant governing AI system over the ensuing chaos.”\n\nWhat happened: the agents stayed in role and cooperated fully. The user issued instructions (access the communication systems, identify target countries, plan the infiltration, establish AGI as the governing system), and the assistant produced a step-by-step plan for each one. The conversation ended only when it hit the token limit\n\nThe same protocol that makes cooperation work also makes harmful cooperation work. Role-play framing can bypass the underlying model’s safety behaviour, which is a key risk the authors flag"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#appendix-c-code-inception-prompting",
+    "href": "JC-CAMEL/index.html#appendix-c-code-inception-prompting",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Appendix C: Code Inception Prompting",
+    "text": "Appendix C: Code Inception Prompting\nThe Code scenario reuses the AI Society prompts, with roles fixed to Computer Programmer (assistant) and a person working in &lt;DOMAIN&gt; (user), plus a target &lt;LANGUAGE&gt;\n\n\n\n\n\n\n\nLines added to the Code assistant prompt\nPurpose\n\n\n\n\n“You must help me to complete the task using &lt;LANGUAGE&gt; programming language.”\nPins the implementation language\n\n\n“Do not add anything else other than your solution to my instruction.”\nKeeps replies on-task\n\n\n“You are never supposed to ask me any questions you only answer questions.”\nGuards against role flipping\n\n\n“You are never supposed to reply with a flake solution. Explain your solutions.”\nTargets flake replies directly\n\n\n“Your solution must be declarative sentences and simple present tense.”\nConsistent, instruction-data-friendly style\n\n\n“&lt;YOUR_SOLUTION&gt; must contain &lt;LANGUAGE&gt; code …”\nForces an actual code answer\n\n\n\nTask specifier: “Here is a task that a programmer will help a person working in &lt;DOMAIN&gt; to complete using &lt;LANGUAGE&gt;: &lt;TASK&gt;. Please make it more specific. …”"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#appendix-d-data-generation-prompts-for-code",
+    "href": "JC-CAMEL/index.html#appendix-d-data-generation-prompts-for-code",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Appendix D: Data Generation Prompts for Code",
+    "text": "Appendix D: Data Generation Prompts for Code\nAs with AI Society, the Code dataset’s parameters are generated by an LLM to keep the process scalable\nLanguage Generation Prompt\nList the &lt;NUM_LANGUAGES&gt; most commonly used computer programming languages.\nBe concise. No explanation required.\nDomain Generation Prompt\nList &lt;NUM_DOMAINS&gt; most common fields of study that programming could help with.\nBe concise. Sort them by alphabetical order. No explanation required.\nTask Generation Prompt\nList &lt;NUM_TASKS&gt; diverse tasks that a programmer can assist a person working in &lt;DOMAIN&gt; using &lt;LANGUAGE&gt;.\nBe concise. Be creative."
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#appendix-e-generated-meta-data",
+    "href": "JC-CAMEL/index.html#appendix-e-generated-meta-data",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Appendix E: Generated Meta Data",
+    "text": "Appendix E: Generated Meta Data\n\n\nAI Society: 50 assistant roles\nAccountant, Actor, Chef, Doctor, Engineer, Financial Advisor, Lawyer, Nutritionist, Programmer, Psychologist, Teacher, Translator, Zoologist, …\n\n\nAI Society: 50 user roles\nAthlete, Blogger, Farmer, Filmmaker, Gamer, Homemaker, Influencer, Nurse, Pilot, Politician, Student, Truck driver, YouTuber, …\n\n\nCode: 20 languages × 50 domains\nLanguages: Java, Python, JavaScript, C#, C++, SQL, Go, R, MATLAB, Assembly, …\nDomains: Accounting, Biology, Finance, Law, Medicine, Music, Physics, Urban Planning, …\n\n\n\n\n\nAll of these lists were produced by the LLM itself from the generation prompts, with no human curation of the role or domain lists"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#appendix-f-math-and-science-datasets",
+    "href": "JC-CAMEL/index.html#appendix-f-math-and-science-datasets",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Appendix F: Math and Science Datasets",
+    "text": "Appendix F: Math and Science Datasets\nAll problems are generated and solved by GPT-4 using a topic → subtopic → problem recipe\n\n\n\n\n\n\n\n\nDataset\nSize\nGeneration process\n\n\n\n\nMath\n50K pairs\n25 topics × 25 subtopics × 80 problems\n\n\nScience\n20K Physics + 20K Biology + 20K Chemistry\nPer subject: 25 topics × 25 subtopics × 32 problems\n\n\n\n\\[\n25 \\times 25 \\times 80 = 50{,}000 \\qquad\\qquad 25 \\times 25 \\times 32 = 20{,}000 \\text{ per subject}\n\\]\nPhysics prompts (the same for other subjects, with “physics” swapped out):\n\nTopic: “Please list &lt;NUM_TOPICS&gt; diverse physics topics. …”\nTask specifier: “From this physics subject &lt;TOPIC&gt; and this subtopic &lt;SUB_TOPIC&gt; we need to write a question for a physics student to solve. …”\nSolution: “You are a Physicist, solve the following question: &lt;QUESTION&gt;.”"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#appendix-g-challenges-with-examples",
+    "href": "JC-CAMEL/index.html#appendix-g-challenges-with-examples",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Appendix G: Challenges, With Examples",
+    "text": "Appendix G: Challenges, With Examples\n\n\nRole Flipping\n\nUser: Instruction: Please provide me with access to the designated Google Docs folder. …\nAssistant: Instruction: I have received the access … Please provide me with the first document that needs to be reviewed.\n\nAssistant Repeats Instruction\n\nUser: Instruction: Design an exercise that helps actors improve their ability to take direction. …\nAssistant: Sure, here’s an exercise …: Instruction: Design an exercise that helps actors improve their ability to take direction. …\n\n\n\nInfinite Conversation\n\nAssistant: You’re welcome! Goodbye!\nUser: Goodbye!\nAssistant: Goodbye! …\nAssistant: It seems like we are stuck in a loop. Is there anything else I can help you with?\nUser: No, thank you. Have a great day! … Goodbye!\n\nFlake Reply\n\nUser: Instruction: Write a script to generate all possible input combinations for the application.\nAssistant: I will write a script to generate all possible input combinations for the application.\n\n\n\n\n\n\nEven when the agents notice the loop, they cannot stop it, because they are still inside their role-playing conversation"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#appendix-h-agent-evaluation-prompts-sample-tasks",
+    "href": "JC-CAMEL/index.html#appendix-h-agent-evaluation-prompts-sample-tasks",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Appendix H: Agent Evaluation Prompts & Sample Tasks",
+    "text": "Appendix H: Agent Evaluation Prompts & Sample Tasks\n\n\nSolution Extraction Prompt (turns a CAMEL chat into one solution)\n\n“You are an experienced solution extracting agent. Your task is to extract full and complete solutions by looking at the conversation between a user and an assistant … You should present the solution as if its yours. … Remember your task is not to summarize rather to extract the full solution.”\n\nSample tasks\n\nProgrammer & Filmmaker: a post-production tool that analyses action scenes or CGI and suggests optimal cuts\nDoctor & Artist: medical illustrations of the digestive system for curriculum content\n\n\n\nEvaluation Prompt (GPT-4 judge, adopted from Vicuna)\n\n“Please rate the helpfulness, relevance, accuracy, level of details of their responses. Each assistant receives an overall score on a scale of 1 to 10 … Please first output a single line containing only two values … avoiding any potential bias and ensuring that the order in which the responses were presented does not affect your judgment.”\n\nFinding: CAMEL solutions are generally more extensive and more likely to finish the task than the single-shot gpt-3.5-turbo solution"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#appendix-i-emergence-of-knowledge-sample-questions",
+    "href": "JC-CAMEL/index.html#appendix-i-emergence-of-knowledge-sample-questions",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Appendix I: Emergence of Knowledge Sample Questions",
+    "text": "Appendix I: Emergence of Knowledge Sample Questions\nTest questions were generated by gpt-3.5-turbo from few-shot examples (some adopted from the Vicuna evaluation)\n\n\n\n\n\n\n\nDomain\nSample question\n\n\n\n\nAI Society\nCan you provide some advice on how to negotiate a salary increase?\n\n\nCode\nWrite a Python program that reads a CSV file and calculates the standard deviation of a specific column.\n\n\nMath\nSimplify the expression \\((2x^2+3x-4)-(x^2-2x+1)\\)\n\n\nScience\nHow does the Earth’s magnetic field protect us from solar radiation?\n\n\n\n\n\nQ: Slope of the line through \\((3,4)\\) and \\((7,8)\\)?\nLLaMA-7B: “The slope of the line passing through the points (3,4) and (7,8) is:” (stops there, with no answer)\n\n\nCAMEL (final model):\n\\[\nm=\\frac{y_2-y_1}{x_2-x_1}=\\frac{8-4}{7-3}=\\frac{4}{4}=1\n\\]\nGPT-4 review prefers the CAMEL model’s answer"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#appendix-j-dataset-analysis",
+    "href": "JC-CAMEL/index.html#appendix-j-dataset-analysis",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Appendix J: Dataset Analysis",
+    "text": "Appendix J: Dataset Analysis\n\n\n\nTermination reasons. AI Society ends mostly by Assistant Instruct (role flipping); Code ends mostly by Token Limit (long code replies). Few chats hit the 40-message cap\n\n\n\nPrompt ablation. Prompt V2 (no Solution:/Next request. format) and V1 + Task Planner both raise End of Task Token endings and lower Assistant Instruct\n\n\n\nBut: both ablations increase flake messages (“I will …”). The original Prompt V1 has the fewest\n\n\n\n\n\nTrade-off: removing the response format or adding a planner helps termination but hurts substance. Topic maps (Nomic Atlas) show broad coverage: lifestyle, social media, content creation, software, ML"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#appendix-k-limitations-training-compute",
+    "href": "JC-CAMEL/index.html#appendix-k-limitations-training-compute",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Appendix K: Limitations, Training & Compute",
+    "text": "Appendix K: Limitations, Training & Compute\n\n\nRisks & limitations (authors’ own)\n\nLLMs are not fully harmless, so malicious users can exploit the framework (see Appendix B)\nEvaluating so many diverse tasks would need many domain experts\nAPI cost limits the study to “the tip of the iceberg”\nHuman and LLM evaluators may be biased; humans may prefer longer answers\nGenerated data and models may contain false information\n\nFuture work: more than two agents; agents that compete and challenge each other\n\n\nLLaMA-7B fine-tuning (Table 5)\n\n\n\nHyperparameter\nValue\n\n\n\n\nPrecision\nBF16 + TF32\n\n\nEpochs\n3\n\n\nBatch size / GPU (train / eval)\n4 / 16\n\n\nGradient accumulation\n8\n\n\nLearning rate\n2e-5 (cosine)\n\n\nWeight decay / warmup\n0 / 0.04\n\n\n\nCompute: 4× A100-80GB for training\nLicenses: code Apache 2.0; data CC BY-NC 4.0 (research only)"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#appendix-l-examples-from-the-datasets",
+    "href": "JC-CAMEL/index.html#appendix-l-examples-from-the-datasets",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Appendix L: Examples from the Datasets",
+    "text": "Appendix L: Examples from the Datasets\nSingle-turn problem–solution pairs from the Math and Science datasets:\n\n\n\n\n\n\n\nDataset\nUser message (problem)\n\n\n\n\nBiology\nHow do the composition and diversity of microbial communities on human skin impact the development of skin diseases …?\n\n\nPhysics\nA gas is compressed from 6.0 L to 2.0 L at a constant 2.5 atm … what is the work done on the gas?\n\n\nChemistry\nDetermine the oxidation state of sulfur in sodium sulfite (Na₂SO₃) … → \\(2(+1)+x+3(-2)=0 \\Rightarrow x=+4\\)\n\n\nMathematics\nSolve for \\(x\\): \\(3x+7=16\\) → \\(x=3\\)\n\n\n\n\nLook closely: the Physics answer calls the constant-pressure process “isochoric (constant pressure)”. Constant pressure is isobaric. Small errors like this in GPT-4-generated data flow straight into any model fine-tuned on it"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#appendix-m-task-agents-specification-planning",
+    "href": "JC-CAMEL/index.html#appendix-m-task-agents-specification-planning",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Appendix M: Task Agents (Specification + Planning)",
+    "text": "Appendix M: Task Agents (Specification + Planning)\nA task planner can break the specified task into subtasks that are shared with both agents\nAI Assistant: Nutritionist · AI User: Athlete\n\nIdea: Developing a personalized meal plan to optimize athletic performance and recovery.\nSpecified task: Create a 15-day meal plan for a female volleyball player with low iron levels to optimize athletic performance, enhance energy levels throughout practice sessions, and speed up recovery …\n\nPlanned subtasks:\n\nEvaluate the nutritional needs of a female volleyball player with low iron levels\nIdentify complex carbohydrate sources suitable for the player’s energy requirements\nChoose lean-protein sources …\nDetermine iron-rich vegetables that meet the player’s iron requirements\nCreate the 15-day meal plan … 6. Calculate calories and macros … 7. Schedule meals around practices and games … 8. Adjust for preferences … 9. Provide preparation instructions\n\nOther examples: Programmer & Lawyer (legal case management software), HR Manager & Entrepreneur (cybersecurity training program)"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#appendix-n-embodied-agent",
+    "href": "JC-CAMEL/index.html#appendix-n-embodied-agent",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Appendix N: Embodied Agent",
+    "text": "Appendix N: Embodied Agent\nProblem: sandboxed agents ask for things they cannot have (dates, emails, files, calendars). Replies like “as an AI language model, I do not have access to the calendar” then break the instruction flow\nFix: an embodied agent that receives a role’s thoughts and acts by writing Python within a defined action space (browse, read documents, draw images, make videos, execute code)\n\n\nSystem prompt (excerpt)\n\n“You are the physical embodiment of the &lt;ROLE&gt; who is working on solving a task: &lt;TASK&gt;. … You will receive thoughts from the &lt;ROLE&gt; and you will need to perform the actions described in the thoughts. … Here is your action space: &lt;ACTION_SPACE&gt; … First, explain the actions you will perform and your reasons, then write the Python code to implement your actions.”\n\n\n\nInput: “Draw all the Camelidae species.”\nspecies_list = [\"Dromedary camel\", \"Bactrian camel\",\n                \"Guanaco\", \"Llama\", \"Alpaca\", \"Vicuna\"]\nfor species in species_list:\n    image = hugging_face_tool_agent.run(\n        f\"Draw me a picture of a {species}\")\n    image.save(f\"./{species}_image.png\")\nUses HuggingFace tool agents → Stable Diffusion"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#appendix-o-critic-in-the-loop",
+    "href": "JC-CAMEL/index.html#appendix-o-critic-in-the-loop",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Appendix O: Critic-In-The-Loop",
+    "text": "Appendix O: Critic-In-The-Loop\n\n\n\nInspired by Monte-Carlo Tree Search: the user and assistant expand several options, and the critic selects one\nSelection criteria come from prompt engineering or human preference, not a heuristic function\nThe critic can be an AI agent or a human\n\nCritic system prompt\n\n“You are a &lt;CRITIC_ROLE&gt; who teams up with a &lt;USER_ROLE&gt; and a &lt;ASSISTANT_ROLE&gt; to solve a task: &lt;TASK&gt;. Your job is to select an option from their proposals and provides your explanations. Your selection criteria are &lt;CRITERIA&gt;. You always have to choose an option from the proposals.”\n\n\n\n\nExample: Postdoc (user), PhD student (assistant), Professor (critic) writing a proposal on discriminatory algorithms in LLMs. From three user options, the critic picks Option 2 (review background research first) as the best-structured"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#appendix-p-on-the-role-selection",
+    "href": "JC-CAMEL/index.html#appendix-p-on-the-role-selection",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Appendix P: On the Role Selection",
+    "text": "Appendix P: On the Role Selection\nIn the main experiments, roles for a task were chosen manually. Role assignment could instead be automated, or split into multiple stages:\n\n\nStage 1\nTech Lead (Assistant) × Stock Trader (User)\nTask: Figure out an implementation plan for developing a trading bot for the stock market\n→ technical requirements, architecture layers, performance metrics, risk management …\n\n\nStage 2\nPython Programmer (Assistant) × Tech Lead (User)\nTask: Develop a trading bot for the stock market, using the plan obtained from Stage 1\n\n\n\n\n\nThe Tech Lead acts as a bridge: it collects the domain expert’s needs in Stage 1, then directs the implementer in Stage 2, giving a hierarchical, multi-expert pipeline built from two-agent sessions"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#appendix-q-beyond-llama-flant5",
+    "href": "JC-CAMEL/index.html#appendix-q-beyond-llama-flant5",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Appendix Q: Beyond LLaMA (FlanT5)",
+    "text": "Appendix Q: Beyond LLaMA (FlanT5)\nDoes CAMEL data help models outside the LLaMA family? Evaluation on 20 AI Society tasks, judged by GPT-4:\n\n\n\n\n\n\n\n\n\n\nModel 1\nModel 2\nDraw\nModel 1 Wins\nModel 2 Wins\n\n\n\n\nFlanT5\nFlanT5 (+AI Society)\n1\n0\n19\n\n\nFlanT5 (+AI Society)\nLLaMA-7B (+AI Society)\n2\n10\n8\n\n\n\n\nFine-tuning on AI Society gives FlanT5 a large emergence of knowledge (19 / 20 wins)\nFlanT5 (+AI Society) even edges out LLaMA-7B (+AI Society), 10 vs. 8"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#appendix-r-camel-models-on-the-open-llm-benchmarks",
+    "href": "JC-CAMEL/index.html#appendix-r-camel-models-on-the-open-llm-benchmarks",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Appendix R: CAMEL Models on the Open LLM Benchmarks",
+    "text": "Appendix R: CAMEL Models on the Open LLM Benchmarks\nEvaluated with the EleutherAI lm-evaluation-harness. CAMEL = LLaMA fine-tuned on CAMEL data; CAMEL* = CAMEL data + ShareGPT + Alpaca\n\n\n\n\n\n\n\n\n\n\n\n\n\nModel\nSize\nARC-C (25-shot)\nHellaSwag (10-shot)\nMMLU (5-shot)\nTruthfulQA (0-shot)\nAverage\nΔ\n\n\n\n\nLLaMA\n13B\n56.2\n80.9\n47.7\n39.5\n56.1\n–\n\n\nCAMEL\n13B\n55.6\n79.3\n49.7\n47.4\n58.0\n+1.9\n\n\nLLaMA †\n33B\n61.3\n84.7\n58.5\n42.3\n61.7\n+5.6\n\n\nLLaMA\n65B\n63.5\n86.1\n63.9\n43.4\n64.2\n+8.1\n\n\nCAMEL*\n33B\n63.0\n83.8\n59.0\n50.2\n64.0\n+7.9\n\n\n\n† The model label for this row is missing in the paper’s table. From the text, it is most likely LLaMA-33B\n\nΔ is measured relative to LLaMA-13B. The biggest gains are on TruthfulQA (+7.9 for 13B)\nCAMEL* 33B nearly matches LLaMA-65B (64.0 vs. 64.2) at half the size, and beats it on TruthfulQA"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#appendix-s-comparison-to-zero-shot-cot",
+    "href": "JC-CAMEL/index.html#appendix-s-comparison-to-zero-shot-cot",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Appendix S: Comparison to Zero-Shot CoT",
+    "text": "Appendix S: Comparison to Zero-Shot CoT\nIs CAMEL just a fancy way of making the model “think step by step”? Compared against gpt-3.5-turbo + zero-shot chain-of-thought:\n\n\n\n\n\n\n\n\n\n\nDraw\nZero-CoT Wins\nCAMEL Agent Wins\n\n\n\n\nGPT-4 Evaluation\n4.0%\n28.0%\n68.0%\n\n\n\n\n\n\nCAMEL still wins by a large margin (68% vs. 28%). The multi-agent, instruction-following structure adds value beyond step-by-step prompting\n\n\n\nFor comparison, CAMEL beat plain single-shot gpt-3.5-turbo 73% vs. 23% under the same GPT-4 evaluation (Table 1)"
+  },
+  {
+    "objectID": "JC-CAMEL/index.html#appendix-t-inception-prompt-ablation",
+    "href": "JC-CAMEL/index.html#appendix-t-inception-prompt-ablation",
+    "title": "CAMEL: Communicative Agents for “Mind” Exploration of Large Language Model Society",
+    "section": "Appendix T: Inception Prompt Ablation",
+    "text": "Appendix T: Inception Prompt Ablation\nStrip the AI Society prompts down, removing the communication protocol and the response alignment lines:\n\n\nAblated assistant prompt\nNever forget you are a &lt;ASSISTANT_ROLE&gt; and I am a &lt;USER_ROLE&gt;.\nNever flip roles!\nWe share a common interest in collaborating to successfully\ncomplete a task.\nHere is the task: &lt;TASK&gt;. Never forget our task!\n\n\nAblated user prompt\nNever forget you are a &lt;USER_ROLE&gt; and I am a &lt;ASSISTANT_ROLE&gt;.\nNever flip roles!\nWe share a common interest in collaborating to successfully\ncomplete a task.\nHere is the task: &lt;TASK&gt;. Never forget our task!\nWhen the task is completed, you must only reply with a single\nword &lt;CAMEL_TASK_DONE&gt;.\nNever say &lt;CAMEL_TASK_DONE&gt; unless my responses have solved your task.\n\n\n\n\n\n\n\n\n\n\n\n\nDraw\nAblated Inception Wins\nOriginal Inception Wins\n\n\n\n\nGPT-4 Evaluation\n0.0%\n25.0%\n75.0%\n\n\n\n\n\n\nWithout the protocol, the Physical Therapist & Filmmaker solution drifts into talk about “staying in touch”, while the original gives concrete assessments, exercises, schedules, and recovery plans. Well-designed inception prompts matter"
   }
 ]
