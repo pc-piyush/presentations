@@ -1,0 +1,233 @@
+/*-- scss:defaults --*/
+
+// Layered on top of ../html/uf.scss — layout helpers for the Causal Representation Learning deck,
+// recoloured to the ../html/dfb.scss palette (German flag inspired).
+// Rules below override uf.scss's orange/blue so the whole deck follows it.
+
+$crl-black:  #0E0E0F;
+$crl-white:  #FAFAF7;
+$crl-gold:   #FFCE00;
+$crl-red:    #D6001C;
+$crl-ink:    #1A1A1A;
+$crl-paper:  #F4F2EC;
+$crl-border: #e3e0d6;
+
+$body-bg:    $crl-paper;
+$body-color: $crl-ink;
+$link-color: $crl-red;
+$presentation-heading-color: $crl-black;
+$code-block-bg: $crl-ink;
+$code-color: $crl-white;
+
+// 80% of reveal.js's 40px default; all em-based sizes scale with it.
+$presentation-font-size-root: 28px;
+
+/*-- scss:rules --*/
+
+// ---------------------------------------------------------------------------
+// Base palette overrides for uf.scss
+// ---------------------------------------------------------------------------
+.reveal .slides {
+  color: $crl-ink;
+}
+
+.reveal h1, .reveal h3, .reveal h4 {
+  color: $crl-black;
+}
+
+.reveal h2 {
+  color: $crl-black;
+  border-bottom: 2px solid $crl-red;
+  padding-bottom: 0.2em;
+}
+
+.reveal a {
+  color: $crl-red;
+  &:hover {
+    color: $crl-gold;
+  }
+}
+
+.reveal strong {
+  color: $crl-red;
+}
+
+.reveal blockquote {
+  border-left: 5px solid $crl-red;
+  background: rgba($crl-border, 0.6);
+  color: $crl-ink;
+}
+
+.reveal pre code {
+  background-color: $crl-ink;
+  color: $crl-white;
+}
+
+.reveal table thead {
+  background-color: $crl-black;
+  color: $crl-white;
+}
+.reveal table tbody tr:nth-child(even) {
+  background-color: rgba($crl-border, 0.6);
+}
+
+.reveal .slide-number {
+  background-color: $crl-red;
+  color: $crl-white;
+}
+
+.reveal .footer {
+  color: $crl-ink;
+}
+
+.reveal .panel-tabset .nav-link.active {
+  color: $crl-red;
+  border-color: $crl-red;
+}
+.reveal .progress {
+  color: $crl-red;
+}
+
+.reveal ::selection {
+  background: $crl-gold;
+  color: $crl-black;
+}
+
+// Title, section and quote slides: black background with the tri-colour
+// stripe from dfb.scss's navbar
+.reveal .backgrounds .slide-background:first-child,
+.reveal .slide-background.title-slide,
+.reveal section.uf-section,
+.reveal section.uf-quote {
+  background: $crl-black;
+}
+
+.reveal .slides section.title-slide,
+.reveal .title-slide {
+  h1.title,
+  p.subtitle {
+    color: $crl-white;
+  }
+  h1.title {
+    border-bottom: 6px solid $crl-black;
+    border-image: linear-gradient(to right, $crl-white 0 33%, $crl-red 33% 66%, $crl-gold 66% 100%) 1;
+    padding-bottom: 0.2em;
+  }
+  .quarto-title-author-name,
+  .quarto-title-affiliation,
+  .date {
+    color: #d9d9d4;
+  }
+}
+
+// "# Part N" section slides (rendered as section.title-slide.level1)
+.reveal section.title-slide.level1 h1 {
+  color: $crl-white;
+  display: inline-block;
+  border-bottom: 6px solid $crl-black;
+  border-image: linear-gradient(to right, $crl-white 0 33%, $crl-red 33% 66%, $crl-gold 66% 100%) 1;
+  padding-bottom: 0.2em;
+}
+
+.reveal section.uf-section h1,
+.reveal section.uf-section h2 {
+  color: $crl-white;
+}
+.reveal section.uf-section h1 em,
+.reveal section.uf-section h2 em,
+.reveal section.uf-quote blockquote em {
+  font-style: normal;
+  color: $crl-gold;
+}
+
+// ---------------------------------------------------------------------------
+// Highlight boxes (plain divs, not Quarto callout blocks)
+// ---------------------------------------------------------------------------
+.reveal .callout {
+  background: rgba($crl-gold, 0.15);
+  border-left: 5px solid $crl-gold;
+  padding: 0.5em 0.9em;
+  border-radius: 4px;
+  margin: 0.5em 0;
+}
+
+.reveal .callout-red {
+  background: rgba($crl-red, 0.08);
+  border-left: 5px solid $crl-red;
+  font-size: 0.7em; // match Quarto's .callout sizing
+  padding: 0.5em 0.9em;
+  border-radius: 4px;
+  margin: 0.5em 0;
+}
+
+// Grid layouts
+.reveal .two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.4em;
+}
+
+.reveal .three-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1em;
+}
+
+// Cards rotate gold / red / black top borders, like dfb.scss's listing cards
+.reveal .card {
+  background: $crl-white;
+  border: 1px solid $crl-border;
+  border-top: 4px solid $crl-gold;
+  border-radius: 6px;
+  padding: 0.6em 0.9em;
+}
+.reveal .card:nth-child(3n+2) { border-top-color: $crl-red; }
+.reveal .card:nth-child(3n+3) { border-top-color: $crl-black; }
+
+// Density tweaks carried over from the original deck
+.reveal table {
+  font-size: 0.8em;
+}
+
+.reveal code {
+  font-size: 0.78em;
+  color: $crl-red;
+}
+
+.reveal ul li {
+  margin-bottom: 0.3em;
+}
+
+// ---------------------------------------------------------------------------
+// Additions for the CRL deck
+// ---------------------------------------------------------------------------
+// Native SVG diagrams: centred, scale to slide width
+.reveal .diagram {
+  text-align: center;
+  margin: 0.4em 0;
+  svg { max-width: 100%; height: auto; }
+}
+
+// Small grey source / attribution line under figures
+.reveal .figsrc {
+  font-size: 0.55em;
+  color: #6b6b66;
+  text-align: center;
+  margin-top: 0.2em;
+}
+
+// Centred hero equation
+.reveal .eq {
+  text-align: center;
+  font-size: 1.15em;
+  margin: 0.3em 0;
+}
+
+// Yes / no / unknown marks for Table I
+.reveal .yes  { color: #1b7f3b; font-weight: 700; }
+.reveal .no   { color: $crl-red; font-weight: 700; }
+.reveal .unk  { color: #8a8780; font-weight: 700; }
+
+// Card headings sit tight on the coloured top border
+.reveal .card p:first-child { margin-top: 0.1em; }
+.reveal .card { font-size: 0.85em; }

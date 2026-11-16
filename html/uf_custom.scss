@@ -1,0 +1,214 @@
+/*-- scss:defaults --*/
+
+// Layered on top of ../html/uf.scss — same layout helpers as camel.scss,
+// coloured with the UF brand palette from uf.scss (Momentum template).
+// Navy/orange replace camel.scss's black/red; Alachua gold replaces its gold.
+
+$uf-black:        #000000;
+$uf-white:        #FFFFFF;
+$uf-dark-blue:    #002657;
+$uf-cool-grey-3:  #C7C9C8;
+$uf-orange:       #FA4616;
+$uf-blue:         #0020A5;
+$uf-alachua:      #F2A900;
+$uf-bottlebrush:  #D32737;
+$uf-cool-grey-11: #343741;
+$uf-light-blue:   #a4cde9;
+
+$uf-gradient: linear-gradient(180deg, $uf-dark-blue 0%, $uf-blue 100%);
+$uf-stripe:   linear-gradient(to right, $uf-white 0 33%, $uf-orange 33% 66%, $uf-alachua 66% 100%);
+
+$body-bg:    $uf-white;
+$body-color: $uf-cool-grey-11;
+$link-color: $uf-blue;
+$presentation-heading-color: $uf-dark-blue;
+$code-block-bg: $uf-cool-grey-11;
+$code-color: $uf-white;
+
+// 80% of reveal.js's 40px default; all em-based sizes scale with it.
+$presentation-font-size-root: 28px;
+
+/*-- scss:rules --*/
+
+// ---------------------------------------------------------------------------
+// Base palette overrides for uf.scss
+// ---------------------------------------------------------------------------
+.reveal .slides {
+  color: $uf-cool-grey-11;
+}
+
+.reveal h1, .reveal h3, .reveal h4 {
+  color: $uf-dark-blue;
+}
+
+.reveal h2 {
+  color: $uf-dark-blue;
+  border-bottom: 2px solid $uf-orange;
+  padding-bottom: 0.2em;
+}
+
+.reveal a {
+  color: $uf-blue;
+  &:hover {
+    color: $uf-orange;
+  }
+}
+
+.reveal strong {
+  color: $uf-orange;
+}
+
+.reveal blockquote {
+  border-left: 5px solid $uf-orange;
+  background: rgba($uf-cool-grey-3, 0.25);
+  color: $uf-cool-grey-11;
+}
+
+.reveal pre code {
+  background-color: $uf-cool-grey-11;
+  color: $uf-white;
+}
+
+.reveal table thead {
+  background-color: $uf-dark-blue;
+  color: $uf-white;
+}
+.reveal table tbody tr:nth-child(even) {
+  background-color: rgba($uf-cool-grey-3, 0.25);
+}
+
+.reveal .slide-number {
+  background-color: $uf-orange;
+  color: $uf-white;
+}
+
+.reveal .footer {
+  color: $uf-cool-grey-11;
+}
+
+.reveal .panel-tabset .nav-link.active {
+  color: $uf-orange;
+  border-color: $uf-orange;
+}
+.reveal .progress {
+  color: $uf-orange;
+}
+
+.reveal ::selection {
+  background: $uf-alachua;
+  color: $uf-black;
+}
+
+// Title, section and quote slides: UF navy-to-blue gradient with a
+// white / orange / Alachua stripe under the heading
+.reveal .backgrounds .slide-background:first-child,
+.reveal .slide-background.title-slide,
+.reveal section.uf-section,
+.reveal section.uf-quote {
+  background: $uf-gradient;
+}
+
+.reveal .slides section.title-slide,
+.reveal .title-slide {
+  h1.title,
+  p.subtitle {
+    color: $uf-white;
+  }
+  h1.title {
+    border-bottom: 6px solid $uf-dark-blue;
+    border-image: $uf-stripe 1;
+    padding-bottom: 0.2em;
+  }
+  .quarto-title-author-name,
+  .quarto-title-affiliation,
+  .date {
+    color: $uf-cool-grey-3;
+  }
+}
+
+// "# Part N" section slides (rendered as section.title-slide.level1)
+.reveal section.title-slide.level1 h1 {
+  color: $uf-white;
+  display: inline-block;
+  border-bottom: 6px solid $uf-dark-blue;
+  border-image: $uf-stripe 1;
+  padding-bottom: 0.2em;
+}
+
+.reveal section.uf-section h1,
+.reveal section.uf-section h2 {
+  color: $uf-white;
+}
+.reveal section.uf-section h1 em,
+.reveal section.uf-section h2 em,
+.reveal section.uf-quote blockquote em {
+  font-style: normal;
+  color: $uf-alachua;
+}
+
+// ---------------------------------------------------------------------------
+// Highlight boxes (plain divs, not Quarto callout blocks)
+// ---------------------------------------------------------------------------
+.reveal .callout {
+  background: rgba($uf-alachua, 0.15);
+  border-left: 5px solid $uf-alachua;
+  padding: 0.5em 0.9em;
+  border-radius: 4px;
+  margin: 0.5em 0;
+}
+
+// .callout-red kept as an alias so decks written against camel.scss still work
+.reveal .callout-orange,
+.reveal .callout-red {
+  background: rgba($uf-orange, 0.08);
+  border-left: 5px solid $uf-orange;
+  padding: 0.5em 0.9em;
+  border-radius: 4px;
+  margin: 0.5em 0;
+}
+
+.reveal .callout-blue {
+  background: rgba($uf-light-blue, 0.3);
+  border-left: 5px solid $uf-blue;
+  padding: 0.5em 0.9em;
+  border-radius: 4px;
+  margin: 0.5em 0;
+}
+
+// Grid layouts
+.reveal .two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.4em;
+}
+
+.reveal .three-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1em;
+}
+
+// Cards rotate orange / blue / navy top borders
+.reveal .card {
+  background: $uf-white;
+  border: 1px solid $uf-cool-grey-3;
+  border-top: 4px solid $uf-orange;
+  border-radius: 6px;
+  padding: 0.6em 0.9em;
+}
+.reveal .card:nth-child(3n+2) { border-top-color: $uf-blue; }
+.reveal .card:nth-child(3n+3) { border-top-color: $uf-dark-blue; }
+
+// Density tweaks carried over from the original deck
+.reveal table {
+  font-size: 0.8em;
+}
+
+.reveal code {
+  font-size: 0.78em;
+  color: $uf-bottlebrush;
+}
+
+.reveal ul li {
+  margin-bottom: 0.3em;
+}

@@ -1,0 +1,885 @@
+---
+title: "Towards Causal Representation Learning"
+subtitle: "Schölkopf, Locatello, Bauer, Ke, Kalchbrenner, Goyal & Bengio, 2021"
+author: "Piyush Chaudhari"
+institute: "Journal Club"
+date: "2026-11-16"
+description: "Why i.i.d. machine learning struggles with shift and transfer, and how independent causal mechanisms and causal representation learning could fix it."
+brand: ../brand/_brand.yml
+categories: ["Journal Club", "Causal AI"]
+format:
+  revealjs:
+    theme: crl.scss
+    slide-number: c/t
+    progress: true
+    chalkboard: true
+    menu: true
+    hash: true
+    transition: none
+    background-transition: none
+    width: 1280
+    height: 720
+    margin: 0.08
+    logo: "../photos/Piyush.png"
+    footer: "[Towards Causal Representation Learning (Schölkopf et al., 2021)](https://arxiv.org/abs/2102.11107)"
+    title-slide-attributes:
+      data-background-color: "#F4F2EC"
+    include-in-header:
+      text: |
+        <style>
+        #title-slide .quarto-title-author-name,
+        #title-slide .quarto-title-affiliation,
+        #title-slide .date,
+        #title-slide .subtitle {
+          color: #1A1A1A;
+        }
+        </style>
+    embed-resources: false
+    incremental: false
+---
+
+## Paper at a Glance
+
+::: callout
+**Core idea:** 
+
+- Causality research usually assumes the causal variables are *given*
+
+- Deep learning learns representations but ignores causality 
+
+- The central open problem is **causal representation learning**: discovering high-level *causal* variables from low-level observations such as pixels.
+:::
+<!-- 
+- A **perspective / review paper** (arXiv:2102.11107, Feb 2021; later published in *Proceedings of the IEEE*), not an empirical study
+- Authors span the causality and deep learning communities: **MPI Tübingen, ETH Zurich, Mila / Université de Montréal, Google Research** -->
+
+Three tasks in one paper:
+
+  1.  A primer on causal inference for ML readers (Structured Causal Models (SCMs), interventions, counterfactuals)
+
+  2.  The **Independent Causal Mechanisms** (ICM) principle and the **Sparse Mechanism Shift** (SMS) hypothesis as inductive biases
+
+  3.  What a causal view implies for semi-supervised learning, robustness, adversarial examples, RL, and science
+
+------------------------------------------------------------------------
+
+## Motivation
+
+<!-- ### i.i.d. ML is excellent… until the world shifts -->
+
+Modern ML wins on large-scale pattern recognition **when train and test are drawn from the same distribution**. Outside that setting:
+
+::::: two-col
+::: {}
+**Issue 1: Robustness**
+
+- Accuracy collapses under blur, noise, rotation, new viewpoints or backgrounds
+- Augmentation, pre-training and self-supervision help, but only by *widening* the training distribution
+- The authors argue that true out-of-distribution generalization needs a model where shifts are **interventions** on a causal system
+:::
+
+::: {}
+**Issue 2: Reusable mechanisms**
+
+- Animals don't relearn physics for every new task
+- If a model's modules correspond to **physical mechanisms**, a new environment should only require adapting a *few* of them
+- Today's networks are trained end-to-end and re-learned as a whole
+:::
+:::::
+
+::: callout-red
+Interventions, domain shifts and temporal structure are what *animals* learn from; standard ML treats them as nuisances to average away
+:::
+
+------------------------------------------------------------------------
+
+## Why Conditional Probabilities Aren't Enough
+
+The classic example: across European regions, **stork populations correlate with human birth rates**
+
+::::: two-col
+::: {}
+**A statistical model can exploit this**
+
+- $P(\text{births} \mid \text{storks})$ is genuinely predictive in the i.i.d. setting
+- Nothing is "wrong" with the prediction *as long as nothing changes*
+:::
+
+::: {}
+**But it can't answer intervention questions**
+
+- *"If we released more storks, would births rise?"*
+- That asks for $P(\text{births} \mid do(\text{storks}))$, which observational conditionals alone can't supply
+:::
+:::::
+
+::: callout
+**Central claim:** 
+
+- a conditional distribution tells you what to *expect when you observe* something; 
+
+- a causal model tells you what happens *when you act*
+
+- Generalizing under shift needs the latter.
+:::
+
+<!-- # Part 1: Levels of Causal Modeling {background-color="#0E0E0F"} -->
+
+------------------------------------------------------------------------
+
+## Levels of Causal Modeling
+
+### A Hierarchy of Models (Table I)
+
+| Model | Predict i.i.d. | Predict under shift / intervention | Counterfactuals | Physical insight | Learn from data |
+|---------------------|:--------:|:--------:|:--------:|:--------:|:--------:|
+| **Mechanistic / physical** | [yes]{.yes} | [yes]{.yes} | [yes]{.yes} | [yes]{.yes} | [?]{.unk} |
+| **Structural causal model** | [yes]{.yes} | [yes]{.yes} | [yes]{.yes} | [?]{.unk} | [?]{.unk} |
+| **Causal graphical model** | [yes]{.yes} | [yes]{.yes} | [no]{.no} | [?]{.unk} | [?]{.unk} |
+| **Statistical model** | [yes]{.yes} | [no]{.no} | [no]{.no} | [no]{.no} | [yes]{.yes} |
+
+::: callout
+Moving **down** the table, models get easier to learn from data but lose the ability to reason about change. 
+
+The paper's agenda: get the top rows' capabilities with the bottom row's learnability
+:::
+
+------------------------------------------------------------------------
+
+## The Gold Standard: Physical Models
+
+A system of differential equations with initial condition $\mathbf{x}(t_0)=\mathbf{x}_0$:
+
+::: eq
+$$\frac{d\mathbf{x}}{dt}=f(\mathbf{x}),\qquad \mathbf{x}\in\mathbb{R}^{d}$$
+:::
+
+Discretized, it reads as a **causal update rule**: the future is computed from the present
+
+::: eq
+$$\mathbf{x}(t+dt)=\mathbf{x}(t)+dt\cdot f(\mathbf{x}(t))$$
+:::
+
+::::: two-col
+::: {}
+**Why it's the gold standard**
+
+- Predicts under any intervention (change a parameter, re-integrate)
+- Causal structure can be *read off* $f$: which components drive which
+:::
+
+::: {}
+**Why we can't always use it**
+
+- Needs hand-derived mechanisms and known variables
+- Breaks with unobserved confounders or a coarse-graining that isn't causal
+- Rarely learnable directly from raw data
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## Four Things We Might Want From a Model
+
+::::: two-col
+::: card
+**A. Predict in the i.i.d. setting**
+
+Estimate $P(Y \mid X)$ well. Statistical models suffice; correlations like storks–births are fine here
+:::
+
+::: card
+**B. Predict under distribution shift**
+
+Interventions change the joint distribution, so i.i.d. guarantees no longer hold. *Trust* means predictions survive changed conditions
+:::
+:::::
+
+::::: two-col
+::: card
+**C. Answer counterfactuals**
+
+Interventional and counterfactual queries form a continuum, $P(A \mid B, do(C))$; a counterfactual is the case where $B$ pins down *all* noise terms. RL Q-functions sit in between
+:::
+
+::: card
+**D. Learn from the data we have**
+
+Two axes: *observational vs. interventional* and *hand-engineered vs. raw*. Statistical models learn from raw observational data; causal discovery usually needs multiple environments or interventions
+:::
+:::::
+
+<!-- # Part 2: Causal Models & Inference {background-color="#0E0E0F"} -->
+
+------------------------------------------------------------------------
+
+## Causal Models and Inference
+
+### Reichenbach's Common Cause Principle
+
+If $X$ and $Y$ are statistically dependent, there is some $Z$ that causally influences both and **screens off** the dependence ($X \perp\!\!\!\perp Y \mid Z$). $Z$ may coincide with $X$ or $Y$.
+
+```{=html}
+<div class="diagram">
+<svg viewBox="0 0 1000 230" xmlns="http://www.w3.org/2000/svg" font-family="Source Sans Pro, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0E0E0F"/>
+    </marker>
+  </defs>
+  <!-- panel 1 -->
+  <rect x="10" y="10" width="300" height="200" rx="8" fill="#FAFAF7" stroke="#e3e0d6"/>
+  <circle cx="85" cy="120" r="30" fill="#FFCE00"/><text x="85" y="128" text-anchor="middle" font-size="24" font-weight="700">X</text>
+  <circle cx="235" cy="120" r="30" fill="#FFCE00"/><text x="235" y="128" text-anchor="middle" font-size="24" font-weight="700">Y</text>
+  <line x1="117" y1="120" x2="201" y2="120" stroke="#0E0E0F" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="160" y="190" text-anchor="middle" font-size="18">storks cause births</text>
+  <!-- panel 2 -->
+  <rect x="350" y="10" width="300" height="200" rx="8" fill="#FAFAF7" stroke="#e3e0d6"/>
+  <circle cx="425" cy="120" r="30" fill="#FFCE00"/><text x="425" y="128" text-anchor="middle" font-size="24" font-weight="700">X</text>
+  <circle cx="575" cy="120" r="30" fill="#FFCE00"/><text x="575" y="128" text-anchor="middle" font-size="24" font-weight="700">Y</text>
+  <line x1="541" y1="120" x2="459" y2="120" stroke="#0E0E0F" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="500" y="190" text-anchor="middle" font-size="18">births cause storks</text>
+  <!-- panel 3 -->
+  <rect x="690" y="10" width="300" height="200" rx="8" fill="#FAFAF7" stroke="#e3e0d6"/>
+  <circle cx="840" cy="60" r="30" fill="#D6001C"/><text x="840" y="68" text-anchor="middle" font-size="24" font-weight="700" fill="#FAFAF7">Z</text>
+  <circle cx="765" cy="140" r="30" fill="#FFCE00"/><text x="765" y="148" text-anchor="middle" font-size="24" font-weight="700">X</text>
+  <circle cx="915" cy="140" r="30" fill="#FFCE00"/><text x="915" y="148" text-anchor="middle" font-size="24" font-weight="700">Y</text>
+  <line x1="818" y1="83" x2="790" y2="113" stroke="#0E0E0F" stroke-width="3" marker-end="url(#arr)"/>
+  <line x1="862" y1="83" x2="890" y2="113" stroke="#0E0E0F" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="840" y="198" text-anchor="middle" font-size="18">a common cause</text>
+</svg>
+</div>
+```
+
+::: callout-red
+**Observational data alone cannot tell these three apart.** They imply the same dependence between $X$ and $Y$. Distinguishing them needs extra assumptions, interventions, or data from several environments
+:::
+
+------------------------------------------------------------------------
+
+## Structural Causal Models (SCMs)
+
+Each variable is set by a deterministic function of its **parents** and an independent **noise** term:
+
+::: eq
+$$X_i := f_i(\mathbf{PA}_i,\, U_i), \qquad i = 1,\dots,n, \qquad U_1,\dots,U_n \text{ jointly independent}$$
+:::
+
+::::: two-col
+::: {}
+**Causal (disentangled) factorization**
+
+$$P(X_1,\dots,X_n)=\prod_{i=1}^{n}P(X_i \mid \mathbf{PA}_i)$$
+
+The *only* factorization whose terms match the structural assignments. Each factor is one **mechanism**
+:::
+
+::: {}
+**Entangled factorization**
+
+$$P(X_1,\dots,X_n)=\prod_{i=1}^{n}P(X_i \mid X_{i+1},\dots,X_n)$$
+
+Equally valid as a description of the joint, but its terms mix several mechanisms together
+:::
+:::::
+
+::: callout
+Both factorizations describe the **same observational distribution**. The difference only shows up when something *changes*, and that is exactly the paper's lever
+:::
+
+------------------------------------------------------------------------
+
+## Interventions: One Model, Many Distributions
+
+```{=html}
+<div class="diagram">
+<svg viewBox="0 0 1000 250" xmlns="http://www.w3.org/2000/svg" font-family="Source Sans Pro, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0E0E0F"/>
+    </marker>
+  </defs>
+  <!-- statistical -->
+  <rect x="10" y="10" width="440" height="230" rx="8" fill="#FAFAF7" stroke="#e3e0d6"/>
+  <text x="230" y="42" text-anchor="middle" font-size="20" font-weight="700">Statistical model</text>
+  <ellipse cx="230" cy="135" rx="160" ry="60" fill="none" stroke="#8a8780" stroke-dasharray="6 5" stroke-width="2"/>
+  <circle cx="140" cy="135" r="26" fill="#FFCE00"/><text x="140" y="142" text-anchor="middle" font-size="20" font-weight="700">X₁</text>
+  <circle cx="230" cy="135" r="26" fill="#FFCE00"/><text x="230" y="142" text-anchor="middle" font-size="20" font-weight="700">X₂</text>
+  <circle cx="320" cy="135" r="26" fill="#FFCE00"/><text x="320" y="142" text-anchor="middle" font-size="20" font-weight="700">X₃</text>
+  <text x="230" y="225" text-anchor="middle" font-size="17">one joint distribution P(X₁, X₂, X₃)</text>
+  <!-- causal -->
+  <rect x="550" y="10" width="440" height="230" rx="8" fill="#FAFAF7" stroke="#e3e0d6"/>
+  <text x="770" y="42" text-anchor="middle" font-size="20" font-weight="700">Causal model</text>
+  <circle cx="660" cy="150" r="26" fill="#FFCE00"/><text x="660" y="157" text-anchor="middle" font-size="20" font-weight="700">X₁</text>
+  <circle cx="770" cy="100" r="26" fill="#FFCE00"/><text x="770" y="107" text-anchor="middle" font-size="20" font-weight="700">X₂</text>
+  <circle cx="880" cy="150" r="26" fill="#FFCE00"/><text x="880" y="157" text-anchor="middle" font-size="20" font-weight="700">X₃</text>
+  <line x1="684" y1="139" x2="744" y2="112" stroke="#0E0E0F" stroke-width="3" marker-end="url(#arr2)"/>
+  <line x1="796" y1="112" x2="855" y2="139" stroke="#0E0E0F" stroke-width="3" marker-end="url(#arr2)"/>
+  <line x1="688" y1="150" x2="852" y2="150" stroke="#0E0E0F" stroke-width="3" marker-end="url(#arr2)"/>
+  <!-- intervention markers -->
+  <rect x="628" y="180" width="28" height="22" rx="4" fill="#D6001C"/><text x="642" y="196" text-anchor="middle" font-size="13" fill="#FAFAF7" font-weight="700">do</text>
+  <rect x="790" y="58" width="28" height="22" rx="4" fill="#D6001C"/><text x="804" y="74" text-anchor="middle" font-size="13" fill="#FAFAF7" font-weight="700">do</text>
+  <rect x="884" y="180" width="28" height="22" rx="4" fill="#D6001C"/><text x="898" y="196" text-anchor="middle" font-size="13" fill="#FAFAF7" font-weight="700">do</text>
+  <text x="770" y="225" text-anchor="middle" font-size="17">a family of distributions, one per intervention</text>
+</svg>
+</div>
+<!-- <div class="figsrc">Redrawn after Fig. 1 of the paper</div> -->
+```
+
+:::::: three-col
+::: card
+**Hard**
+
+Set $X_i$ to a constant: cut its incoming edges, fix the value, sample the children
+:::
+
+::: card
+**Soft**
+
+Change the mechanism $f_i$ or the noise distribution, but keep the parents
+:::
+
+::: card
+**Uncertain**
+
+We know *something* was intervened on, but not which mechanism
+:::
+::::::
+
+------------------------------------------------------------------------
+
+## Graphical Models vs. SCMs
+
+::::: two-col
+::: {}
+**A graphical model isn't automatically causal**
+
+- $X_1 \rightarrow X_2 \rightarrow X_3$ and $X_1 \leftarrow X_2 \leftarrow X_3$ encode the **same** conditional independencies
+- They're *Markov equivalent*: from observational data alone, the arrow directions are arbitrary
+- A graph becomes causal only when its arrows are claimed to hold **under intervention**
+:::
+
+::: {}
+**What each causal object can compute**
+
+|                        | Interventions | Counterfactuals |
+|------------------------|:-------------:|:---------------:|
+| Causal graphical model |  [yes]{.yes}  |    [no]{.no}    |
+| SCM                    |  [yes]{.yes}  |   [yes]{.yes}   |
+
+The SCM's explicit noise terms $U_i$ are what make counterfactuals possible: fix the noise inferred from what happened, then change the intervention
+:::
+:::::
+
+::: callout
+**Confounders** (unobserved common causes) can create spurious association or mask a real one, which is why many causal discovery methods fail silently in practice
+:::
+
+<!-- # Part 3: Independent Causal Mechanisms {background-color="#0E0E0F"} -->
+
+------------------------------------------------------------------------
+
+## Independent Causal Mechanisms (ICM)
+
+### The ICM Principle
+
+::: callout
+**Independent Causal Mechanisms:** a system's causal generative process consists of *"autonomous modules that do not inform or influence each other."*
+:::
+
+The principle carries two separate claims:
+
+::::: two-col
+::: card
+**(a) No influence**
+
+Changing (intervening on) one mechanism $P(X_i \mid \mathbf{PA}_i)$ leaves every other mechanism unchanged
+
+→ *modularity, autonomy, invariance, separate intervenability*
+:::
+
+::: card
+**(b) No information**
+
+Knowing the other mechanisms tells you **nothing** about a given mechanism $P(X_i \mid \mathbf{PA}_i)$
+
+→ in algorithmic terms, the mechanisms' descriptions share no mutual algorithmic information
+:::
+:::::
+
+Roots go back decades in econometrics and philosophy of science
+<!-- : Haavelmo (1944), Simon's invariance criterion, Aldrich (1989), Hoover (2008), Pearl (2009) -->
+
+------------------------------------------------------------------------
+
+## Example: Altitude and Temperature
+
+Weather-station data: altitude $A$ causes average annual temperature $T$
+
+::::: two-col
+::: {}
+**Causal factorization**
+
+$$P(A, T) = \underbrace{P(A)}_{\text{changes by country}}\; \underbrace{P(T \mid A)}_{\text{physics: invariant}}$$
+
+Move from Austria to Switzerland: the distribution of station altitudes changes, but the **physical mechanism** linking altitude to temperature does not
+:::
+
+::: {}
+**Anticausal factorization**
+
+$$P(A, T) = P(T)\; P(A \mid T)$$
+
+Change the country and **both** factors shift, because each one mixes geography with physics
+:::
+:::::
+
+::: callout
+The causal factorization **transfers**: only one module needs re-estimating. This is the practical payoff of ICM for domain adaptation
+:::
+
+------------------------------------------------------------------------
+
+## The Sparse Mechanism Shift (SMS) Hypothesis
+
+::: callout-red
+**SMS:** small distribution changes tend to act *sparsely* or *locally* in the causal (disentangled) factorization. They rarely affect all factors at once
+:::
+
+::::: two-col
+::: {}
+**In the causal factorization**
+
+- A real-world change (new hospital, new camera, new country) touches one or a few mechanisms
+- Most factors $P(X_i \mid \mathbf{PA}_i)$ stay fixed
+- So the change is cheap to adapt to
+:::
+
+::: {}
+**In an entangled factorization**
+
+- The same change spreads across many terms
+- Every factor appears to move
+- Adaptation looks expensive and unstructured
+:::
+:::::
+
+::: callout
+**Turned around, this is a learning signal:** if the "right" representation makes shifts sparse, we can *search* for representations under which observed shifts are sparse. SMS becomes supervision
+:::
+
+------------------------------------------------------------------------
+
+## Causal Discovery Meets ML
+
+::::: two-col
+::: {}
+**Conditional-independence route**
+
+- Under *faithfulness*, CI tests recover the graph up to its **Markov equivalence class** (same skeleton, same "immoralities")
+- CI testing is hard with finite data and continuous, high-dimensional conditioning sets
+- With only **two** variables there are no non-trivial CI statements at all
+:::
+
+::: {}
+**Restricting the function class**
+
+General SCM for $X \rightarrow Y$: $\;X := U,\; Y := f(X, V)$
+
+Additive noise model:
+
+$$Y := f(X) + V, \qquad X \perp\!\!\!\perp V$$
+
+Generically, this model **cannot** be fit in the reverse direction, which breaks the cause–effect symmetry. The exception is the linear-Gaussian case
+:::
+:::::
+
+::: callout
+**Multiple environments help:** shifts across environments, interventions, or non-stationary data reveal structure, because under SMS the causal mechanisms stay invariant while other things move
+:::
+
+<!-- # Part 4: Causal Representation Learning {background-color="#0E0E0F"} -->
+
+------------------------------------------------------------------------
+
+## Causal Representation Learning (CRL)
+
+### The Setting: Causal Variables Aren't Given
+
+![](https://arxiv.org/html/2102.11107v1/figures/neural_nets_causal_unob.png){.lightbox group="figures" fig-align="center" width="70%"}
+
+::: figsrc
+High-dimensional perceptual data as an entangled view of an unknown causal system
+:::
+
+::: callout
+Classical causal inference starts from a table of well-defined variables. Real inputs are **pixels, waveforms, clinical notes**. Someone or something must first decide *what the variables are*
+:::
+
+------------------------------------------------------------------------
+
+## Problem Formulation
+
+Observations are generated from a small number of latent **causal variables** through a nonlinear map:
+
+::: eq
+$$X = G(S_1,\dots,S_n), \qquad S_i := f_i(\mathbf{PA}_i, U_i), \qquad P(S_1,\dots,S_n)=\prod_{i=1}^{n}P(S_i \mid \mathbf{PA}_i)$$
+:::
+
+```{=html}
+<div class="diagram">
+<svg viewBox="0 0 1000 190" xmlns="http://www.w3.org/2000/svg" font-family="Source Sans Pro, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arr3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0E0E0F"/>
+    </marker>
+  </defs>
+  <!-- X -->
+  <rect x="10" y="55" width="120" height="80" rx="6" fill="#0E0E0F"/>
+  <text x="70" y="92" text-anchor="middle" font-size="22" fill="#FAFAF7" font-weight="700">X</text>
+  <text x="70" y="116" text-anchor="middle" font-size="14" fill="#d9d9d4">pixels</text>
+  <!-- encoder -->
+  <polygon points="155,45 255,70 255,120 155,145" fill="#FFCE00"/>
+  <text x="203" y="101" text-anchor="middle" font-size="20" font-weight="700">q</text>
+  <text x="203" y="170" text-anchor="middle" font-size="15">encoder</text>
+  <!-- U -->
+  <rect x="280" y="55" width="110" height="80" rx="6" fill="#FAFAF7" stroke="#e3e0d6"/>
+  <text x="335" y="92" text-anchor="middle" font-size="20" font-weight="700">U₁…Uₙ</text>
+  <text x="335" y="116" text-anchor="middle" font-size="14">indep. noise</text>
+  <!-- f -->
+  <rect x="415" y="30" width="230" height="130" rx="8" fill="#FAFAF7" stroke="#D6001C" stroke-width="2.5"/>
+  <text x="530" y="52" text-anchor="middle" font-size="15" fill="#D6001C" font-weight="700">f : causal mechanisms (SCM)</text>
+  <circle cx="460" cy="105" r="20" fill="#FFCE00"/><text x="460" y="111" text-anchor="middle" font-size="16" font-weight="700">S₁</text>
+  <circle cx="530" cy="80" r="20" fill="#FFCE00"/><text x="530" y="86" text-anchor="middle" font-size="16" font-weight="700">S₂</text>
+  <circle cx="600" cy="125" r="20" fill="#FFCE00"/><text x="600" y="131" text-anchor="middle" font-size="16" font-weight="700">Sₙ</text>
+  <line x1="478" y1="96" x2="510" y2="88" stroke="#0E0E0F" stroke-width="2.5" marker-end="url(#arr3)"/>
+  <line x1="548" y1="91" x2="581" y2="114" stroke="#0E0E0F" stroke-width="2.5" marker-end="url(#arr3)"/>
+  <line x1="480" y1="110" x2="578" y2="123" stroke="#0E0E0F" stroke-width="2.5" marker-end="url(#arr3)"/>
+  <!-- decoder -->
+  <polygon points="670,70 770,45 770,145 670,120" fill="#FFCE00"/>
+  <text x="722" y="101" text-anchor="middle" font-size="20" font-weight="700">p</text>
+  <text x="722" y="170" text-anchor="middle" font-size="15">decoder</text>
+  <!-- Xhat -->
+  <rect x="795" y="55" width="120" height="80" rx="6" fill="#0E0E0F"/>
+  <text x="855" y="92" text-anchor="middle" font-size="22" fill="#FAFAF7" font-weight="700">X̂</text>
+  <text x="855" y="116" text-anchor="middle" font-size="14" fill="#d9d9d4">reconstruction</text>
+  <text x="960" y="100" text-anchor="middle" font-size="16" font-weight="700">≈ X</text>
+  <!-- arrows -->
+  <line x1="130" y1="95" x2="152" y2="95" stroke="#0E0E0F" stroke-width="2.5" marker-end="url(#arr3)"/>
+  <line x1="255" y1="95" x2="277" y2="95" stroke="#0E0E0F" stroke-width="2.5" marker-end="url(#arr3)"/>
+  <line x1="390" y1="95" x2="412" y2="95" stroke="#0E0E0F" stroke-width="2.5" marker-end="url(#arr3)"/>
+  <line x1="645" y1="95" x2="667" y2="95" stroke="#0E0E0F" stroke-width="2.5" marker-end="url(#arr3)"/>
+  <line x1="770" y1="95" x2="792" y2="95" stroke="#0E0E0F" stroke-width="2.5" marker-end="url(#arr3)"/>
+</svg>
+</div>
+```
+
+- Train so that $p \circ f \circ q \approx \mathrm{id}$, an autoencoder with a **structural causal model in the bottleneck**
+- Recovering the true $U$ / $S$ is **ill-posed** without further assumptions (the same identifiability wall that limits unsupervised disentanglement)
+
+------------------------------------------------------------------------
+
+## SMS in Pixel Space
+
+![](https://arxiv.org/html/2102.11107v1/figures/causal_shifts_unob.png){.lightbox group="figures" fig-align="center" width="62%"}
+
+::: figsrc
+One finger moves and the object falls
+:::
+
+::::: two-col
+::: callout-red
+**In pixels:** the change is **dense**. Thousands of values move, entangled together
+:::
+
+::: callout
+**In the causal model:** the change is **sparse**. One variable is intervened on; its children follow
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## Three Problems for Causal Representation Learning
+
+:::::: three-col
+::: card
+**1. Learning disentangled representations**
+
+Find an encoder whose latents behave like *independent causal mechanisms*: factorize as $\prod_i P(S_i \mid \mathbf{PA}_i)$ and respond sparsely to shifts
+
+SMS and multi-environment data supply the missing supervision
+:::
+
+::: card
+**2. Learning transferable mechanisms**
+
+With limited data and compute, reuse modules that **mirror the modularity of the world**
+
+A mechanism learned in one task (e.g., how lighting affects appearance) should plug into the next
+:::
+
+::: card
+**3. Learning interventional world models & reasoning**
+
+Representations should support **acting**: intervention, planning, and counterfactual "what if I had…?"
+
+Statistical dependence alone isn't enough; this is the link to *thinking as acting in an imagined space*
+:::
+::::::
+
+<!-- # Part 5: Implications for Machine Learning {background-color="#0E0E0F"} -->
+
+------------------------------------------------------------------------
+
+## Implications for Machine Learning
+
+### Semi-Supervised Learning: Direction Matters
+
+::::: two-col
+::: {}
+**Causal direction:** $X \rightarrow Y$
+
+$$P(X, Y) = P(X)\,P(Y \mid X)$$
+
+By ICM, $P(X)$ carries **no information** about $P(Y \mid X)$, so unlabeled $X$ **shouldn't help**
+
+*Example:* predicting a protein from its mRNA sequence
+:::
+
+::: {}
+**Anticausal direction:** $Y \rightarrow X$
+
+$$P(X, Y) = P(Y)\,P(X \mid Y)$$
+
+Now $P(X)$ and $P(Y \mid X)$ are coupled, so unlabeled $X$ **can help** (cluster and low-density assumptions apply)
+
+*Example:* classifying a digit from its image (the class causes the pixels)
+:::
+:::::
+<!-- 
+::: callout
+A meta-analysis cited by the authors found SSL gains concentrated in **anticausal** tasks, which is a concrete, testable prediction from the ICM principle
+::: -->
+
+------------------------------------------------------------------------
+
+## Adversarial Examples and Robustness
+
+::::: two-col
+::: {}
+**Adversarial vulnerability**
+
+- Adversarial examples are a deliberate **violation of i.i.d.**: tiny pixel changes, huge prediction changes
+- A classifier in the anticausal direction ignores how images are *generated*
+- Models that approximate the **causal generative process** should be harder to fool
+- Proposed defense: *analysis by synthesis*, i.e., check whether the input is consistent with a generative model of the predicted class
+:::
+
+::: {}
+**Out-of-distribution robustness**
+
+Risk in environment $e$:
+
+$$R^{P^e}(f)=\mathbb{E}_{(X,Y)\sim P^e}\big[\ell(f(X), Y)\big]$$
+
+Robust predictor over the set of environments $\mathcal{E}$:
+
+$$f^\star = \arg\min_{f}\; \max_{e \in \mathcal{E}}\; R^{P^e}(f)$$
+
+If $\mathcal{E}$ is generated by interventions on non-target variables, the **causal** predictor solves this min-max
+:::
+:::::
+
+::: callout-red
+We never observe every $e \in \mathcal{E}$, so estimation error on unseen environments can be large. Causal structure is what lets us extrapolate
+:::
+
+------------------------------------------------------------------------
+
+## Applying a Causal Lens
+
+:::::: three-col
+::: card
+**Pre-training**
+
+Approximates the min-max by covering a **broader** training distribution. More environments, implicitly
+:::
+
+::: card
+**Data augmentation**
+
+Encodes *assumed* invariances (rotation, crop, colour) as **simulated interventions** on nuisance variables
+:::
+
+::: card
+**Self-supervision**
+
+Pretext tasks learn about $P(X)$, which helps most in **anticausal** settings
+:::
+::::::
+
+::: callout
+These are *heuristic* approximations to robust causal learning. The paper's request: understand **which** intervention each trick protects against, rather than stacking them blindly
+:::
+
+**Reinforcement learning** is arguably closer to causality: on-policy learning estimates *interventional* quantities by acting. Off-policy and offline RL reintroduce confounding, and world models and counterfactual reasoning are open frontiers
+
+------------------------------------------------------------------------
+
+## Science, Medicine and Multi-Task Learning
+
+::::: two-col
+::: {}
+**Scientific applications**
+
+- **Personalized medicine:** observational clinical data can mislead treatment-effect estimates
+- **Covid-19:** a Simpson's paradox in case-fatality rates resolved by causal reasoning about age structure
+- **Exoplanets:** a causal "half-sibling" model removed shared instrument noise from Kepler data, yielding **36 candidates, 21 later validated**
+- Physics simulation and learning dynamics from data
+:::
+
+::: {}
+**Multi-task & continual learning**
+
+- Humans reuse one generative model of the world across many tasks
+- A shared causal model with **SMS-compliant** components would let a system:
+  - adapt to a new task by changing a few modules
+  - learn new mechanisms without forgetting old ones
+- Contrast: a giant end-to-end model must re-fit everything
+:::
+:::::
+
+<!-- # Part 6: Open Problems & Discussion {background-color="#0E0E0F"} -->
+
+------------------------------------------------------------------------
+
+## Open Problems Named by the Authors
+
+::::: two-col
+::: card
+**1. Non-linear causal relations at scale**
+
+When are they learnable? Which training frameworks scale? Do causal modules actually transfer better than non-causal ones?
+:::
+
+::: card
+**2. Learning causal variables**
+
+Disentangled representations are fixed-size vectors with arbitrary ordering; they can't handle a *changing number of objects*. Need modular, task-dependent representations and identifiability theory
+:::
+:::::
+
+::::: two-col
+::: card
+**3. Biases of existing deep learning**
+
+Scale, augmentation and self-supervision all improve robustness, but their effects are tangled. Test methods against **specific interventions** to build a taxonomy of inductive biases
+:::
+
+::: card
+**4. Causally correct models of world and agent**
+
+Real RL rarely has clean abstract states. Derive causal variables and graphs from **pixels**, and model both agent and environment for model-based RL
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## Strengths and Limitations
+
+::::: two-col
+::: {}
+**Strengths**
+
+- Unifies two communities with a shared vocabulary (SCMs ↔ representations)
+- ICM / SMS give **concrete, testable inductive biases** rather than vague appeals to "causality"
+- Re-interprets familiar phenomena (SSL, adversarial examples, augmentation) with real explanatory power
+- Agenda-setting: much of the later identifiable-CRL literature traces back here
+:::
+
+::: {}
+**Limitations**
+
+- A **position paper**: no new experiments or benchmarks
+- Identifiability is acknowledged but not solved; without supervision, "causal variables" may be unrecoverable
+- SMS is a *hypothesis*; when do real shifts actually look sparse?
+- Little guidance on evaluation: how would we *know* a learned variable is causal?
+- Scaling claims predate the foundation-model era; does scale already buy much of the promised robustness?
+:::
+:::::
+
+------------------------------------------------------------------------
+
+## Why This Matters for Clinical Data
+
+::::: two-col
+::: {}
+**Distribution shift is the default**
+
+- Multi-site networks (e.g., PCORnet, OMOP-based federations) are **many environments**: different populations, coding practices, EHR vendors
+- Under SMS, a new site should change *a few* mechanisms (case mix, documentation habits), not the underlying physiology
+- Robust models should separate those
+:::
+
+::: {}
+**Variables aren't given here either**
+
+- Phenotypes, disease stages, and severity are *latent* variables we define from codes, labs, and notes
+- Phenotyping and sub-phenotyping are, in effect, **representation learning** problems
+- Question: which of our learned phenotypes would survive an intervention?
+:::
+:::::
+
+::: callout
+In our own pipelines, which "variables" are we treating as given that are really *learned* and possibly not causal?
+:::
+
+------------------------------------------------------------------------
+
+## Key Takeaways
+
+::: callout
+**1.** Statistical models answer *"what will I observe?"*; causal models answer *"what happens if I act?"* Generalizing under shift needs the second
+:::
+
+::: callout
+**2.** The **ICM principle** says mechanisms are modular and independent; the **SMS hypothesis** says real-world changes touch only a few of them
+:::
+
+::: callout
+**3.** Causal inference assumes the variables are given; **causal representation learning** is about learning them from raw data, using SMS and multi-environment data as supervision
+:::
+
+::: callout-red
+**4.** Familiar ML phenomena (SSL working only sometimes, adversarial fragility, the value of augmentation) look less mysterious through a causal lens
+:::
+
+<!-- ------------------------------------------------------------------------
+
+## Further Reading
+
+**This paper:**\
+Schölkopf et al. (2021). *Toward Causal Representation Learning.* Proceedings of the IEEE, 109(5). arXiv:2102.11107
+
+**Foundations:**\
+Peters, Janzing & Schölkopf (2017). *Elements of Causal Inference.* MIT Press\
+Pearl (2009). *Causality.* Cambridge University Press
+
+**Disentanglement & identifiability:**\
+Locatello et al. (2019). *Challenging Common Assumptions in the Unsupervised Learning of Disentangled Representations.* ICML
+
+**Invariance & robustness:**\
+Arjovsky et al. (2019). *Invariant Risk Minimization.* arXiv:1907.02893
+
+**SSL and causal direction:**\
+Schölkopf et al. (2012). *On Causal and Anticausal Learning.* ICML
+
+# Thank You {background-color="#0E0E0F"}
+
+**Towards Causal Representation Learning**
+
+*Schölkopf et al. (2021) · arXiv:2102.11107*
+
+::: callout
+Questions & Discussion
+::: -->
