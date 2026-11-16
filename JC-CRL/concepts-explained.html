@@ -1,0 +1,1527 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>concepts-explained – Piyush Chaudhari</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../photos/Piyush.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-166398dc28bc788c75b5e3fe62af5912.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-e14b1314d6ac29b3ec49c0deae9a2908.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-166398dc28bc788c75b5e3fe62af5912.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5cafc74292b222e60e9e900299140a1d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-bd41d6777372ead2be3841901c077812.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-5cafc74292b222e60e9e900299140a1d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<meta name="twitter:title" content="Piyush Chaudhari">
+<meta name="twitter:description" content="">
+<meta name="twitter:creator" content="@iampiyushvc">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../photos/PC_White.png" alt="" class="navbar-logo light-content">
+    <img src="../photos/PC_White.png" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Piyush Chaudhari</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="https://pc-piyush.github.io"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+
+
+
+
+
+<section id="towards-causal-representation-learning-the-concepts-explained" class="level1">
+<h1>Towards Causal Representation Learning: The Concepts, Explained</h1>
+<p>A companion to the journal club deck on <strong>Schölkopf, Locatello, Bauer, Ke, Kalchbrenner, Goyal &amp; Bengio (2021), <em>Toward Causal Representation Learning</em></strong> (<a href="https://arxiv.org/abs/2102.11107">arXiv:2102.11107</a>; <em>Proceedings of the IEEE</em> 109(5)). It is built from the paper itself (<a href="https://arxiv.org/html/2102.11107v1">HTML version</a>) and follows the paper’s section structure. The matching slides are noted where helpful.</p>
+<p>Each concept is explained twice:</p>
+<ul>
+<li><strong>The idea</strong> gives the precise, conceptual version, staying close to the paper’s wording.</li>
+<li><strong>In plain words</strong> says the same thing without jargon, usually with an everyday analogy.</li>
+</ul>
+<p>When something comes from outside the paper (standard textbook background, or a detail from a study the paper only cites), it is marked <em>(background)</em>. A glossary at the end collects every term, and a short final section lists where the slides and the paper differ.</p>
+<hr>
+<section id="contents" class="level2">
+<h2 class="anchored" data-anchor-id="contents">Contents</h2>
+<ol start="0" type="1">
+<li><a href="#0-the-paper-in-one-paragraph">The paper in one paragraph</a></li>
+<li><a href="#1-introduction-why-iid-machine-learning-isnt-enough">Introduction: why i.i.d. machine learning isn’t enough</a> (paper §I)</li>
+<li><a href="#2-levels-of-causal-modeling">Levels of causal modeling</a> (§II)</li>
+<li><a href="#3-causal-models-and-inference">Causal models and inference</a> (§III)</li>
+<li><a href="#4-independent-causal-mechanisms">Independent causal mechanisms</a> (§IV)</li>
+<li><a href="#5-causal-discovery-and-machine-learning">Causal discovery and machine learning</a> (§V)</li>
+<li><a href="#6-learning-causal-variables">Learning causal variables</a> (§VI)</li>
+<li><a href="#7-implications-for-machine-learning">Implications for machine learning</a> (§VII)</li>
+<li><a href="#8-conclusion-and-open-problems">Conclusion and open problems</a> (§VIII)</li>
+<li><a href="#9-critique-and-clinical-relevance">Critique and clinical relevance</a> (journal club discussion)</li>
+<li><a href="#10-key-takeaways">Key takeaways</a></li>
+<li><a href="#11-glossary">Glossary</a></li>
+<li><a href="#12-where-the-slides-and-the-paper-differ">Where the slides and the paper differ</a></li>
+</ol>
+<hr>
+</section>
+<section id="the-paper-in-one-paragraph" class="level2">
+<h2 class="anchored" data-anchor-id="the-paper-in-one-paragraph">0. The paper in one paragraph</h2>
+<p><strong>The idea.</strong> Causal inference and machine learning grew up separately. Causal inference can reason about interventions and counterfactuals, but it assumes the variables are already given. Deep learning turns raw, high-dimensional data into useful representations, but those representations are purely statistical. The paper names the central open problem as <em>“causal representation learning, the discovery of high-level causal variables from low-level observations.”</em></p>
+<p><strong>In plain words.</strong> One field knows how to answer “what happens if I do X?” but needs a tidy spreadsheet of variables first. The other can read messy images and text but only learns which things tend to appear together. The paper asks how a machine could look at raw data, work out the meaningful “things” in it, <em>and</em> work out how those things cause one another.</p>
+<p>It is a <strong>perspective / review paper</strong>, not an experimental one. It lists five contributions:</p>
+<ol type="1">
+<li>Levels of modeling, and how causal models differ from statistical ones (§II–III).</li>
+<li>The <strong>Independent Causal Mechanisms (ICM)</strong> principle and the <strong>Sparse Mechanism Shift (SMS)</strong> hypothesis (§IV).</li>
+<li>A review of causal discovery, classical and deep-learning based (§V).</li>
+<li>How causal variables might be learned from data (§VI).</li>
+<li>Implications for ML practice: semi-supervised learning, adversarial robustness, OOD generalization, pre-training, RL, science, multi-task learning (§VII).</li>
+</ol>
+<p>The paper extends Schölkopf’s 2019 essay <em>Causality for Machine Learning</em> and partly overlaps with it.</p>
+<hr>
+</section>
+<section id="introduction-why-i.i.d.-machine-learning-isnt-enough" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-why-i.i.d.-machine-learning-isnt-enough">1. Introduction: why i.i.d. machine learning isn’t enough</h2>
+<p><em>Slides: “Paper at a Glance”, “Motivation”, “Why Conditional Probabilities Aren’t Enough”.</em></p>
+<section id="the-i.i.d.-assumption" class="level3">
+<h3 class="anchored" data-anchor-id="the-i.i.d.-assumption">1.1 The i.i.d. assumption</h3>
+<p><strong>The idea.</strong> Most ML successes are large-scale pattern recognition on <strong>independent and identically distributed (i.i.d.)</strong> data: every example is drawn independently from one fixed distribution, and test data comes from that same distribution. The paper names four trends behind ML’s success: (1) massive data, (2) high-capacity models, (3) high-performance computing, and (4) i.i.d. problems. It calls the last one <em>“often ignored, but crucial when it comes to causality.”</em> Even RL is often made approximately i.i.d., for example by experience replay.</p>
+<p>ML is <em>“rather limited”</em> at transferring knowledge from one problem to the next. The paper calls that kind of transfer horizontal, strong, or <strong>out-of-distribution (OOD) generalization</strong>.</p>
+<p><strong>In plain words.</strong> i.i.d. means “the exam questions come from the same pool as the practice questions.” If that holds, memorizing the patterns in the practice questions works. The trouble starts when the exam is written by someone else.</p>
+</section>
+<section id="issue-1-robustness" class="level3">
+<h3 class="anchored" data-anchor-id="issue-1-robustness">1.2 Issue 1: Robustness</h3>
+<p><strong>The idea.</strong> Vision systems can be thrown off by blur, noise, compression, shifts, rotations, or new viewpoints. Benchmarks such as ObjectNet (which controls background and rotation) test exactly these simple, algorithmically generated interventions. Data augmentation, pre-training, self-supervision, and architectural inductive biases help, but <em>“there has been no definitive consensus”</em> on how to solve the problem. The authors argue that generalizing beyond i.i.d. requires learning an underlying causal model, one that can describe distribution shifts as <strong>interventions</strong>.</p>
+<p>The paper gives real failure cases: - objects shown in a context that was negatively correlated with them in training; - a diabetic retinopathy detector affected by socio-economic factors in clinics in Thailand; - adversarial perturbations <em>“imperceptible to humans”</em> that cause errors such as misreading traffic signs.</p>
+<p><strong>In plain words.</strong> A model that learned “cows are on green grass” may fail to recognize a cow on a beach. Showing it more beaches helps, but it never learns <em>why</em> a cow is a cow. A causal model would treat the background as a separate factor that can change without changing what the animal is.</p>
+</section>
+<section id="issue-2-learning-reusable-mechanisms" class="level3">
+<h3 class="anchored" data-anchor-id="issue-2-learning-reusable-mechanisms">1.3 Issue 2: Learning reusable mechanisms</h3>
+<p><strong>The idea.</strong> Infants’ understanding of physics relies on objects that can be tracked over time and behave consistently. If a model of the world were built from modules that correspond to physical causal mechanisms, many of those modules would behave the same way across tasks and environments. Facing a new environment, the model would only need to adapt a few modules, and so <em>“one should thus require fewer examples to adapt.”</em> Today’s networks are trained end-to-end and adapted as a whole.</p>
+<p><strong>In plain words.</strong> When you move to a new city you don’t relearn how to walk, how gravity works, or what a door is. You only learn the new street layout. Current neural networks are more like someone who has to relearn everything after moving.</p>
+</section>
+<section id="seeing-vs.-doing" class="level3">
+<h3 class="anchored" data-anchor-id="seeing-vs.-doing">1.4 Seeing vs.&nbsp;doing</h3>
+<p><strong>The idea.</strong> Causation cannot be captured by logic or probabilistic inference alone; it needs the notion of <strong>intervention</strong>. Conditional probabilities cannot predict what happens when you act. The paper’s example: seeing people open umbrellas suggests that it is raining, but <em>“closing umbrellas does not stop the rain.”</em> Causal knowledge supports predictions far outside the observed data, including hypothetical situations and ones that require deliberate thinking. Statistical learning gives <em>“a rather superficial description of reality”</em> that holds only while conditions stay fixed.</p>
+<p>The paper also mentions storks: across Europe, the number of storks is <em>“a reasonable predictor for human birth rates.”</em> A statistical model can use this, since <span class="math inline">\(P(\text{births} \mid \text{storks})\)</span> really is predictive when nothing changes. But releasing more storks would not raise the birth rate. That is a question about <span class="math inline">\(P(\text{births} \mid do(\text{storks}))\)</span>, which observational data alone cannot answer.</p>
+<p>The paper’s goal for AI is <em>“thinking in the sense of Konrad Lorenz, i.e., acting in an imagined space”</em>: being able to try out actions in your head before doing them.</p>
+<p><strong>In plain words.</strong> “Seeing” and “doing” are different questions. Seeing umbrellas tells you about the weather. Closing them doesn’t change it. Data collected by passive watching usually only answers the “seeing” question.</p>
+<blockquote class="blockquote">
+<p><strong>The <span class="math inline">\(do(\cdot)\)</span> operator</strong> <em>(background notation; the paper uses it in §II)</em>. <span class="math inline">\(P(Y \mid X = x)\)</span> means “among cases where we <em>happened to see</em> <span class="math inline">\(X = x\)</span>, how is <span class="math inline">\(Y\)</span> distributed?” <span class="math inline">\(P(Y \mid do(X = x))\)</span> means “if we <em>forced</em> <span class="math inline">\(X\)</span> to be <span class="math inline">\(x\)</span>, how would <span class="math inline">\(Y\)</span> be distributed?” They coincide only when nothing else links <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.</p>
+</blockquote>
+</section>
+<section id="what-animals-learn-from-and-ml-throws-away" class="level3">
+<h3 class="anchored" data-anchor-id="what-animals-learn-from-and-ml-throws-away">1.5 What animals learn from, and ML throws away</h3>
+<p><strong>The idea.</strong> ML often <em>“disregards information that animals use heavily”</em>: interventions, domain shifts, and temporal structure. Standard practice treats these as nuisances to be removed so the data looks i.i.d.</p>
+<p><strong>In plain words.</strong> A child learns by poking things and watching what happens. Standard ML throws away exactly that kind of information.</p>
+<hr>
+</section>
+</section>
+<section id="levels-of-causal-modeling" class="level2">
+<h2 class="anchored" data-anchor-id="levels-of-causal-modeling">2. Levels of causal modeling</h2>
+<p><em>Slides: “A Hierarchy of Models (Table I)”, “The Gold Standard: Physical Models”, “Four Things We Might Want From a Model”.</em></p>
+<section id="a-hierarchy-of-models-table-i" class="level3">
+<h3 class="anchored" data-anchor-id="a-hierarchy-of-models-table-i">2.1 A hierarchy of models (Table I)</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th style="text-align: center;">Predict i.i.d.</th>
+<th style="text-align: center;">Predict under shift / intervention</th>
+<th style="text-align: center;">Counterfactuals</th>
+<th style="text-align: center;">Physical insight</th>
+<th style="text-align: center;">Learn from data</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mechanistic / physical</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">?</td>
+</tr>
+<tr class="even">
+<td>Structural causal model</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">?</td>
+<td style="text-align: center;">?</td>
+</tr>
+<tr class="odd">
+<td>Causal graphical model</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">no</td>
+<td style="text-align: center;">?</td>
+<td style="text-align: center;">?</td>
+</tr>
+<tr class="even">
+<td>Statistical model</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">no</td>
+<td style="text-align: center;">no</td>
+<td style="text-align: center;">no</td>
+<td style="text-align: center;">yes</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The idea.</strong> Models form a ladder. Physical models (differential equations) can do everything but usually need <em>“an intelligent human”</em> to write them. Statistical models can be learned from observational data but only predict when conditions stay the same. Causal models <em>“lie in between, abstracting away from physical realism while retaining the power to answer certain interventional or counterfactual questions.”</em> <strong>Causal discovery</strong> tries to learn such models from data, replacing expert knowledge with <em>“weak and generic assumptions.”</em></p>
+<p><strong>In plain words.</strong> A physics textbook explains everything but someone has to write it. A pattern-matcher learns by itself but can’t explain or adapt. The goal is a model that learns by itself <em>and</em> understands cause and effect.</p>
+</section>
+<section id="the-gold-standard-physical-models" class="level3">
+<h3 class="anchored" data-anchor-id="the-gold-standard-physical-models">2.2 The gold standard: physical models</h3>
+<p><strong>The idea.</strong> A physical model is a system of coupled differential equations:</p>
+<p><span class="math display">\[\frac{d\mathbf{x}}{dt} = f(\mathbf{x}), \qquad \mathbf{x} \in \mathbb{R}^d, \qquad \mathbf{x}(t_0) = \mathbf{x}_0 .\]</span></p>
+<p>If <span class="math inline">\(f\)</span> is Lipschitz, the Picard–Lindelöf theorem guarantees a unique solution locally, so the system’s immediate future is determined by its past. A first-order discretization makes this explicit:</p>
+<p><span class="math display">\[\mathbf{x}(t + dt) = \mathbf{x}(t) + dt \cdot f(\mathbf{x}(t)).\]</span></p>
+<p>If the equations capture the real mechanisms, causal structure can be read directly off <span class="math inline">\(f\)</span> (which components drive which), and any intervention can be simulated by changing a parameter and re-running. The paper adds a caution: equations that reproduce how a system evolves but don’t capture its mechanisms (because of hidden confounding, or a choice of variables that doesn’t respect causal structure) may not be causally meaningful.</p>
+<p><strong>In plain words.</strong> A physics simulation of a ball says exactly where the ball will be next, given where it is now. Want to know what happens on the Moon? Change gravity and run it again. The catch is that someone had to work out the equations, and for most real problems (a patient, an economy) nobody has them.</p>
+</section>
+<section id="four-questions-a-model-might-answer-ii-a-to-ii-d" class="level3">
+<h3 class="anchored" data-anchor-id="four-questions-a-model-might-answer-ii-a-to-ii-d">2.3 Four questions a model might answer (§II-A to §II-D)</h3>
+<p><strong>A. Predict in the i.i.d. setting.</strong> <em>Idea:</em> estimate <span class="math inline">\(P(Y \mid X)\)</span>, for example <em>“what is the probability that this particular image contains a dog?”</em>, or the probability of heart failure given blood pressure and other measurements. With enough i.i.d. data, statistical models answer these provably. Spurious correlations like storks–births are fine here. But under intervention, predictions can become <em>“(arbitrarily) inaccurate.”</em> <em>Plain words:</em> if the world stays the same, any reliable pattern is useful, causal or not.</p>
+<p><strong>B. Predict under distribution shift.</strong> <em>Idea:</em> interventional questions go beyond i.i.d. <em>“Is increasing the number of storks in a country going to boost its human birth rate?” “Would fewer people smoke if cigarettes were more socially stigmatized?”</em> Interventions need not be deliberate: preferences drift, and deployed models meet data unlike their training data. The paper argues that predicting under shift <em>“should not be reduced to just the accuracy on a test set”</em>: a trustworthy model’s predictions stay valid when conditions change. <em>Plain words:</em> will the model still work at a new hospital, in a new season, with a new camera?</p>
+<p><strong>C. Answer counterfactual questions.</strong> <em>Idea:</em> counterfactuals ask why something happened and what would have happened under a different action. They are harder than interventional questions. The paper’s heart-failure contrast: - interventional: <em>“how does the probability of heart failure change if we convince a patient to exercise regularly?”</em> - counterfactual: <em>“would a given patient have suffered heart failure if they had started exercising a year earlier?”</em></p>
+<p>The question types form a continuum, written <span class="math inline">\(P(A \mid B, do(C))\)</span>. If <span class="math inline">\(B\)</span> is empty, it’s a plain intervention. If <span class="math inline">\(B\)</span> pins down <em>all</em> the unobserved noise terms, it’s a counterfactual. In between, <span class="math inline">\(B\)</span> is partly informative. RL Q-functions are sometimes called counterfactual but sit closer to interventions. Counterfactual reasoning is described as <em>“especially critical”</em> in RL. <em>Plain words:</em> an interventional question is “what happens to <em>people like this</em> if we give the drug?” A counterfactual is “this <em>specific</em> patient didn’t get the drug and got worse; would <em>they</em> have recovered if they had?”</p>
+<p><strong>D. Learn from the data we have.</strong> <em>Idea:</em> data varies along two axes: - <em>observational vs.&nbsp;interventional:</em> purely observational i.i.d. data is <em>“seldom strictly available”</em>; the middle ground is data with shifts or unknown interventions; - <em>hand-engineered vs.&nbsp;raw:</em> tidy semantic variables vs.&nbsp;pixels, which don’t expose causal information.</p>
+<p>Statistical models learn efficiently from raw observational data. Causal structure learning <em>“frequently requires collecting data from multiple environments, or the ability to perform interventions.”</em> It also often assumes <strong>causal sufficiency</strong> (no unobserved common causes). Much prior knowledge is hidden in <em>which variables get measured</em>; the paper hopes inductive biases, meta-learning, and self-supervision can replace some of that expert choice. <em>Plain words:</em> the easiest data to get (passively recorded, raw) is the hardest to learn causes from.</p>
+<hr>
+</section>
+</section>
+<section id="causal-models-and-inference" class="level2">
+<h2 class="anchored" data-anchor-id="causal-models-and-inference">3. Causal models and inference</h2>
+<p><em>Slides: “Reichenbach’s Common Cause Principle”, “Structural Causal Models”, “Interventions”, “Graphical Models vs.&nbsp;SCMs”.</em></p>
+<section id="why-direction-gets-lost-the-laptop-and-the-rucksack" class="level3">
+<h3 class="anchored" data-anchor-id="why-direction-gets-lost-the-laptop-and-the-rucksack">3.1 Why direction gets lost: the laptop and the rucksack</h3>
+<p><strong>The idea.</strong> The paper’s shopping example: Alice searches for a laptop rucksack and the recommender suggests buying a laptop. Owning a laptop <em>causes</em> wanting a rucksack, not the other way round. But statistically, learning that a customer has a laptop reduces uncertainty about the rucksack by exactly as much as the reverse (the mutual information is symmetric), so the direction is invisible in the statistics. The direction lives in the <em>mechanism</em>. Also, recommending an item is itself an intervention, which pushes the system outside the i.i.d. setting the recommender was trained in.</p>
+<p><strong>In plain words.</strong> Correlation is a two-way street; causation is one-way. A system that only sees correlations will sometimes recommend things backwards.</p>
+</section>
+<section id="reichenbachs-common-cause-principle" class="level3">
+<h3 class="anchored" data-anchor-id="reichenbachs-common-cause-principle">3.2 Reichenbach’s common cause principle</h3>
+<p><strong>The idea.</strong> If two observables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are statistically dependent, there exists a variable <span class="math inline">\(Z\)</span> that causally influences both and explains all of their dependence, meaning they become independent once you condition on <span class="math inline">\(Z\)</span> (<span class="math inline">\(X \perp\!\!\!\perp Y \mid Z\)</span>). <span class="math inline">\(Z\)</span> may coincide with <span class="math inline">\(X\)</span> or <span class="math inline">\(Y\)</span>.</p>
+<p>Storks again, with <span class="math inline">\(X\)</span> = stork frequency and <span class="math inline">\(Y\)</span> = birth rate: 1. <span class="math inline">\(X \to Y\)</span>: storks bring babies; 2. <span class="math inline">\(X \leftarrow Y\)</span>: babies attract storks; 3. <span class="math inline">\(X \leftarrow Z \to Y\)</span>: a third variable, such as economic development, drives both.</p>
+<p>Observational data alone cannot distinguish these. Hence: <em>“A causal model thus contains genuinely more information than a statistical one.”</em> With only two variables, the direction is hard to determine. With more variables, causal structure implies <strong>conditional independence</strong> patterns that can be used.</p>
+<p><strong>In plain words.</strong> Every correlation has a causal story behind it, but the correlation doesn’t tell you which one. Ice-cream sales and drownings rise together because summer drives both. Once you hold the season fixed, the link disappears; that is what “explains the dependence” (or “screens off”) means.</p>
+</section>
+<section id="structural-causal-models-scms" class="level3">
+<h3 class="anchored" data-anchor-id="structural-causal-models-scms">3.3 Structural Causal Models (SCMs)</h3>
+<p><strong>The idea.</strong> Variables sit at the nodes of a directed acyclic graph (DAG). Each one is produced by an <em>assignment</em>:</p>
+<p><span class="math display">\[X_i := f_i(\mathbf{PA}_i, U_i), \qquad i = 1, \dots, n,\]</span></p>
+<p>where <span class="math inline">\(f_i\)</span> is deterministic, <span class="math inline">\(\mathbf{PA}_i\)</span> are <span class="math inline">\(X_i\)</span>’s parents in the graph, and <span class="math inline">\(U_i\)</span> is an unexplained random noise term. The noises <span class="math inline">\(U_1, \dots, U_n\)</span> are <strong>jointly independent</strong>. (If two noises were dependent, the common cause principle would demand another variable to explain that, and the model would not be causally sufficient.) The “:=” means “is computed from,” not mathematical equality.</p>
+<p>Applying the assignments in order produces the observational joint distribution. It satisfies the <strong>causal Markov condition</strong>: given its parents, each variable is independent of its non-descendants.</p>
+<p>The paper offers a “gossip” analogy: the independent noises act like <em>information probes</em> that spread through the graph. The pattern of dependencies they leave behind is a footprint that independence tests can pick up. That footprint may not single out one graph, and with only two variables it says nothing about direction, so extra assumptions are needed. The functions <span class="math inline">\(f_i\)</span> leave a footprint too, which is where ML’s theory of function classes becomes useful (§5).</p>
+<p><strong>In plain words.</strong> An SCM is a recipe. Each ingredient is made from earlier ingredients plus some randomness specific to it. For example: <code>fitness := f(genes, noise₁)</code>, <code>exercise := g(fitness, noise₂)</code>, <code>heart_health := h(fitness, exercise, noise₃)</code>. The noise covers everything about this particular case that the model doesn’t spell out.</p>
+</section>
+<section id="causal-vs.-entangled-factorization" class="level3">
+<h3 class="anchored" data-anchor-id="causal-vs.-entangled-factorization">3.4 Causal vs.&nbsp;entangled factorization</h3>
+<p><strong>The idea.</strong> The DAG plus independent noises gives the <strong>causal (disentangled) factorization</strong>:</p>
+<p><span class="math display">\[P(X_1, \dots, X_n) = \prod_{i=1}^{n} P(X_i \mid \mathbf{PA}_i).\]</span></p>
+<p>Any other ordering of the chain rule, such as</p>
+<p><span class="math display">\[P(X_1, \dots, X_n) = \prod_{i=1}^{n} P(X_i \mid X_{i+1}, \dots, X_n),\]</span></p>
+<p>is an <strong>entangled factorization</strong>. Both describe the same joint distribution. Only the causal one decomposes into pieces that match the structural assignments, one per <strong>mechanism</strong>. The difference doesn’t show up in observational data. It shows up when something <em>changes</em>, and the rest of the paper builds on that.</p>
+<p><strong>In plain words.</strong> You can describe a cake as separate steps (make batter, bake, frost) or as one tangled description of “how frosting relates to batter given oven temperature.” Both describe the same cake. Switch to a different frosting, and the step-by-step version needs one line changed while the tangled version needs rewriting throughout.</p>
+</section>
+<section id="latent-variables-and-confounders" class="level3">
+<h3 class="anchored" data-anchor-id="latent-variables-and-confounders">3.5 Latent variables and confounders</h3>
+<p><strong>The idea.</strong> An unobserved variable can make two variables look related when neither causes the other, or it can distort a real causal relation, as when a <strong>confounder</strong> causes both. Confounders may or may not be known to the modeller.</p>
+<p><strong>In plain words.</strong> People who carry lighters get lung cancer more often. Lighters don’t cause cancer; smoking causes both. If smoking isn’t recorded, an analysis can wrongly conclude that lighters are dangerous.</p>
+</section>
+<section id="interventions" class="level3">
+<h3 class="anchored" data-anchor-id="interventions">3.6 Interventions</h3>
+<p><strong>The idea.</strong> An intervention changes some of the structural assignments and leaves the rest alone. The paper (following Eaton &amp; Murphy) distinguishes:</p>
+<ul>
+<li><strong>No intervention:</strong> only observational data.</li>
+<li><strong>Hard / perfect:</strong> <em>“the function in the structural assignment … is set to a constant (implying that the value of the variable is fixed).”</em> The variable is cut off from its parents.</li>
+<li><strong>Soft / imperfect:</strong> <em>“the structural assignment … is modified by changing the function or the noise term.”</em> The variable still depends on its parents, but differently.</li>
+<li><strong>Uncertain:</strong> <em>“the learner is not sure which mechanism/variable is affected by the intervention.”</em></li>
+</ul>
+<p>The paper adds that a causal model should come with a set of <em>allowed</em> interventions. Which causal model is “right” can depend on which interventions you care about, so models should be judged by their usefulness for a given set of tasks.</p>
+<p><strong>In plain words.</strong> - Hard: “Everyone takes exactly 10 mg.” Whatever would normally decide the dose no longer matters. - Soft: “Doctors now prescribe a bit more than before.” The dose still depends on the patient, but the rule has shifted. - Uncertain: “The new hospital is different in some way we can’t pin down.”</p>
+</section>
+<section id="statistical-models-vs.-causal-graphical-models-vs.-scms-fig.-1" class="level3">
+<h3 class="anchored" data-anchor-id="statistical-models-vs.-causal-graphical-models-vs.-scms-fig.-1">3.7 Statistical models vs.&nbsp;causal graphical models vs.&nbsp;SCMs (Fig. 1)</h3>
+<p><strong>The idea.</strong> Fig. 1 contrasts the two: a statistical model <em>“specifies a single probability distribution,”</em> while <em>“a causal model represents a set of distributions, one for each possible intervention.”</em></p>
+<p>Arrows in an ordinary graphical model need not be causal. <span class="math inline">\(X_1 \to X_2 \to X_3\)</span> and <span class="math inline">\(X_1 \leftarrow X_2 \leftarrow X_3\)</span> imply the same independence (<span class="math inline">\(X_1 \perp\!\!\!\perp X_3 \mid X_2\)</span>). They are <strong>Markov equivalent</strong>, so the Markov condition alone can’t determine causal direction. A graphical model becomes <em>causal</em> when its arrows are causal; then you can compute interventions: disconnect the intervened variable from its parents, fix its value, and sample its descendants.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: center;">Interventions</th>
+<th style="text-align: center;">Counterfactuals</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Causal graphical model</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">no</td>
+</tr>
+<tr class="even">
+<td>SCM</td>
+<td style="text-align: center;">yes</td>
+<td style="text-align: center;">yes</td>
+</tr>
+</tbody>
+</table>
+<p>Only SCMs support counterfactuals, because <em>“to compute counterfactuals, we need to fix the value of the noise variables.”</em> Many different combinations of function and noise produce the same conditional distribution, so a causal graph with its conditionals isn’t enough on its own.</p>
+<p><em>(Background.)</em> Pearl’s standard three-step recipe for counterfactuals spells out what “fixing the noise” means: 1. <strong>Abduction:</strong> from what actually happened, infer this case’s noise values. 2. <strong>Action:</strong> apply the hypothetical intervention. 3. <strong>Prediction:</strong> recompute the outcome with the <em>same</em> noise values.</p>
+<p><strong>Causal learning and reasoning.</strong> Statistical learning works with a joint distribution and assumptions about function classes. Causal learning also uses the causal factorization and the interventions it admits. Given a causal model (learned or supplied by experts), <strong>causal reasoning</strong> answers questions about interventions, counterfactuals, and potential outcomes.</p>
+<p><strong>In plain words.</strong> A causal graph tells you which way the influence flows, which is enough for “what happens on average if we do X?” A counterfactual about <em>one specific person</em> also needs that person’s individual quirks: their noise terms. An SCM keeps track of those, so it can replay the same person’s story with one thing changed.</p>
+<hr>
+</section>
+</section>
+<section id="independent-causal-mechanisms" class="level2">
+<h2 class="anchored" data-anchor-id="independent-causal-mechanisms">4. Independent causal mechanisms</h2>
+<p><em>Slides: “The ICM Principle”, “Example: Altitude and Temperature”, “The Sparse Mechanism Shift (SMS) Hypothesis”.</em></p>
+<section id="where-the-intuition-comes-from-vision" class="level3">
+<h3 class="anchored" data-anchor-id="where-the-intuition-comes-from-vision">4.1 Where the intuition comes from: vision</h3>
+<p><strong>The idea.</strong> Our visual system assumes that an object is independent of the light falling on it, of our viewpoint, and of the illumination. This is the <strong>generic viewpoint assumption</strong>: no accidental coincidences, such as 3D structures lining up perfectly in a 2D image or shadow edges landing exactly on texture edges. When such coincidences do happen, we see optical illusions. <strong>Structure from motion</strong> relies on the same idea: moving around an object changes the viewpoint while lighting, position, and shape stay the same, which lets us infer 3D shape even with one eye.</p>
+<p><strong>In plain words.</strong> Your brain bets that “what the thing is” and “how you’re looking at it” are separate facts. That bet is usually right, and when it’s wrong you get an optical illusion.</p>
+</section>
+<section id="example-altitude-and-temperature" class="level3">
+<h3 class="anchored" data-anchor-id="example-altitude-and-temperature">4.2 Example: altitude and temperature</h3>
+<p><strong>The idea.</strong> Altitude <span class="math inline">\(A\)</span> of weather stations causes their average annual temperature <span class="math inline">\(T\)</span>. Data from Austria and from Switzerland have different joint distributions <span class="math inline">\(P(A, T)\)</span>, because the distribution of station altitudes <span class="math inline">\(P(A)\)</span> differs. But <span class="math inline">\(P(T \mid A)\)</span> encodes physics and should be nearly the same in both.</p>
+<ul>
+<li>Causal factorization <span class="math inline">\(P(A)\,P(T \mid A)\)</span>: one factor changes by country, the other generalizes.</li>
+<li>Entangled factorization <span class="math inline">\(P(T)\,P(A \mid T)\)</span>: both factors mix geography with physics, so both change.</li>
+</ul>
+<p>Without knowing the causal structure, the cross-country similarity is lost.</p>
+<p><strong>In plain words.</strong> Air gets colder as you climb at the same rate in every country. What differs is how many mountains each country has. Store your knowledge as “how many mountains here” plus “how cold it gets with height,” and you only update the first part when you travel. Store it the other way round, and both parts are wrong in the new country.</p>
+</section>
+<section id="the-icm-principle" class="level3">
+<h3 class="anchored" data-anchor-id="the-icm-principle">4.3 The ICM principle</h3>
+<p><strong>The idea.</strong> The causal generative process of a system’s variables is <em>“composed of autonomous modules that do not inform or influence each other.”</em> For the causal factorization this means:</p>
+<ul>
+<li><strong>(a) Influence:</strong> changing one mechanism <span class="math inline">\(P(X_i \mid \mathbf{PA}_i)\)</span> does not change any other mechanism.</li>
+<li><strong>(b) Information:</strong> knowing some mechanisms tells you nothing about the others.</li>
+</ul>
+<p>This entails that causal variables can be intervened on separately, that subsystems are modular and autonomous, and that mechanisms are invariant. With two variables, it says the distribution of the cause is independent of the mechanism that produces the effect from it.</p>
+<p>Two clarifications from the paper: - <strong>Independent mechanisms ≠ independent variables.</strong> Variables can be strongly dependent even when all mechanisms are independent. Independence of the noise terms <span class="math inline">\(U_i\)</span> is a special case of ICM. - <strong>Algorithmic formulation.</strong> Because statistical information is awkward to define for deterministic mechanisms, the paper also states ICM in terms of <strong>Kolmogorov complexity</strong> (the length of the shortest program that outputs a string). Write each mechanism as a bit string; the mechanisms are independent if <em>“joint compression of these strings does not save space relative to independent compressions,”</em> i.e.&nbsp;their mutual algorithmic information is zero. In such <strong>algorithmic graphical models</strong>, each <span class="math inline">\(X_i\)</span> is the output of a fixed computer running program <span class="math inline">\(U_i\)</span> on input <span class="math inline">\(\mathbf{PA}_i\)</span>, and analogues of the Markov condition and the causal factorization still hold. The paper concludes that <em>“causality is not intrinsically bound to statistics.”</em></p>
+<p><strong>History.</strong> The idea has deep roots: Haavelmo (1944) assumed that changing one structural equation leaves the others intact; Simon’s invariance criterion holds that the true causal order is invariant under the right interventions; Aldrich (1989) quotes Frisch asking of a relation <em>“How autonomous is it?”</em>; Pearl (2009) notes that causal discovery works under slightly varying conditions, where accidental independencies break but structural ones persist.</p>
+<p><strong>In plain words.</strong> Nature is built from separate, swappable parts. (a) Changing one part doesn’t break the others: replacing a car’s tyres doesn’t change how the engine works. (b) Studying one part tells you nothing about another: the tyre brand gives no clue about engine design. The compression version says the same thing: if two rules are truly separate, describing them together takes no less space than describing them one at a time.</p>
+</section>
+<section id="the-sparse-mechanism-shift-sms-hypothesis" class="level3">
+<h3 class="anchored" data-anchor-id="the-sparse-mechanism-shift-sms-hypothesis">4.4 The Sparse Mechanism Shift (SMS) hypothesis</h3>
+<p><strong>The idea.</strong> <em>“Small distribution changes tend to manifest themselves in a sparse or local way in the causal/disentangled factorization.”</em> They should usually not affect all factors at once. Since every real-world distribution is a product of causal mechanisms, any change must come from a change in at least one mechanism. In an entangled factorization, by contrast, a single change typically spreads across many or all terms.</p>
+<p>The paper notes that SMS has been used as a learning signal: for learning causal models, for modular architectures, and for disentanglement. If the right representation is the one under which observed shifts look sparse, then searching for sparse-shift representations gives supervision that doesn’t need labels.</p>
+<p><strong>In plain words.</strong> When something changes in the world, usually only one or two things actually change. A lab installs a new microscope; patient biology stays the same. If your model is organised the right way, that change shows up as one small edit. If it’s organised the wrong way, it shows up as a mess everywhere. So “which description makes changes look small and local?” is a clue to the right description.</p>
+<hr>
+</section>
+</section>
+<section id="causal-discovery-and-machine-learning" class="level2">
+<h2 class="anchored" data-anchor-id="causal-discovery-and-machine-learning">5. Causal discovery and machine learning</h2>
+<p><em>Slide: “Causal Discovery Meets ML”.</em></p>
+<section id="the-conditional-independence-route" class="level3">
+<h3 class="anchored" data-anchor-id="the-conditional-independence-route">5.1 The conditional-independence route</h3>
+<p><strong>The idea.</strong> Under assumptions such as <strong>faithfulness</strong>, conditional independence (CI) tests recover part of the graph from observational data, up to its <strong>Markov equivalence class</strong>: graphs with the same skeleton (edges without directions) and the same <strong>immoralities</strong> (<span class="math inline">\(X_i \to X_j \leftarrow X_k\)</span> with <span class="math inline">\(X_i\)</span> and <span class="math inline">\(X_k\)</span> not directly connected).</p>
+<p>Two problems: 1. CI testing is hard with finite data, especially with continuous, multi-dimensional conditioning sets. Kernel methods are the main modern approach. 2. With only two variables there are no conditional independencies to test, so the Markov condition says nothing about direction.</p>
+<p><em>(Background.)</em> Faithfulness means every independence in the data is implied by the graph, not produced by a coincidental cancellation of effects. The paper cites but does not define it.</p>
+<p><strong>In plain words.</strong> CI tests are detective work: “if A and C stop being related once I know B, then B probably sits between them.” This only narrows things down to a family of candidate graphs, needs lots of data, and doesn’t work at all for a single pair of variables.</p>
+</section>
+<section id="restricting-the-function-class-additive-noise-models" class="level3">
+<h3 class="anchored" data-anchor-id="restricting-the-function-class-additive-noise-models">5.2 Restricting the function class: additive noise models</h3>
+<p><strong>The idea.</strong> Both problems can be addressed by restricting the class of functions, which is where ML’s learning theory comes in. In the general model <span class="math inline">\(X := U\)</span>, <span class="math inline">\(Y := f(X, V)\)</span>, the noise <span class="math inline">\(V\)</span> can select among arbitrarily different functions, so a finite sample says little. The <strong>additive noise model (ANM)</strong> restricts this:</p>
+<p><span class="math display">\[X := U, \qquad Y := f(X) + V, \qquad U \perp\!\!\!\perp V.\]</span></p>
+<p>Key result: given data from an ANM in one direction, you generically cannot fit an ANM in the reverse direction. That breaks the symmetry between cause and effect. The exception is the linear case with Gaussian noise, where both directions fit equally well. Extensions cover linear non-Gaussian models (LiNGAM), non-linear rescalings, loops, confounders, and multivariate settings. Other methods that beat chance at finding direction use compression, generative networks, or train a classifier to label pairs of variables as cause→effect or effect→cause.</p>
+<p><strong>In plain words.</strong> If <span class="math inline">\(Y\)</span> is “a function of <span class="math inline">\(X\)</span> plus independent random wobble,” then trying to explain <span class="math inline">\(X\)</span> from <span class="math inline">\(Y\)</span> leaves wobble that <em>does</em> depend on <span class="math inline">\(Y\)</span>. That mismatch gives away the wrong direction. If everything is linear and bell-curve shaped, the fingerprint disappears.</p>
+</section>
+<section id="multiple-environments-and-meta-learning" class="level3">
+<h3 class="anchored" data-anchor-id="multiple-environments-and-meta-learning">5.3 Multiple environments, and meta-learning</h3>
+<p><strong>The idea.</strong> Under SMS, most of the causal structure stays fixed across shifts. So observing a system in several <strong>environments</strong> or <strong>contexts</strong> can reveal causal structure. Contexts can come from interventions, non-stationary time series, or multiple views of the same system. Contexts can also be <em>tasks</em>, which links causal discovery to meta-learning: - Bengio et al.&nbsp;relate meta-learning to causal invariance: a correct causal model should adapt <em>faster</em> to an intervention than a merely predictive one. - Ke et al.&nbsp;extend this to many variables and unknown interventions, turning the discrete search over graphs into continuous optimization. - Dasgupta et al.&nbsp;have an RL agent learn a causal model.</p>
+<p>All of these still assume the meaningful variables are given; none learns them from pixels.</p>
+<p><strong>In plain words.</strong> Data from several settings works like a natural experiment: whatever stays stable across settings is likely a real mechanism. And the right causal model is the one that needs the fewest adjustments when the setting changes, so “adapts fastest” is itself a clue.</p>
+<hr>
+</section>
+</section>
+<section id="learning-causal-variables" class="level2">
+<h2 class="anchored" data-anchor-id="learning-causal-variables">6. Learning causal variables</h2>
+<p><em>Slides: “The Setting: Causal Variables Aren’t Given”, “Problem Formulation”, “SMS in Pixel Space”, “Three Problems for CRL”.</em></p>
+<section id="the-setting" class="level3">
+<h3 class="anchored" data-anchor-id="the-setting">6.1 The setting</h3>
+<p><strong>The idea.</strong> Causal discovery assumes its units are random variables already connected by a graph. Real observations aren’t structured that way; images don’t come labelled with their objects. Fig. 2 describes perceptual data as <em>“entangled views of the state of an unknown causal system,”</em> usually with no labels except perhaps a task label. Full recovery of the causal system may be unrealistic, so the aim is a representation that exposes <em>enough</em> causal structure to support causal statements for downstream tasks. Example: to detect objects a robot could manipulate, separate an object’s intrinsic properties from its pose and appearance, so the detector is robust when pose and appearance shift.</p>
+<p>Choosing the level of description (granularity) is hard. Fields like economics, medicine, and psychology use coarse variables whose interventions are not well defined. Causal variables can be coarse-grained summaries of finer models (microscopic equations, ODEs, time series aggregated over time).</p>
+<p>The paper’s proposed architecture: embed an SCM inside a larger neural network whose inputs and outputs are high-dimensional. Its modules can then be fine-tuned and reused, and SMS can be used to shape the structure.</p>
+<p><strong>In plain words.</strong> A camera doesn’t record “ball,” “table,” “gravity.” It records a million coloured dots. Causal tools need the ball and the table as named things. Causal representation learning is about getting from the dots to the things, choosing things that actually cause one another.</p>
+</section>
+<section id="problem-formulation" class="level3">
+<h3 class="anchored" data-anchor-id="problem-formulation">6.2 Problem formulation</h3>
+<p><strong>The idea.</strong> Observations <span class="math inline">\(X\)</span> (say, an image with <span class="math inline">\(d\)</span> pixels) are generated from <span class="math inline">\(n \ll d\)</span> latent causal variables through a non-linear map <span class="math inline">\(G\)</span>:</p>
+<p><span class="math display">\[X = G(S_1, \dots, S_n), \qquad S_i := f_i(\mathbf{PA}_i, U_i), \qquad P(S_1, \dots, S_n) = \prod_{i=1}^{n} P(S_i \mid \mathbf{PA}_i).\]</span></p>
+<p>Architecture: an <strong>autoencoder with an SCM in the bottleneck</strong>. - An <strong>encoder</strong> <span class="math inline">\(q: \mathbb{R}^d \to \mathbb{R}^n\)</span> maps <span class="math inline">\(X\)</span> to noise variables <span class="math inline">\(U_1, \dots, U_n\)</span>. - The <strong>causal mechanisms</strong> <span class="math inline">\(f\)</span> turn noises into causal variables <span class="math inline">\(S_1, \dots, S_n\)</span>. - A <strong>decoder</strong> <span class="math inline">\(p: \mathbb{R}^n \to \mathbb{R}^d\)</span> maps the causal variables back to an image. - Train by reconstruction error so that <span class="math inline">\(p \circ f \circ q \approx \mathrm{id}\)</span>.</p>
+<p>If the graph is known, <span class="math inline">\(f\)</span>’s structure can be fixed. If not, <span class="math inline">\(f\)</span> gets absorbed into the decoder (<span class="math inline">\(\tilde p = p \circ f\)</span>), and the causal graph is implicit in the decoder. Leeb et al.&nbsp;propose a structured decoder along these lines.</p>
+<p><strong>The catch is identifiability.</strong> From i.i.d. data alone, recovering the true noise variables is ill-defined: infinitely many solutions give the same observational distribution. Extra inductive biases are needed to prefer the right one.</p>
+<p><strong>In plain words.</strong> Compress an image into a few causal “knobs,” let the knobs influence each other according to learned cause-and-effect rules, then redraw the image. If the redrawing matches, the knobs capture what matters. The problem is that many different sets of knobs redraw the image equally well, and nothing in the images alone forces the <em>true</em> causal ones. Extra hints are needed, such as data from changing environments.</p>
+</section>
+<section id="sms-in-pixel-space-fig.-3" class="level3">
+<h3 class="anchored" data-anchor-id="sms-in-pixel-space-fig.-3">6.3 SMS in pixel space (Fig. 3)</h3>
+<p><strong>The idea.</strong> Fig. 3 shows an intervention (<em>“which may or may not be intentional/observed”</em>) that moves one finger of a robotic hand; as a consequence, an object (a cube) falls. In the right causal variables the change is <strong>sparse</strong>: the finger’s position changed, and the cube’s position changed as a result. In pixel space the change is <strong>dense</strong>, or entangled: many pixels change at once. In the extreme, <em>“all pixels may change as a result of a sparse intervention,”</em> for example if the camera angle or lighting changes.</p>
+<p><strong>In plain words.</strong> To a camera, a cube falling off a hand changes much of the picture. To a person, only one thing happened: a finger moved and gravity did the rest. A good representation sees it the way the person does.</p>
+</section>
+<section id="problem-1-learning-disentangled-representations" class="level3">
+<h3 class="anchored" data-anchor-id="problem-1-learning-disentangled-representations">6.4 Problem 1: Learning disentangled representations</h3>
+<p><strong>The idea.</strong> Find an encoder whose latent variables satisfy the disentangled factorization <span class="math inline">\(\prod_i P(S_i \mid \mathbf{PA}_i)\)</span>, with each conditional separately manipulable and largely invariant across related problems.</p>
+<ul>
+<li>Most disentanglement work assumes fully <em>independent</em> factors, the special case where every <span class="math inline">\(\mathbf{PA}_i\)</span> is empty. ICM is more general: a fork and a knife are statistically dependent (they appear together), yet we want them as separate entities.</li>
+<li><strong>Object-centric</strong> representations are another special case: objects can be intervened on separately, so they make natural building blocks, complemented by orientation, viewpoint, and lighting.</li>
+<li>To make the latents <em>causal</em>, use ICM: independent noises and independent mechanisms, enforced through invariance across problems, sparse changes, or independent interventions.</li>
+<li>Locatello et al.&nbsp;showed that SMS is theoretically <em>sufficient</em> for disentanglement given suitable training data. SMS can supervise learning even when variables have parents.</li>
+<li>Which factors can be disentangled depends on which interventions are observed; different supervision signals identify different subsets of factors.</li>
+</ul>
+<p><strong>In plain words.</strong> Learn separate knobs for separate real-world factors, so turning one doesn’t secretly turn others, and use “the world changed, but only a little” as the clue for where the knobs are.</p>
+</section>
+<section id="problem-2-learning-transferable-mechanisms" class="level3">
+<h3 class="anchored" data-anchor-id="problem-2-learning-transferable-mechanisms">6.5 Problem 2: Learning transferable mechanisms</h3>
+<p><strong>The idea.</strong> Real agents have limited data and limited compute (brains have a size limit; robots run on batteries). They can’t rely on <em>“large-scale labeling work done by humans.”</em> So robust AI will need to reuse components across tasks and environments, ideally with a modular structure that mirrors the world’s modularity.</p>
+<p>The paper’s lighting example: a visual system shouldn’t train a separate face recogniser for each lighting condition. It should have a gain-control module that factors out lighting variations spanning orders of magnitude. That module need not mimic the physics of light, but it plays the corresponding role, which may push models toward a structure that mirrors the world. Looking for independent mechanisms, possibly through competitive training between modules, is a sensible inductive bias.</p>
+<p><strong>In plain words.</strong> Build a toolkit of reusable parts instead of a custom machine for every job. One “adjust for brightness” tool serves every face, every room, every task.</p>
+</section>
+<section id="problem-3-learning-interventional-world-models-and-reasoning" class="level3">
+<h3 class="anchored" data-anchor-id="problem-3-learning-interventional-world-models-and-reasoning">6.6 Problem 3: Learning interventional world models and reasoning</h3>
+<p><strong>The idea.</strong> Deep learning captures statistics but <em>“does not care about the interventional properties of the variables it analyzes or reconstructs.”</em> Causal representation learning should produce models that support <em>“intervention, planning, and reasoning,”</em> realizing Lorenz’s thinking as acting in an imagined space. That requires reflecting on one’s actions and imagining alternatives, possibly needing “(the illusion of) free will.” The paper speculates that self-consciousness may relate to having a variable that represents <em>oneself</em> in that imagined space, and that free will may be a way to communicate about actions, which matters for social and cultural learning.</p>
+<p><strong>In plain words.</strong> The model should let an agent imagine “if I push this, that happens” before doing it, the way people rehearse actions in their heads, including picturing themselves in the scene.</p>
+<hr>
+</section>
+</section>
+<section id="implications-for-machine-learning" class="level2">
+<h2 class="anchored" data-anchor-id="implications-for-machine-learning">7. Implications for machine learning</h2>
+<p><em>Slides: “Semi-Supervised Learning”, “Adversarial Examples and Robustness”, “Re-reading Today’s Tricks”, “Science, Medicine and Multi-Task Learning”.</em></p>
+<p>The paper drops the i.i.d. assumption and assumes test data may come from a different distribution <em>“but involving (mostly) the same causal mechanisms.”</em> It names four challenges:</p>
+<ul>
+<li><ol type="a">
+<li>abstract causal variables often have to be inferred from low-level inputs;</li>
+</ol></li>
+<li><ol start="2" type="a">
+<li>there is no consensus on which aspects of data reveal causal relations;</li>
+</ol></li>
+<li><ol start="3" type="a">
+<li>the usual train/test protocol may be insufficient, and new benchmarks may need environment information and interventions;</li>
+</ol></li>
+<li><ol start="4" type="a">
+<li>scalable, numerically sound algorithms are often missing.</li>
+</ol></li>
+</ul>
+<section id="semi-supervised-learning-direction-matters" class="level3">
+<h3 class="anchored" data-anchor-id="semi-supervised-learning-direction-matters">7.1 Semi-supervised learning: direction matters</h3>
+<p><strong>The idea.</strong> - <strong>Causal direction</strong> <span class="math inline">\(X \to Y\)</span>: <span class="math inline">\(P(X, Y) = P(X)\,P(Y \mid X)\)</span>. By ICM, <span class="math inline">\(P(X)\)</span> carries no information about <span class="math inline">\(P(Y \mid X)\)</span>, so semi-supervised learning (SSL) should be futile, to the extent it relies on unlabeled data about <span class="math inline">\(P(X)\)</span> to improve <span class="math inline">\(P(Y \mid X)\)</span>. - <strong>Anticausal direction</strong> <span class="math inline">\(Y \to X\)</span> (predicting against the generative direction): Daniušis et al.&nbsp;define a measure of dependence between <span class="math inline">\(P(X)\)</span> and <span class="math inline">\(P(Y \mid X)\)</span> that is zero in the causal direction but strictly positive in the anticausal one. So unlabeled <span class="math inline">\(X\)</span> carries information about the conditional, and SSL can work.</p>
+<p>The study Schölkopf et al.&nbsp;(2012), <em>On Causal and Anticausal Learning</em>, <em>“empirically corroborated these predictions”</em>, and about 17 follow-up papers built on it. The idea also inspired invariance-based causal discovery in statistics.</p>
+<p>The standard SSL assumptions fit this picture: the <strong>cluster assumption</strong> (labels don’t change within a cluster of <span class="math inline">\(P(X)\)</span>), <strong>low-density separation</strong> (the decision boundary lies where <span class="math inline">\(P(X)\)</span> is small), and <strong>semi-supervised smoothness</strong>. <strong>Co-training</strong> assumes two views are independent given the label, exactly what you expect when the label causes both views, an anticausal setting.</p>
+<p><em>(Background examples.)</em> Causal: predicting a protein from its mRNA sequence. Anticausal: classifying a handwritten digit from its image, where the intended digit causes the ink.</p>
+<p><strong>In plain words.</strong> If the label <em>causes</em> the input (the writer chose “7” and then drew it), then piles of unlabeled images naturally fall into clusters, one per digit, and those clusters help draw boundaries. If the input <em>causes</em> the label, the way inputs are spread out says nothing about the rule that maps them to outputs, so extra unlabeled inputs don’t help.</p>
+</section>
+<section id="adversarial-vulnerability" class="level3">
+<h3 class="anchored" data-anchor-id="adversarial-vulnerability">7.2 Adversarial vulnerability</h3>
+<p><strong>The idea.</strong> Adversarial examples are minute, human-invisible changes to an input that change the output. They violate i.i.d., since the modified inputs don’t come from the training distribution. Current defenses approximate human robustness with a small <span class="math inline">\(\ell_p\)</span>-ball around each input in pixel space.</p>
+<p>The paper’s <strong>writer example</strong> shows why the generative direction matters. Three setups yield the same statistical classifier: 1. a writer is given labels <span class="math inline">\(y\)</span> and draws images <span class="math inline">\(x\)</span> (anticausal: changing <span class="math inline">\(y\)</span> changes <span class="math inline">\(x\)</span>); 2. a writer picks digits and records the labels (confounded: one effect predicts another); 3. a person is shown images and labels them.</p>
+<p>If a predictor approximates a causal mechanism that is robust and transferable, adversarial examples <em>“should be harder to find.”</em> Supporting defenses: <strong>analysis by synthesis</strong>, which classifies by checking the input against a generative model of each class, and reconstructing the input with an autoencoder before classifying. Attacks might still exploit flaws in how the mechanism is approximated.</p>
+<p><strong>In plain words.</strong> Adversarial attacks nudge pixels in ways no real-world process would. A model that understands how a real “panda” image comes about would notice that the tampered image couldn’t have been produced that way. Analysis by synthesis asks: “if this really were a gibbon, would it look like this?”</p>
+</section>
+<section id="robustness-and-strong-generalization" class="level3">
+<h3 class="anchored" data-anchor-id="robustness-and-strong-generalization">7.3 Robustness and strong generalization</h3>
+<p><strong>The idea.</strong> Standard ML minimizes empirical risk on the training distribution:</p>
+<p><span class="math display">\[g^\star = \arg\min_{g \in \mathcal{H}} \hat R_{P(X,Y)}(g), \qquad \hat R_{P(X,Y)}(g) = \hat{\mathbb{E}}_{P(X,Y)}\big[\mathrm{loss}(Y, g(X))\big].\]</span></p>
+<p>OOD risk measures the same loss under a different distribution <span class="math inline">\(P^\dagger\)</span>. <strong>Environments</strong> are <em>“the collection of different circumstances that give rise to the distribution shifts such as locations, times, experimental conditions, etc.”</em> In a causal model, environments correspond to interventions on variables or mechanisms. Taking the worst case over a set <span class="math inline">\(\mathcal{E}\)</span> of observed environments gives a min-max problem:</p>
+<p><span class="math display">\[g^\star = \arg\min_{g \in \mathcal{H}} \max_{P^\dagger \in \mathcal{E}} \hat{\mathbb{E}}_{P^\dagger}\big[\mathrm{loss}(Y, g(X))\big].\]</span></p>
+<p>Here <span class="math inline">\(\mathcal{E}\)</span> is the observed subset of all interventional distributions <span class="math inline">\(P_\mathcal{G}\)</span> that the causal graph allows. Learning models that are stable across training environments and generalize to new ones is <em>“nontrivial (and in some cases provably hard).”</em> If the observed environments don’t cover the possible ones, the extra error <em>“may be arbitrarily large in the worst case.”</em></p>
+<p>The paper expects modular, causally factorized models to be relatively robust to swapping or modifying single components. Its credit-scoring example: paying off debt plausibly <em>causes</em> better repayment, but moving to a richer neighbourhood probably doesn’t. A score that uses only causal features may therefore be harder to game. The paper presents this as intuition, not a proof.</p>
+<p><em>(Background.)</em> The related literature it cites (e.g., invariant causal prediction, invariant risk minimization) shows that when environments arise from interventions on variables other than the target, a predictor using only the target’s causal parents performs equally well in all of them, which is why causal predictors are natural candidates for the min-max solution.</p>
+<p><strong>In plain words.</strong> Instead of being best on average, be <em>never terrible</em>, even in the worst setting you’ll face. Relying on true causes is stable across settings; shortcuts look good in some settings and fail badly in others. But you can only guard against settings that resemble the ones you’ve seen.</p>
+</section>
+<section id="pre-training-data-augmentation-and-self-supervision" class="level3">
+<h3 class="anchored" data-anchor-id="pre-training-data-augmentation-and-self-supervision">7.4 Pre-training, data augmentation, and self-supervision</h3>
+<p><strong>The idea.</strong> The min-max problem is hard to solve directly, so the paper reads common techniques as approximations to it: - <strong>Pre-training on a large, diverse corpus</strong> is still ordinary empirical risk minimization. It helps only if the extra data happens to cover other environments in <span class="math inline">\(P_\mathcal{G}\)</span>. - <strong>Data augmentation</strong> applies artificial interventions (rotations, small translations, flips) to teach invariances, e.g.&nbsp;that shifting an image doesn’t change its class. It effectively <em>defines</em> the set of interventions the model should be robust to. Augmentation policies can be searched for (e.g.&nbsp;with RL). - <strong>Self-supervision</strong> solves pretext tasks with artificial labels, which forces representations to capture information about <span class="math inline">\(P(X)\)</span>. ICM might help <em>automate</em> the design of pretext tasks. (Following §7.1, information about <span class="math inline">\(P(X)\)</span> is most useful in anticausal settings.) - <strong>Adversarial training</strong> solves the min-max explicitly, with the “environments” being attacks instead of natural interventions.</p>
+<p>Suggested direction: combine large-scale training, augmentation, self-supervision, and robust fine-tuning on data from several, possibly simulated, environments.</p>
+<p><strong>In plain words.</strong> Rotating training images is a way of telling the model “rotation doesn’t change what this is.” That works, but only for the changes you thought to simulate. A causal view makes the list of protected changes explicit.</p>
+</section>
+<section id="reinforcement-learning" class="level3">
+<h3 class="anchored" data-anchor-id="reinforcement-learning">7.5 Reinforcement learning</h3>
+<p><strong>The idea.</strong> RL is closer to causality than most ML: on-policy RL effectively estimates do-probabilities for the agent’s own interventions. Off-policy and batch settings make things subtler. The paper splits RL’s causal side into <em>causal induction</em> (learning a causal model of the environment, made harder because variables aren’t given) and <em>causal inference</em> (planning with that model).</p>
+<ul>
+<li><strong>World models.</strong> Model-based RL learns the effects of actions; generative world models serve as Lorenzian imagined spaces in which to train agents. Structured world models break the environment into entities. Many world models are partial, so unobserved parts of the environment can confound actions and rewards; the paper suggests adjusting with the backdoor criterion, conditioning on the policy.</li>
+<li><strong>Generalization, robustness, fast transfer.</strong> RL needs huge numbers of samples and is brittle to small visual or mechanical changes. Learning invariances in a causal graph needs interventions, which matches developmental psychology’s emphasis on experimentation. A causal agent could re-learn only the mechanisms that changed. The right formalization is still open.</li>
+<li><strong>Counterfactuals.</strong> They improve data efficiency and performance, and support communicating about past experience among agents. Future RL should treat counterfactual reasoning <em>“as a critical component.”</em></li>
+<li><strong>Offline RL.</strong> Learning a policy from a fixed log of trajectories requires inferring the consequences of actions that were never taken, which <em>“essentially makes it a counterfactual inference problem.”</em> The mismatch between the logging policy and the new policy is a departure from i.i.d. Factoring knowledge into independent mechanisms may help.</li>
+</ul>
+<p><strong>In plain words.</strong> An agent that tries things and sees what happens is running experiments. An agent learning only from someone else’s logs is back to correlations, which can mislead: maybe the expert only took that action when things were already going well.</p>
+</section>
+<section id="scientific-applications" class="level3">
+<h3 class="anchored" data-anchor-id="scientific-applications">7.6 Scientific applications</h3>
+<p><strong>The idea.</strong> - <strong>Physics simulation.</strong> Neural simulators can be faster than hand-built ones. When conditions are tightly controlled, strong OOD generalization may not be needed, but the simulator must be retrained if conditions change. - <strong>Personalized medicine.</strong> Combining electronic health records with genetic data is promising, but a system trained on doctors’ decisions in controlled settings may add little and <em>“may fail in surprising ways when deployed.”</em> Reliable personalized treatment needs causal understanding. - <strong>Covid-19.</strong> <em>“Causal mediation analysis helps disentangle different effects contributing towards case fatality rates when a textbook example of Simpson’s paradox was observed.”</em> <em>(Background, from the cited study by von Kügelgen et al.: comparing China and Italy early in the pandemic, Italy’s overall case-fatality rate was higher, yet within every age group it was lower. Italy’s cases skewed much older.)</em> - <strong>Exoplanets.</strong> A planet passing in front of its star dims it slightly. In Kepler telescope data, instrument effects confound this signal. <em>“Shared patterns in measurement noise across stars light-years apart can be removed”</em>: stars that far apart can’t share astrophysical signals, so what they share must come from the instrument. The method (named in the cited 2016 PNAS paper as <strong>half-sibling regression</strong>) <em>“lead to the discovery of 36 planet candidates, of which 21 were subsequently validated as bona fide exoplanets.”</em> One of them, K2-18b, was later found to have water in its atmosphere, the first such finding for an exoplanet in the habitable zone.</p>
+<p><strong>In plain words.</strong> - <em>Simpson’s paradox:</em> a trend can reverse when you split data into groups. One country can do better in every age bracket and still look worse overall because more of its patients are elderly. - <em>Half-sibling regression:</em> if a hundred unrelated stars all flicker at the same moment, the telescope is to blame, not the stars. Subtract the shared flicker, and what remains is each star’s own behaviour, including a planet passing in front of it.</p>
+</section>
+<section id="multi-task-learning" class="level3">
+<h3 class="anchored" data-anchor-id="multi-task-learning">7.7 Multi-task learning</h3>
+<p><strong>The idea.</strong> A multi-task system solves many tasks across environments, which share traits it can reuse. The paper proposes learning a shared generative causal model whose components satisfy SMS; causal models adapt faster to sparse interventions.</p>
+<p>It answers an obvious objection: <em>“Why can’t we just train a huge model that learns environments’ dynamics…?”</em> With insufficiently diverse data, worst-case error on unseen shifts can stay arbitrarily high (§7.3). Bigger models may beat OOD benchmarks in the short term, but all generalization rests on assumptions, and causal assumptions are explicit and aligned with physics and cognition. A learner that ignores valid assumptions should do worse. ICM suggests decomposing knowledge into independent, recombinable pieces, which motivates modular architectures.</p>
+<p>(The section heading also says “continual learning,” but the body discusses only multi-task and meta-learning.)</p>
+<p><strong>In plain words.</strong> Learning to drive a truck after a car means adjusting a few skills, not starting over. Modular causal models would allow the same for machines, while a single giant model has to re-fit everything and has no guarantee about situations unlike its training data.</p>
+<hr>
+</section>
+</section>
+<section id="conclusion-and-open-problems" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion-and-open-problems">8. Conclusion and open problems</h2>
+<p><em>Slide: “Open Problems Named by the Authors”.</em></p>
+<p>The paper’s four open problems:</p>
+<ol type="1">
+<li><p><strong>Learning non-linear causal relations at scale.</strong> When are non-linear causal relations learnable? Which training frameworks scale? Do causal modules beat non-causal representations at generalization, re-use, and transfer on real tasks? <em>Plain words:</em> we don’t yet know how to do this on large, realistic problems, or how much it really helps.</p></li>
+<li><p><strong>Learning causal variables.</strong> Current disentangled representations are fixed-size vectors with an arbitrary order of dimensions, so they can’t handle, for example, a changing number of objects in a scene. Structured, modular representations should come from task-specific training, not only from autoencoding. <em>Plain words:</em> a scene can contain two objects or twenty, and current methods assume a fixed number of slots.</p></li>
+<li><p><strong>Understanding the biases of existing deep learning.</strong> Scale, augmentation, and self-supervision all improve robustness, but their separate contributions are hard to untangle. Testing strong generalization against defined sets of interventions could map out which inductive biases do what, and how pre-training choices affect transfer and robustness <em>“in a causal sense.”</em> <em>Plain words:</em> we know these tricks help but not exactly against what. Test each against specific kinds of change.</p></li>
+<li><p><strong>Learning causally correct models of the world and the agent.</strong> RL rarely comes with clean, abstract states, so deriving causal variables from pixels and recovering their graph matters. Causal descriptions of both the agent and its environment would support robust, versatile model-based RL. <em>Plain words:</em> a robot has to work out from camera images what the meaningful things are, including itself.</p></li>
+</ol>
+<hr>
+</section>
+<section id="critique-and-clinical-relevance" class="level2">
+<h2 class="anchored" data-anchor-id="critique-and-clinical-relevance">9. Critique and clinical relevance</h2>
+<p><em>Slides: “Critical Appraisal”, “Why This Matters for Clinical Data”. This section is journal-club discussion, not content from the paper.</em></p>
+<section id="strengths" class="level3">
+<h3 class="anchored" data-anchor-id="strengths">9.1 Strengths</h3>
+<ul>
+<li>Unifies two communities with a shared vocabulary (SCMs ↔︎ representations).</li>
+<li>ICM and SMS are <strong>concrete, testable inductive biases</strong>, not vague appeals to “causality.”</li>
+<li>Re-interprets familiar phenomena (SSL, adversarial examples, augmentation) in a way that actually explains them.</li>
+<li>Agenda-setting: much of the later identifiable-CRL literature traces back to it.</li>
+</ul>
+</section>
+<section id="limitations" class="level3">
+<h3 class="anchored" data-anchor-id="limitations">9.2 Limitations</h3>
+<ul>
+<li>A <strong>position paper</strong>: no new experiments or benchmarks.</li>
+<li>Identifiability is acknowledged but not solved. Without some supervision, causal variables may be unrecoverable.</li>
+<li>SMS is a <em>hypothesis</em>. When do real shifts actually look sparse?</li>
+<li>Little guidance on evaluation: how would we <em>know</em> a learned variable is causal?</li>
+<li>The scaling argument (§7.7) predates the foundation-model era. Does scale already buy much of the promised robustness?</li>
+</ul>
+</section>
+<section id="clinical-data" class="level3">
+<h3 class="anchored" data-anchor-id="clinical-data">9.3 Clinical data</h3>
+<p><strong>The idea.</strong> - <strong>Distribution shift is the default.</strong> Multi-site networks (e.g., PCORnet or OMOP-based federations) are effectively <strong>many environments</strong>, with different populations, coding practices, and EHR vendors. Under SMS, a new site should change <em>a few</em> mechanisms (case mix, documentation habits), not the underlying physiology. Robust models should keep those apart. The paper’s own warnings are directly relevant: the diabetic retinopathy detector affected by clinic conditions, and clinical systems that <em>“may fail in surprising ways when deployed.”</em> - <strong>Variables aren’t given here either.</strong> Phenotypes, disease stages, and severity are <em>latent</em> variables built from codes, labs, and notes. Phenotyping is, in effect, a representation learning problem, and the paper’s granularity point (§6.1) applies: coarse clinical variables may not have well-defined interventions.</p>
+<p><strong>Discussion prompt:</strong> in our own pipelines, which “variables” are we treating as given that are really <em>learned</em>, and possibly not causal? Which learned phenotypes would survive an intervention?</p>
+<p><strong>In plain words.</strong> Every hospital is a slightly different world, but the body works the same way in all of them. A good model should separate “how this hospital records things” from “how the disease works.” And “has diabetes” in a dataset is often a definition someone built from billing codes and lab values, so it deserves the same scrutiny as any learned representation.</p>
+<hr>
+</section>
+</section>
+<section id="key-takeaways" class="level2">
+<h2 class="anchored" data-anchor-id="key-takeaways">10. Key takeaways</h2>
+<ol type="1">
+<li><strong>Seeing vs.&nbsp;doing.</strong> Statistical models answer <em>“what will I observe?”</em> Causal models answer <em>“what happens if I act?”</em> Generalizing under shift needs the second.</li>
+<li><strong>Modularity and sparse change.</strong> The ICM principle says causal mechanisms neither influence nor inform each other. The SMS hypothesis says real-world changes touch only a few of them.</li>
+<li><strong>Learning the variables.</strong> Causal inference assumes the variables are given. Causal representation learning is about learning them from raw data, using sparse shifts and multi-environment data as supervision.</li>
+<li><strong>A new lens on old puzzles.</strong> SSL working only sometimes, adversarial fragility, and the value of augmentation and pre-training make more sense from a causal point of view.</li>
+</ol>
+<hr>
+</section>
+<section id="glossary" class="level2">
+<h2 class="anchored" data-anchor-id="glossary">11. Glossary</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Precise meaning</th>
+<th>Plain meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>i.i.d.</strong></td>
+<td>Independent and identically distributed: all samples drawn independently from one fixed distribution.</td>
+<td>Test data looks like training data.</td>
+</tr>
+<tr class="even">
+<td><strong>Distribution shift / OOD</strong></td>
+<td>Test distribution differs from training distribution.</td>
+<td>The world changed after you trained.</td>
+</tr>
+<tr class="odd">
+<td><strong>Environment</strong></td>
+<td>A circumstance (location, time, experimental condition) giving rise to a distribution shift; in causal terms, an intervention.</td>
+<td>One “setting” the data came from.</td>
+</tr>
+<tr class="even">
+<td><strong>Intervention, <span class="math inline">\(do(X = x)\)</span></strong></td>
+<td>Replace the assignment for <span class="math inline">\(X\)</span> (e.g., fix its value) and leave all others intact.</td>
+<td>Actively setting something, instead of watching it.</td>
+</tr>
+<tr class="odd">
+<td><strong>Hard / soft / uncertain intervention</strong></td>
+<td>Set the function to a constant / change the function or noise / unknown target.</td>
+<td>Force it / nudge it / something changed, not sure what.</td>
+</tr>
+<tr class="even">
+<td><strong>Counterfactual</strong></td>
+<td>A query about what <em>would</em> have happened to a specific case under a different action, given what actually happened. Requires fixing the noise variables.</td>
+<td>“What if <em>this</em> person had done otherwise?”</td>
+</tr>
+<tr class="odd">
+<td><strong>SCM</strong></td>
+<td>Assignments <span class="math inline">\(X_i := f_i(\mathbf{PA}_i, U_i)\)</span> over a DAG, with jointly independent noises.</td>
+<td>A recipe saying how each variable is produced.</td>
+</tr>
+<tr class="even">
+<td><strong>Parents, <span class="math inline">\(\mathbf{PA}_i\)</span></strong></td>
+<td>Direct causes of <span class="math inline">\(X_i\)</span> in the graph.</td>
+<td>The things that directly affect <span class="math inline">\(X_i\)</span>.</td>
+</tr>
+<tr class="odd">
+<td><strong>Noise term, <span class="math inline">\(U_i\)</span></strong></td>
+<td>Unexplained, independent source of variation for <span class="math inline">\(X_i\)</span>.</td>
+<td>Everything about this case the model doesn’t spell out.</td>
+</tr>
+<tr class="even">
+<td><strong>DAG</strong></td>
+<td>Directed acyclic graph.</td>
+<td>A flowchart of causes with no loops.</td>
+</tr>
+<tr class="odd">
+<td><strong>Causal Markov condition</strong></td>
+<td>Given its parents, each variable is independent of its non-descendants.</td>
+<td>Once you know a thing’s direct causes, its more distant causes add nothing.</td>
+</tr>
+<tr class="even">
+<td><strong>Causal sufficiency</strong></td>
+<td>No unobserved common causes of the modelled variables.</td>
+<td>Nothing important is hidden.</td>
+</tr>
+<tr class="odd">
+<td><strong>Causal (disentangled) factorization</strong></td>
+<td><span class="math inline">\(\prod_i P(X_i \mid \mathbf{PA}_i)\)</span>, one factor per mechanism.</td>
+<td>Knowledge stored as separate, swappable parts.</td>
+</tr>
+<tr class="even">
+<td><strong>Entangled factorization</strong></td>
+<td>Any other valid factorization of the joint; its factors mix mechanisms.</td>
+<td>Knowledge stored as one tangled lump.</td>
+</tr>
+<tr class="odd">
+<td><strong>Mechanism</strong></td>
+<td>A single conditional <span class="math inline">\(P(X_i \mid \mathbf{PA}_i)\)</span> / assignment <span class="math inline">\(f_i\)</span>.</td>
+<td>One cause-and-effect rule.</td>
+</tr>
+<tr class="even">
+<td><strong>Common cause principle</strong></td>
+<td>Dependence implies a causal common cause that explains it away (possibly <span class="math inline">\(X\)</span> or <span class="math inline">\(Y\)</span> itself).</td>
+<td>Every correlation has a causal story behind it.</td>
+</tr>
+<tr class="odd">
+<td><strong>Confounder</strong></td>
+<td>A common cause of two variables, possibly unobserved.</td>
+<td>A hidden third factor creating a fake link.</td>
+</tr>
+<tr class="even">
+<td><strong>Markov equivalence (class)</strong></td>
+<td>DAGs implying the same conditional independencies; they share a skeleton and immoralities.</td>
+<td>Graphs that observational data can’t tell apart.</td>
+</tr>
+<tr class="odd">
+<td><strong>Immorality / v-structure</strong></td>
+<td><span class="math inline">\(X_i \to X_j \leftarrow X_k\)</span>, with <span class="math inline">\(X_i\)</span> and <span class="math inline">\(X_k\)</span> not adjacent.</td>
+<td>Two separate causes of a shared effect.</td>
+</tr>
+<tr class="even">
+<td><strong>Faithfulness</strong></td>
+<td>Every independence in the data is implied by the graph.</td>
+<td>No coincidental cancellations hide real links.</td>
+</tr>
+<tr class="odd">
+<td><strong>Additive noise model</strong></td>
+<td><span class="math inline">\(Y := f(X) + V\)</span>, <span class="math inline">\(X \perp\!\!\!\perp V\)</span>.</td>
+<td>Effect = function of cause + independent wobble; reveals direction.</td>
+</tr>
+<tr class="even">
+<td><strong>ICM principle</strong></td>
+<td>Causal mechanisms are autonomous modules that neither influence nor inform each other.</td>
+<td>Nature is built from independent, swappable parts.</td>
+</tr>
+<tr class="odd">
+<td><strong>Kolmogorov complexity</strong></td>
+<td>Length of the shortest program that outputs a given string.</td>
+<td>How short the shortest description is.</td>
+</tr>
+<tr class="even">
+<td><strong>SMS hypothesis</strong></td>
+<td>Small distribution changes act sparsely or locally in the causal factorization.</td>
+<td>When the world changes, usually only one or two things change.</td>
+</tr>
+<tr class="odd">
+<td><strong>Generic viewpoint assumption</strong></td>
+<td>No accidental alignments between object, viewpoint, and lighting.</td>
+<td>What you’re looking at is independent of how you’re looking at it.</td>
+</tr>
+<tr class="even">
+<td><strong>Causal representation learning</strong></td>
+<td>Learning high-level causal variables (and their mechanisms) from low-level observations.</td>
+<td>Going from pixels to meaningful things and how they affect each other.</td>
+</tr>
+<tr class="odd">
+<td><strong>Identifiability</strong></td>
+<td>Whether the true latent variables can be uniquely recovered from data (up to trivial transformations).</td>
+<td>Whether the data contains enough clues to find the <em>real</em> answer.</td>
+</tr>
+<tr class="even">
+<td><strong>Disentangled representation</strong></td>
+<td>Latents that correspond to separate generative factors.</td>
+<td>One knob per real-world factor.</td>
+</tr>
+<tr class="odd">
+<td><strong>Object-centric representation</strong></td>
+<td>A representation built from separate object slots.</td>
+<td>Describe the scene as a list of things.</td>
+</tr>
+<tr class="even">
+<td><strong>Causal / anticausal learning</strong></td>
+<td>Predicting effect from cause (<span class="math inline">\(X \to Y\)</span>) vs.&nbsp;cause from effect (<span class="math inline">\(Y \to X\)</span>).</td>
+<td>Forward along the arrow vs.&nbsp;backward against it.</td>
+</tr>
+<tr class="odd">
+<td><strong>Analysis by synthesis</strong></td>
+<td>Classify by checking consistency with a generative model of each class.</td>
+<td>“Could this class really have produced this image?”</td>
+</tr>
+<tr class="even">
+<td><strong>Empirical risk minimization (ERM)</strong></td>
+<td>Choose the model with lowest average loss on training data.</td>
+<td>Do well on the examples you’ve seen.</td>
+</tr>
+<tr class="odd">
+<td><strong>Min-max (worst-case) risk</strong></td>
+<td><span class="math inline">\(\min_g \max_{P^\dagger \in \mathcal{E}}\)</span> of the expected loss.</td>
+<td>Be never terrible, rather than best on average.</td>
+</tr>
+<tr class="even">
+<td><strong>Offline RL</strong></td>
+<td>Learning a policy from a fixed log of trajectories.</td>
+<td>Learning to act only from someone else’s records.</td>
+</tr>
+<tr class="odd">
+<td><strong>Simpson’s paradox</strong></td>
+<td>A trend in aggregate data reverses within every subgroup.</td>
+<td>Splitting into groups can flip the story.</td>
+</tr>
+<tr class="even">
+<td><strong>Half-sibling regression</strong></td>
+<td>Remove noise shared with variables that can share <em>only</em> the noise.</td>
+<td>Subtract what everything has in common to reveal what’s unique.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="where-the-slides-and-the-paper-differ" class="level2">
+<h2 class="anchored" data-anchor-id="where-the-slides-and-the-paper-differ">12. Where the slides and the paper differ</h2>
+<p>Checked against the paper’s text. You may want to fix these on the slides before presenting.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Slide</th>
+<th>Slide says</th>
+<th>Paper says</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Semi-Supervised Learning</td>
+<td>“A <strong>meta-analysis</strong> cited by the authors found SSL gains concentrated in anticausal tasks.”</td>
+<td>No meta-analysis. The prediction comes from theory (Daniušis et al.), and one study (Schölkopf et al.&nbsp;2012) <em>“empirically corroborated these predictions.”</em> Suggested wording: “Schölkopf et al.&nbsp;(2012) found empirical support: SSL gains appear mainly in anticausal tasks.”</td>
+</tr>
+<tr class="even">
+<td>Science, Medicine and Multi-Task Learning</td>
+<td>Exoplanets: “36 candidates, 21 later validated.”</td>
+<td>The text does say 36 and 21. But the paper’s own reference for the validation (Montet et al.&nbsp;2015) is titled “…validation of 17 planets.” Worth checking before quoting 21.</td>
+</tr>
+<tr class="odd">
+<td>Science, Medicine and Multi-Task Learning</td>
+<td>Covid-19 Simpson’s paradox “resolved by causal reasoning about age structure.”</td>
+<td>The paper only says causal mediation analysis disentangled the effects; it doesn’t name countries or the direction. The China/Italy detail comes from the cited study (von Kügelgen et al.).</td>
+</tr>
+<tr class="even">
+<td>Science, Medicine and Multi-Task Learning</td>
+<td>“learn new mechanisms without forgetting old ones” (continual learning).</td>
+<td>“Continual learning” appears in the heading only; the body discusses multi-task learning and meta-learning.</td>
+</tr>
+<tr class="odd">
+<td>Four Things We Might Want From a Model</td>
+<td>Framed as four desiderata.</td>
+<td>These are the paper’s §II-A to §II-D: four <em>questions</em> (i.i.d. prediction, prediction under shift, counterfactuals, nature of data). Close enough, but not a named list.</td>
+</tr>
+<tr class="even">
+<td>Adversarial Examples and Robustness</td>
+<td>“the causal predictor solves this min-max.”</td>
+<td>The paper sets up the min-max and expects causal models to be more robust, but frames this as motivation, citing the invariance literature; it adds that learning such models is “in some cases provably hard.”</td>
+</tr>
+<tr class="odd">
+<td>SMS in Pixel Space</td>
+<td>“one finger moves and the object falls.”</td>
+<td>Matches; the body text specifies the object is a cube.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="further-reading" class="level2">
+<h2 class="anchored" data-anchor-id="further-reading">Further reading</h2>
+<ul>
+<li>Schölkopf et al.&nbsp;(2021). <em>Toward Causal Representation Learning.</em> Proceedings of the IEEE, 109(5). arXiv:2102.11107</li>
+<li>Schölkopf (2019). <em>Causality for Machine Learning.</em> arXiv:1911.10500</li>
+<li>Peters, Janzing &amp; Schölkopf (2017). <em>Elements of Causal Inference.</em> MIT Press</li>
+<li>Pearl (2009). <em>Causality.</em> Cambridge University Press</li>
+<li>Schölkopf et al.&nbsp;(2012). <em>On Causal and Anticausal Learning.</em> ICML</li>
+<li>Locatello et al.&nbsp;(2019). <em>Challenging Common Assumptions in the Unsupervised Learning of Disentangled Representations.</em> ICML</li>
+<li>Locatello et al.&nbsp;(2020). <em>Weakly-Supervised Disentanglement Without Compromises.</em> ICML</li>
+<li>Bengio et al.&nbsp;(2020). <em>A Meta-Transfer Objective for Learning to Disentangle Causal Mechanisms.</em> ICLR</li>
+<li>Arjovsky et al.&nbsp;(2019). <em>Invariant Risk Minimization.</em> arXiv:1907.02893</li>
+<li>Schölkopf et al.&nbsp;(2016). <em>Modeling Confounding by Half-Sibling Regression.</em> PNAS</li>
+<li>von Kügelgen et al.&nbsp;(2021). <em>Simpson’s Paradox in COVID-19 Case Fatality Rates: A Mediation Analysis of Age-Related Causal Effects.</em> IEEE TAI</li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/pc-piyush\.github\.io\/presentations");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p><span class="faux-block"> Made with <a href="https://quarto.org/">Quarto</a>.</span> <span class="faux-block"> Piyush Chaudhari 2026</span></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/piyush-chaudhari/">
+      <i class="bi bi-linkedin" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="https://boxd.it/1uvEr">
+<p><i class="fa-brands fa-square-letterboxd" aria-label="square-letterboxd"></i></p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

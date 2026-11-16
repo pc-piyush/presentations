@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://pc-piyush.github.io/presentations/JC-CRL/concepts-explained.html</loc>
+    <lastmod>2026-11-16T03:44:11.446Z</lastmod>
+  </url>
+  <url>
     <loc>https://pc-piyush.github.io/presentations/JC-RAG/index.html</loc>
     <lastmod>2026-09-03T04:03:15.243Z</lastmod>
   </url>
@@ -35,5 +39,9 @@
   <url>
     <loc>https://pc-piyush.github.io/presentations/JC-CRL/index.html</loc>
     <lastmod>2026-11-16T04:41:43.185Z</lastmod>
+  </url>
+  <url>
+    <loc>https://pc-piyush.github.io/presentations/JC-CAMEL/Camel.html</loc>
+    <lastmod>2026-09-30T04:27:20.235Z</lastmod>
   </url>
 </urlset>
